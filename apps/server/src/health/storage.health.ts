@@ -1,21 +1,21 @@
-import { Injectable } from "@nestjs/common";
-import { HealthIndicator, HealthIndicatorResult } from "@nestjs/terminus";
+import { Injectable } from '@nestjs/common'
+import { HealthIndicator, HealthIndicatorResult } from '@nestjs/terminus'
 
-import { StorageService } from "../storage/storage.service";
+import { StorageService } from '../storage/storage.service'
 
 @Injectable()
 export class StorageHealthIndicator extends HealthIndicator {
   constructor(private readonly storageService: StorageService) {
-    super();
+    super()
   }
 
   async isHealthy(): Promise<HealthIndicatorResult> {
     try {
-      await this.storageService.bucketExists();
+      await this.storageService.bucketExists()
 
-      return this.getStatus("storage", true);
+      return this.getStatus('storage', true)
     } catch (error: unknown) {
-      return this.getStatus("storage", false, { message: (error as Error).message });
+      return this.getStatus('storage', false, { message: (error as Error).message })
     }
   }
 }

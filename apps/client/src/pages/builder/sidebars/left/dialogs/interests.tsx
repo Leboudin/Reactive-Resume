@@ -1,7 +1,7 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { t } from "@lingui/macro";
-import { X } from "@phosphor-icons/react";
-import { defaultInterest, interestSchema } from "@reactive-resume/schema";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { t } from '@lingui/macro'
+import { X } from '@phosphor-icons/react'
+import { defaultInterest, interestSchema } from '@reactive-resume/schema'
 import {
   Badge,
   BadgeInput,
@@ -11,26 +11,26 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-} from "@reactive-resume/ui";
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+  Input
+} from '@reactive-resume/ui'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { SectionDialog } from "../sections/shared/section-dialog";
+import { SectionDialog } from '../sections/shared/section-dialog'
 
-const formSchema = interestSchema;
+const formSchema = interestSchema
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<typeof formSchema>
 
 export const InterestsDialog = () => {
   const form = useForm<FormValues>({
     defaultValues: defaultInterest,
-    resolver: zodResolver(formSchema),
-  });
+    resolver: zodResolver(formSchema)
+  })
 
-  const [pendingKeyword, setPendingKeyword] = useState("");
+  const [pendingKeyword, setPendingKeyword] = useState('')
 
   return (
     <SectionDialog<FormValues>
@@ -62,7 +62,10 @@ export const InterestsDialog = () => {
               <FormItem>
                 <FormLabel>{t`Keywords`}</FormLabel>
                 <FormControl>
-                  <BadgeInput {...field} setPendingKeyword={setPendingKeyword} />
+                  <BadgeInput
+                    {...field}
+                    setPendingKeyword={setPendingKeyword}
+                  />
                 </FormControl>
                 <FormDescription>
                   {t`You can add multiple keywords by separating them with a comma or pressing enter.`}
@@ -83,11 +86,14 @@ export const InterestsDialog = () => {
                       <Badge
                         className="cursor-pointer"
                         onClick={() => {
-                          field.onChange(field.value.filter((v) => item !== v));
+                          field.onChange(field.value.filter((v) => item !== v))
                         }}
                       >
                         <span className="mr-1">{item}</span>
-                        <X size={12} weight="bold" />
+                        <X
+                          size={12}
+                          weight="bold"
+                        />
                       </Badge>
                     </motion.div>
                   ))}
@@ -98,5 +104,5 @@ export const InterestsDialog = () => {
         />
       </div>
     </SectionDialog>
-  );
-};
+  )
+}

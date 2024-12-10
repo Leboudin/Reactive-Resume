@@ -18,9 +18,33 @@ enum Visibility {
   private
 }
 
+enum PlanPeriod {
+  yearly
+  monthly
+  quaterly
+}
+
+enum Status {
+  active
+  deleted
+}
+
+model Tenant {
+  id           String         @id @default(cuid())
+  name         String
+  status       Status         @default(active)
+  adminId      String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Subscription Subscription[]
+  User         User[]
+}
+
 model User {
   id               String   @id @default(cuid())
   name             String
+  tenantId         String // The tenant id
+  tenant           Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   picture          String?
   username         String   @unique
   email            String   @unique
@@ -77,4 +101,37 @@ model Statistics {
   updatedAt DateTime @updatedAt
 
   @@unique([resumeId, id])
+}
+
+model Plan {
+  id            String     @id @default(cuid()) // Plan id
+  status        Status     @default(active) // Plan status
+  name          String // The name of the plan
+  description   String // Plan description
+  language      String // Display language
+  groupId       String // Plan group id, e.g. standard, business, etc
+  externalId    String // The external plan id in the payment provider
+  period        PlanPeriod // Plan period
+  price         Float // Plan price
+  originalPrice Float // Plan original price
+  highlighted   Boolean // Whether the plan is highlighted
+  display       Json       @default("{}") // Display options, include button style and features descriptions
+  features      Json       @default("{}") // The default features kv map, e.g. {"numberOfAccounts": 10}
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+model Subscription {
+  id         String   @id @default(cuid())
+  status     Status   @default(active)
+  tenantId   String // The tenant id
+  tenant     Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  planId     String // The associated plan
+  externalId String // The external id in the payment provider
+  uniqueId   String   @unique // The unique id
+  features   Json     @default("{}") // The default features kv map, e.g. {"numberOfAccounts": 10}
+  start      DateTime // The start time
+  end        DateTime // The end time
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

@@ -1,9 +1,9 @@
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { motion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 
-import { Logo } from "@/client/components/logo";
+import { Logo } from '@/client/components/logo'
 
-import { DonationBanner } from "./donation-banner";
+import { DonationBanner } from './donation-banner'
 
 export const Header = () => (
   <motion.header
@@ -23,4 +23,4 @@ export const Header = () => (
       </div>
     </div>
   </motion.header>
-);
+)

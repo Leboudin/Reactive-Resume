@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from 'zod'
 
-import { defaultItem, defaultUrl, itemSchema, urlSchema } from "../shared";
+import { defaultItem, defaultUrl, itemSchema, urlSchema } from '../shared'
 
 // Schema
 export const awardSchema = itemSchema.extend({
@@ -8,18 +8,18 @@ export const awardSchema = itemSchema.extend({
   awarder: z.string(),
   date: z.string(),
   summary: z.string(),
-  url: urlSchema,
-});
+  url: urlSchema
+})
 
 // Type
-export type Award = z.infer<typeof awardSchema>;
+export type Award = z.infer<typeof awardSchema>
 
 // Defaults
 export const defaultAward: Award = {
   ...defaultItem,
-  title: "",
-  awarder: "",
-  date: "",
-  summary: "",
-  url: defaultUrl,
-};
+  title: '',
+  awarder: '',
+  date: '',
+  summary: '',
+  url: defaultUrl
+}

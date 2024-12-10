@@ -1,10 +1,10 @@
-import { Injectable } from "@nestjs/common";
-import { PassportStrategy } from "@nestjs/passport";
-import { Strategy } from "passport";
+import { Injectable } from '@nestjs/common'
+import { PassportStrategy } from '@nestjs/passport'
+import { Strategy } from 'passport'
 
 @Injectable()
-export class DummyStrategy extends PassportStrategy(Strategy, "dummy") {
+export class DummyStrategy extends PassportStrategy(Strategy, 'dummy') {
   authenticate() {
-    this.fail();
+    this.fail()
   }
 }

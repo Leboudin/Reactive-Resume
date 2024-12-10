@@ -1,28 +1,28 @@
-import { FeatureDto } from "@reactive-resume/dto";
-import { useQuery } from "@tanstack/react-query";
+import { FeatureDto } from '@reactive-resume/dto'
+import { useQuery } from '@tanstack/react-query'
 
-import { axios } from "@/client/libs/axios";
+import { axios } from '@/client/libs/axios'
 
 export const fetchFeatureFlags = async () => {
-  const response = await axios.get<FeatureDto>(`/feature/flags`);
+  const response = await axios.get<FeatureDto>(`/feature/flags`)
 
-  return response.data;
-};
+  return response.data
+}
 
 export const useFeatureFlags = () => {
   const {
     error,
     isPending: loading,
-    data: flags,
+    data: flags
   } = useQuery({
-    queryKey: ["feature_flags"],
+    queryKey: ['feature_flags'],
     queryFn: () => fetchFeatureFlags(),
-    refetchOnMount: "always",
+    refetchOnMount: 'always',
     initialData: {
       isSignupsDisabled: false,
-      isEmailAuthDisabled: false,
-    },
-  });
+      isEmailAuthDisabled: false
+    }
+  })
 
-  return { flags, loading, error };
-};
+  return { flags, loading, error }
+}

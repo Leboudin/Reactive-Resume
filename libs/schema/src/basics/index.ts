@@ -1,13 +1,13 @@
-import { z } from "zod";
+import { z } from 'zod'
 
-import { defaultUrl, urlSchema } from "../shared";
-import { customFieldSchema } from "./custom";
+import { defaultUrl, urlSchema } from '../shared'
+import { customFieldSchema } from './custom'
 
 // Schema
 export const basicsSchema = z.object({
   name: z.string(),
   headline: z.string(),
-  email: z.literal("").or(z.string().email()),
+  email: z.literal('').or(z.string().email()),
   phone: z.string(),
   location: z.string(),
   url: urlSchema,
@@ -20,34 +20,34 @@ export const basicsSchema = z.object({
     effects: z.object({
       hidden: z.boolean().default(false),
       border: z.boolean().default(false),
-      grayscale: z.boolean().default(false),
-    }),
-  }),
-});
+      grayscale: z.boolean().default(false)
+    })
+  })
+})
 
 // Type
-export type Basics = z.infer<typeof basicsSchema>;
+export type Basics = z.infer<typeof basicsSchema>
 
 // Defaults
 export const defaultBasics: Basics = {
-  name: "",
-  headline: "",
-  email: "",
-  phone: "",
-  location: "",
+  name: '',
+  headline: '',
+  email: '',
+  phone: '',
+  location: '',
   url: defaultUrl,
   customFields: [],
   picture: {
-    url: "",
+    url: '',
     size: 64,
     aspectRatio: 1,
     borderRadius: 0,
     effects: {
       hidden: false,
       border: false,
-      grayscale: false,
-    },
-  },
-};
+      grayscale: false
+    }
+  }
+}
 
-export * from "./custom";
+export * from './custom'

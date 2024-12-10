@@ -1,28 +1,28 @@
-import { animate, motion, useInView } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { animate, motion, useInView } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 
-type CounterProps = { from: number; to: number };
+type CounterProps = { from: number; to: number }
 
 export const Counter = ({ from, to }: CounterProps) => {
-  const nodeRef = useRef<HTMLParagraphElement | null>(null);
-  const isInView = useInView(nodeRef, { once: true });
+  const nodeRef = useRef<HTMLParagraphElement | null>(null)
+  const isInView = useInView(nodeRef, { once: true })
 
   useEffect(() => {
-    const node = nodeRef.current;
+    const node = nodeRef.current
 
-    if (!isInView || !node) return;
+    if (!isInView || !node) return
 
     const controls = animate(from, to, {
       duration: 1,
       onUpdate(value) {
-        node.textContent = Math.round(value).toLocaleString();
-      },
-    });
+        node.textContent = Math.round(value).toLocaleString()
+      }
+    })
 
     return () => {
-      controls.stop();
-    };
-  }, [from, to, isInView]);
+      controls.stop()
+    }
+  }, [from, to, isInView])
 
   return (
     <motion.span
@@ -32,5 +32,5 @@ export const Counter = ({ from, to }: CounterProps) => {
       initial={{ opacity: 0, scale: 0.1 }}
       whileInView={{ opacity: 1, scale: 1 }}
     />
-  );
-};
+  )
+}

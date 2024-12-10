@@ -1,18 +1,18 @@
-import { getInitials } from "@reactive-resume/utils";
+import { getInitials } from '@reactive-resume/utils'
 
-import { useUser } from "../services/user";
+import { useUser } from '../services/user'
 
 type Props = {
-  size?: number;
-  className?: string;
-};
+  size?: number
+  className?: string
+}
 
 export const UserAvatar = ({ size = 36, className }: Props) => {
-  const { user } = useUser();
+  const { user } = useUser()
 
-  if (!user) return null;
+  if (!user) return null
 
-  let picture: React.ReactNode;
+  let picture: React.ReactNode
 
   if (user.picture) {
     picture = (
@@ -22,9 +22,9 @@ export const UserAvatar = ({ size = 36, className }: Props) => {
         className="rounded-full"
         style={{ width: size, height: size }}
       />
-    );
+    )
   } else {
-    const initials = getInitials(user.name);
+    const initials = getInitials(user.name)
 
     picture = (
       <div
@@ -33,8 +33,8 @@ export const UserAvatar = ({ size = 36, className }: Props) => {
       >
         {initials}
       </div>
-    );
+    )
   }
 
-  return <div className={className}>{picture}</div>;
-};
+  return <div className={className}>{picture}</div>
+}

@@ -1,26 +1,26 @@
-import { t } from "@lingui/macro";
-import { Tag } from "@phosphor-icons/react";
-import { URL, urlSchema } from "@reactive-resume/schema";
+import { t } from '@lingui/macro'
+import { Tag } from '@phosphor-icons/react'
+import { URL, urlSchema } from '@reactive-resume/schema'
 import {
   Button,
   Input,
   Popover,
   PopoverContent,
   PopoverTrigger,
-  Tooltip,
-} from "@reactive-resume/ui";
-import { forwardRef, useMemo } from "react";
+  Tooltip
+} from '@reactive-resume/ui'
+import { forwardRef, useMemo } from 'react'
 
 type Props = {
-  id?: string;
-  value: URL;
-  placeholder?: string;
-  onChange: (value: URL) => void;
-};
+  id?: string
+  value: URL
+  placeholder?: string
+  onChange: (value: URL) => void
+}
 
 export const URLInput = forwardRef<HTMLInputElement, Props>(
   ({ id, value, placeholder, onChange }, ref) => {
-    const hasError = useMemo(() => !urlSchema.safeParse(value).success, [value]);
+    const hasError = useMemo(() => !urlSchema.safeParse(value).success, [value])
 
     return (
       <>
@@ -33,14 +33,17 @@ export const URLInput = forwardRef<HTMLInputElement, Props>(
             hasError={hasError}
             placeholder={placeholder}
             onChange={(event) => {
-              onChange({ ...value, href: event.target.value });
+              onChange({ ...value, href: event.target.value })
             }}
           />
 
           <Popover>
             <Tooltip content={t`Label`}>
               <PopoverTrigger asChild>
-                <Button size="icon" variant="ghost">
+                <Button
+                  size="icon"
+                  variant="ghost"
+                >
                   <Tag />
                 </Button>
               </PopoverTrigger>
@@ -50,7 +53,7 @@ export const URLInput = forwardRef<HTMLInputElement, Props>(
                 value={value.label}
                 placeholder={t`Label`}
                 onChange={(event) => {
-                  onChange({ ...value, label: event.target.value });
+                  onChange({ ...value, label: event.target.value })
                 }}
               />
             </PopoverContent>
@@ -59,6 +62,6 @@ export const URLInput = forwardRef<HTMLInputElement, Props>(
 
         {hasError && <small className="opacity-75">{t`URL must start with https://`}</small>}
       </>
-    );
-  },
-);
+    )
+  }
+)

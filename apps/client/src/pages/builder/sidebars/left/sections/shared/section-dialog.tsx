@@ -1,7 +1,7 @@
-import { t } from "@lingui/macro";
-import { createId } from "@paralleldrive/cuid2";
-import { CopySimple, PencilSimple, Plus } from "@phosphor-icons/react";
-import { SectionItem, SectionWithItem } from "@reactive-resume/schema";
+import { t } from '@lingui/macro'
+import { createId } from '@paralleldrive/cuid2'
+import { CopySimple, PencilSimple, Plus } from '@phosphor-icons/react'
+import { SectionItem, SectionWithItem } from '@reactive-resume/schema'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,106 +17,109 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  Form,
-} from "@reactive-resume/ui";
-import { produce } from "immer";
-import get from "lodash.get";
-import { useEffect } from "react";
-import { UseFormReturn } from "react-hook-form";
+  Form
+} from '@reactive-resume/ui'
+import { produce } from 'immer'
+import get from 'lodash.get'
+import { useEffect } from 'react'
+import { UseFormReturn } from 'react-hook-form'
 
-import { DialogName, useDialog } from "@/client/stores/dialog";
-import { useResumeStore } from "@/client/stores/resume";
+import { DialogName, useDialog } from '@/client/stores/dialog'
+import { useResumeStore } from '@/client/stores/resume'
 
 type Props<T extends SectionItem> = {
-  id: DialogName;
-  form: UseFormReturn<T>;
-  defaultValues: T;
-  pendingKeyword?: string;
-  children: React.ReactNode;
-};
+  id: DialogName
+  form: UseFormReturn<T>
+  defaultValues: T
+  pendingKeyword?: string
+  children: React.ReactNode
+}
 
 export const SectionDialog = <T extends SectionItem>({
   id,
   form,
   defaultValues,
   pendingKeyword,
-  children,
+  children
 }: Props<T>) => {
-  const { isOpen, mode, close, payload } = useDialog<T>(id);
+  const { isOpen, mode, close, payload } = useDialog<T>(id)
 
-  const setValue = useResumeStore((state) => state.setValue);
+  const setValue = useResumeStore((state) => state.setValue)
   const section = useResumeStore((state) => {
-    return get(state.resume.data.sections, id);
-  }) as SectionWithItem<T> | null;
+    return get(state.resume.data.sections, id)
+  }) as SectionWithItem<T> | null
 
-  const isCreate = mode === "create";
-  const isUpdate = mode === "update";
-  const isDelete = mode === "delete";
-  const isDuplicate = mode === "duplicate";
+  const isCreate = mode === 'create'
+  const isUpdate = mode === 'update'
+  const isDelete = mode === 'delete'
+  const isDuplicate = mode === 'duplicate'
 
   useEffect(() => {
-    if (isOpen) onReset();
-  }, [isOpen, payload]);
+    if (isOpen) onReset()
+  }, [isOpen, payload])
 
   const onSubmit = (values: T) => {
-    if (!section) return;
+    if (!section) return
 
     if (isCreate || isDuplicate) {
-      if (pendingKeyword && "keywords" in values) {
-        values.keywords.push(pendingKeyword);
+      if (pendingKeyword && 'keywords' in values) {
+        values.keywords.push(pendingKeyword)
       }
 
       setValue(
         `sections.${id}.items`,
         produce(section.items, (draft: T[]): void => {
-          draft.push({ ...values, id: createId() });
-        }),
-      );
+          draft.push({ ...values, id: createId() })
+        })
+      )
     }
 
     if (isUpdate) {
-      if (!payload.item?.id) return;
+      if (!payload.item?.id) return
 
-      if (pendingKeyword && "keywords" in values) {
-        values.keywords.push(pendingKeyword);
+      if (pendingKeyword && 'keywords' in values) {
+        values.keywords.push(pendingKeyword)
       }
 
       setValue(
         `sections.${id}.items`,
         produce(section.items, (draft: T[]): void => {
-          const index = draft.findIndex((item) => item.id === payload.item?.id);
-          if (index === -1) return;
-          draft[index] = values;
-        }),
-      );
+          const index = draft.findIndex((item) => item.id === payload.item?.id)
+          if (index === -1) return
+          draft[index] = values
+        })
+      )
     }
 
     if (isDelete) {
-      if (!payload.item?.id) return;
+      if (!payload.item?.id) return
 
       setValue(
         `sections.${id}.items`,
         produce(section.items, (draft: T[]): void => {
-          const index = draft.findIndex((item) => item.id === payload.item?.id);
-          if (index === -1) return;
-          draft.splice(index, 1);
-        }),
-      );
+          const index = draft.findIndex((item) => item.id === payload.item?.id)
+          if (index === -1) return
+          draft.splice(index, 1)
+        })
+      )
     }
 
-    close();
-  };
+    close()
+  }
 
   const onReset = () => {
-    if (isCreate) form.reset({ ...defaultValues, id: createId() } as T);
-    if (isUpdate) form.reset({ ...defaultValues, ...payload.item });
-    if (isDuplicate) form.reset({ ...payload.item, id: createId() } as T);
-    if (isDelete) form.reset({ ...defaultValues, ...payload.item });
-  };
+    if (isCreate) form.reset({ ...defaultValues, id: createId() } as T)
+    if (isUpdate) form.reset({ ...defaultValues, ...payload.item })
+    if (isDuplicate) form.reset({ ...payload.item, id: createId() } as T)
+    if (isDelete) form.reset({ ...defaultValues, ...payload.item })
+  }
 
   if (isDelete) {
     return (
-      <AlertDialog open={isOpen} onOpenChange={close}>
+      <AlertDialog
+        open={isOpen}
+        onOpenChange={close}
+      >
         <AlertDialogContent className="z-50">
           <Form {...form}>
             <form>
@@ -129,7 +132,10 @@ export const SectionDialog = <T extends SectionItem>({
 
               <AlertDialogFooter>
                 <AlertDialogCancel>{t`Cancel`}</AlertDialogCancel>
-                <AlertDialogAction variant="error" onClick={form.handleSubmit(onSubmit)}>
+                <AlertDialogAction
+                  variant="error"
+                  onClick={form.handleSubmit(onSubmit)}
+                >
                   {t`Delete`}
                 </AlertDialogAction>
               </AlertDialogFooter>
@@ -137,14 +143,20 @@ export const SectionDialog = <T extends SectionItem>({
           </Form>
         </AlertDialogContent>
       </AlertDialog>
-    );
+    )
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={close}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={close}
+    >
       <DialogContent className="z-50">
         <Form {...form}>
-          <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+          <form
+            className="space-y-6"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
             <DialogHeader>
               <DialogTitle>
                 <div className="flex items-center space-x-2.5">
@@ -173,5 +185,5 @@ export const SectionDialog = <T extends SectionItem>({
         </Form>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}

@@ -1,13 +1,13 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get } from '@nestjs/common'
 
-import { FeatureService } from "./feature.service";
+import { FeatureService } from './feature.service'
 
-@Controller("feature")
+@Controller('feature')
 export class FeatureController {
   constructor(private readonly featureService: FeatureService) {}
 
-  @Get("/flags")
+  @Get('/flags')
   getFeatureFlags() {
-    return this.featureService.getFeatures();
+    return this.featureService.getFeatures()
   }
 }

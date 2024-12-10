@@ -1,5 +1,5 @@
-import { t } from "@lingui/macro";
-import { Plus, PlusCircle } from "@phosphor-icons/react";
+import { t } from '@lingui/macro'
+import { Plus, PlusCircle } from '@phosphor-icons/react'
 import {
   Award,
   Certification,
@@ -13,37 +13,42 @@ import {
   Publication,
   Reference,
   Skill,
-  Volunteer,
-} from "@reactive-resume/schema";
-import { Button, ScrollArea, Separator } from "@reactive-resume/ui";
-import { Fragment, useRef } from "react";
-import { Link } from "react-router-dom";
+  Volunteer
+} from '@reactive-resume/schema'
+import { Button, ScrollArea, Separator } from '@reactive-resume/ui'
+import { Fragment, useRef } from 'react'
+import { Link } from 'react-router-dom'
 
-import { Icon } from "@/client/components/icon";
-import { UserAvatar } from "@/client/components/user-avatar";
-import { UserOptions } from "@/client/components/user-options";
-import { useResumeStore } from "@/client/stores/resume";
+import { Icon } from '@/client/components/icon'
+import { UserAvatar } from '@/client/components/user-avatar'
+import { UserOptions } from '@/client/components/user-options'
+import { useResumeStore } from '@/client/stores/resume'
 
-import { BasicsSection } from "./sections/basics";
-import { SectionBase } from "./sections/shared/section-base";
-import { SectionIcon } from "./sections/shared/section-icon";
-import { SummarySection } from "./sections/summary";
+import { BasicsSection } from './sections/basics'
+import { SectionBase } from './sections/shared/section-base'
+import { SectionIcon } from './sections/shared/section-icon'
+import { SummarySection } from './sections/summary'
 
 export const LeftSidebar = () => {
-  const containterRef = useRef<HTMLDivElement | null>(null);
+  const containterRef = useRef<HTMLDivElement | null>(null)
 
-  const addSection = useResumeStore((state) => state.addSection);
-  const customSections = useResumeStore((state) => state.resume.data.sections.custom);
+  const addSection = useResumeStore((state) => state.addSection)
+  const customSections = useResumeStore((state) => state.resume.data.sections.custom)
 
   const scrollIntoView = (selector: string) => {
-    const section = containterRef.current?.querySelector(selector);
-    section?.scrollIntoView({ behavior: "smooth" });
-  };
+    const section = containterRef.current?.querySelector(selector)
+    section?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   return (
     <div className="flex bg-secondary-accent/30">
       <div className="hidden basis-12 flex-col items-center justify-between bg-secondary-accent/30 py-4 sm:flex">
-        <Button asChild size="icon" variant="ghost" className="size-8 rounded-full">
+        <Button
+          asChild
+          size="icon"
+          variant="ghost"
+          className="size-8 rounded-full"
+        >
           <Link to="/dashboard">
             <Icon size={14} />
           </Link>
@@ -53,90 +58,90 @@ export const LeftSidebar = () => {
           <SectionIcon
             id="basics"
             name={t({
-              message: "Basics",
+              message: 'Basics',
               context:
-                "The basics section of a resume consists of User's Picture, Full Name, Location etc.",
+                "The basics section of a resume consists of User's Picture, Full Name, Location etc."
             })}
             onClick={() => {
-              scrollIntoView("#basics");
+              scrollIntoView('#basics')
             }}
           />
           <SectionIcon
             id="summary"
             onClick={() => {
-              scrollIntoView("#summary");
+              scrollIntoView('#summary')
             }}
           />
           <SectionIcon
             id="profiles"
             onClick={() => {
-              scrollIntoView("#profiles");
+              scrollIntoView('#profiles')
             }}
           />
           <SectionIcon
             id="experience"
             onClick={() => {
-              scrollIntoView("#experience");
+              scrollIntoView('#experience')
             }}
           />
           <SectionIcon
             id="education"
             onClick={() => {
-              scrollIntoView("#education");
+              scrollIntoView('#education')
             }}
           />
           <SectionIcon
             id="skills"
             onClick={() => {
-              scrollIntoView("#skills");
+              scrollIntoView('#skills')
             }}
           />
           <SectionIcon
             id="languages"
             onClick={() => {
-              scrollIntoView("#languages");
+              scrollIntoView('#languages')
             }}
           />
           <SectionIcon
             id="awards"
             onClick={() => {
-              scrollIntoView("#awards");
+              scrollIntoView('#awards')
             }}
           />
           <SectionIcon
             id="certifications"
             onClick={() => {
-              scrollIntoView("#certifications");
+              scrollIntoView('#certifications')
             }}
           />
           <SectionIcon
             id="interests"
             onClick={() => {
-              scrollIntoView("#interests");
+              scrollIntoView('#interests')
             }}
           />
           <SectionIcon
             id="projects"
             onClick={() => {
-              scrollIntoView("#projects");
+              scrollIntoView('#projects')
             }}
           />
           <SectionIcon
             id="publications"
             onClick={() => {
-              scrollIntoView("#publications");
+              scrollIntoView('#publications')
             }}
           />
           <SectionIcon
             id="volunteer"
             onClick={() => {
-              scrollIntoView("#volunteer");
+              scrollIntoView('#volunteer')
             }}
           />
           <SectionIcon
             id="references"
             onClick={() => {
-              scrollIntoView("#references");
+              scrollIntoView('#references')
             }}
           />
 
@@ -146,22 +151,32 @@ export const LeftSidebar = () => {
             name={t`Add a new section`}
             icon={<Plus size={14} />}
             onClick={() => {
-              addSection();
+              addSection()
               // eslint-disable-next-line lingui/no-unlocalized-strings
-              scrollIntoView("& > section:last-of-type");
+              scrollIntoView('& > section:last-of-type')
             }}
           />
         </div>
 
         <UserOptions>
-          <Button size="icon" variant="ghost" className="rounded-full">
+          <Button
+            size="icon"
+            variant="ghost"
+            className="rounded-full"
+          >
             <UserAvatar size={28} />
           </Button>
         </UserOptions>
       </div>
 
-      <ScrollArea orientation="vertical" className="h-screen flex-1 pb-16 lg:pb-0">
-        <div ref={containterRef} className="grid gap-y-6 p-6 @container/left">
+      <ScrollArea
+        orientation="vertical"
+        className="h-screen flex-1 pb-16 lg:pb-0"
+      >
+        <div
+          ref={containterRef}
+          className="grid gap-y-6 p-6 @container/left"
+        >
           <BasicsSection />
           <Separator />
           <SummarySection />
@@ -188,8 +203,8 @@ export const LeftSidebar = () => {
             id="skills"
             title={(item) => item.name}
             description={(item) => {
-              if (item.description) return item.description;
-              if (item.keywords.length > 0) return `${item.keywords.length} keywords`;
+              if (item.description) return item.description
+              if (item.keywords.length > 0) return `${item.keywords.length} keywords`
             }}
           />
           <Separator />
@@ -215,7 +230,7 @@ export const LeftSidebar = () => {
             id="interests"
             title={(item) => item.name}
             description={(item) => {
-              if (item.keywords.length > 0) return `${item.keywords.length} keywords`;
+              if (item.keywords.length > 0) return `${item.keywords.length} keywords`
             }}
           />
           <Separator />
@@ -258,12 +273,16 @@ export const LeftSidebar = () => {
 
           <Separator />
 
-          <Button size="lg" variant="outline" onClick={addSection}>
+          <Button
+            size="lg"
+            variant="outline"
+            onClick={addSection}
+          >
             <PlusCircle />
             <span className="ml-2">{t`Add a new section`}</span>
           </Button>
         </div>
       </ScrollArea>
     </div>
-  );
-};
+  )
+}

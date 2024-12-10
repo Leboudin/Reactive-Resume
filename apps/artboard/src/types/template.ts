@@ -1,6 +1,6 @@
-import { SectionKey } from "@reactive-resume/schema";
+import { SectionKey } from '@reactive-resume/schema'
 
 export type TemplateProps = {
-  columns: SectionKey[][];
-  isFirstPage?: boolean;
-};
+  columns: SectionKey[][]
+  isFirstPage?: boolean
+}

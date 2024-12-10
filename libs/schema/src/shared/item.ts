@@ -1,18 +1,18 @@
-import { z } from "zod";
+import { z } from 'zod'
 
-import { idSchema } from "./id";
+import { idSchema } from './id'
 
 // Schema
 export const itemSchema = z.object({
   id: idSchema,
-  visible: z.boolean(),
-});
+  visible: z.boolean()
+})
 
 // Type
-export type Item = z.infer<typeof itemSchema>;
+export type Item = z.infer<typeof itemSchema>
 
 // Defaults
 export const defaultItem: Item = {
-  id: "",
-  visible: true,
-};
+  id: '',
+  visible: true
+}

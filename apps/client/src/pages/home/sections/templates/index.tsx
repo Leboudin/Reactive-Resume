@@ -1,9 +1,12 @@
-import { t } from "@lingui/macro";
-import { templatesList } from "@reactive-resume/utils";
-import { motion } from "framer-motion";
+import { t } from '@lingui/macro'
+import { templatesList } from '@reactive-resume/utils'
+import { motion } from 'framer-motion'
 
 export const TemplatesSection = () => (
-  <section id="sample-resumes" className="relative py-24 sm:py-32">
+  <section
+    id="sample-resumes"
+    className="relative py-24 sm:py-32"
+  >
     <div className="container flex flex-col gap-12 lg:min-h-[600px] lg:flex-row lg:items-start">
       <div className="space-y-4 lg:mt-16 lg:basis-96">
         <h2 className="text-4xl font-bold">{t`Templates`}</h2>
@@ -21,9 +24,9 @@ export const TemplatesSection = () => (
               x: {
                 duration: 30,
                 repeat: Number.POSITIVE_INFINITY,
-                repeatType: "mirror",
-              },
-            },
+                repeatType: 'mirror'
+              }
+            }
           }}
           className="flex items-center gap-x-6"
         >
@@ -52,4 +55,4 @@ export const TemplatesSection = () => (
       </div>
     </div>
   </section>
-);
+)

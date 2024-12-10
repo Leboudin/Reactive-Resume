@@ -1,13 +1,13 @@
-import { ResumeData } from "@reactive-resume/schema";
-import { ZodDto } from "nestjs-zod/dto";
-import { Schema } from "zod";
+import { ResumeData } from '@reactive-resume/schema'
+import { ZodDto } from 'nestjs-zod/dto'
+import { Schema } from 'zod'
 
 export type Parser<Data = unknown, T = ZodDto, Result = ResumeData> = {
-  schema?: Schema;
+  schema?: Schema
 
-  readFile(file: File): Promise<Data>;
+  readFile(file: File): Promise<Data>
 
-  validate(data: Data): T | Promise<T>;
+  validate(data: Data): T | Promise<T>
 
-  convert(data: T): Result | Promise<Result>;
-};
+  convert(data: T): Result | Promise<Result>
+}

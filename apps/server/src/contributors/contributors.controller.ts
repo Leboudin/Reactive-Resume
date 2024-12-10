@@ -1,18 +1,18 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get } from '@nestjs/common'
 
-import { ContributorsService } from "./contributors.service";
+import { ContributorsService } from './contributors.service'
 
-@Controller("contributors")
+@Controller('contributors')
 export class ContributorsController {
   constructor(private readonly contributorsService: ContributorsService) {}
 
-  @Get("/github")
+  @Get('/github')
   async githubContributors() {
-    return this.contributorsService.fetchGitHubContributors();
+    return this.contributorsService.fetchGitHubContributors()
   }
 
-  @Get("/crowdin")
+  @Get('/crowdin')
   async crowdinContributors() {
-    return this.contributorsService.fetchCrowdinContributors();
+    return this.contributorsService.fetchCrowdinContributors()
   }
 }

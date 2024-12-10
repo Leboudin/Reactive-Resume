@@ -1,24 +1,24 @@
-import { ForgotPasswordDto } from "@reactive-resume/dto";
-import { useMutation } from "@tanstack/react-query";
-import { AxiosResponse } from "axios";
+import { ForgotPasswordDto } from '@reactive-resume/dto'
+import { useMutation } from '@tanstack/react-query'
+import { AxiosResponse } from 'axios'
 
-import { axios } from "@/client/libs/axios";
+import { axios } from '@/client/libs/axios'
 
 export const forgotPassword = async (data: ForgotPasswordDto) => {
   return axios.post<undefined, AxiosResponse<undefined>, ForgotPasswordDto>(
-    "/auth/forgot-password",
-    data,
-  );
-};
+    '/auth/forgot-password',
+    data
+  )
+}
 
 export const useForgotPassword = () => {
   const {
     error,
     isPending: loading,
-    mutateAsync: forgotPasswordFn,
+    mutateAsync: forgotPasswordFn
   } = useMutation({
-    mutationFn: forgotPassword,
-  });
+    mutationFn: forgotPassword
+  })
 
-  return { forgotPassword: forgotPasswordFn, loading, error };
-};
+  return { forgotPassword: forgotPasswordFn, loading, error }
+}

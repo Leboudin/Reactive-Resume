@@ -1,22 +1,25 @@
-import { t } from "@lingui/macro";
-import { Input, Label, Popover, PopoverContent, PopoverTrigger } from "@reactive-resume/ui";
-import { cn } from "@reactive-resume/utils";
-import { HexColorPicker } from "react-colorful";
+import { t } from '@lingui/macro'
+import { Input, Label, Popover, PopoverContent, PopoverTrigger } from '@reactive-resume/ui'
+import { cn } from '@reactive-resume/utils'
+import { HexColorPicker } from 'react-colorful'
 
-import { colors } from "@/client/constants/colors";
-import { useResumeStore } from "@/client/stores/resume";
+import { colors } from '@/client/constants/colors'
+import { useResumeStore } from '@/client/stores/resume'
 
-import { getSectionIcon } from "../shared/section-icon";
+import { getSectionIcon } from '../shared/section-icon'
 
 export const ThemeSection = () => {
-  const setValue = useResumeStore((state) => state.setValue);
-  const theme = useResumeStore((state) => state.resume.data.metadata.theme);
+  const setValue = useResumeStore((state) => state.setValue)
+  const theme = useResumeStore((state) => state.resume.data.metadata.theme)
 
   return (
-    <section id="theme" className="grid gap-y-6">
+    <section
+      id="theme"
+      className="grid gap-y-6"
+    >
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-x-4">
-          {getSectionIcon("theme")}
+          {getSectionIcon('theme')}
           <h2 className="line-clamp-1 text-3xl font-bold">{t`Theme`}</h2>
         </div>
       </header>
@@ -27,14 +30,17 @@ export const ThemeSection = () => {
             <div
               key={color}
               className={cn(
-                "flex size-6 cursor-pointer items-center justify-center rounded-full ring-primary ring-offset-1 ring-offset-background transition-shadow hover:ring-1",
-                theme.primary === color && "ring-1",
+                'flex size-6 cursor-pointer items-center justify-center rounded-full ring-primary ring-offset-1 ring-offset-background transition-shadow hover:ring-1',
+                theme.primary === color && 'ring-1'
               )}
               onClick={() => {
-                setValue("metadata.theme.primary", color);
+                setValue('metadata.theme.primary', color)
               }}
             >
-              <div className="size-5 rounded-full" style={{ backgroundColor: color }} />
+              <div
+                className="size-5 rounded-full"
+                style={{ backgroundColor: color }}
+              />
             </div>
           ))}
         </div>
@@ -53,7 +59,7 @@ export const ThemeSection = () => {
                 <HexColorPicker
                   color={theme.primary}
                   onChange={(color) => {
-                    setValue("metadata.theme.primary", color);
+                    setValue('metadata.theme.primary', color)
                   }}
                 />
               </PopoverContent>
@@ -63,7 +69,7 @@ export const ThemeSection = () => {
               value={theme.primary}
               className="pl-10"
               onChange={(event) => {
-                setValue("metadata.theme.primary", event.target.value);
+                setValue('metadata.theme.primary', event.target.value)
               }}
             />
           </div>
@@ -83,7 +89,7 @@ export const ThemeSection = () => {
                 <HexColorPicker
                   color={theme.background}
                   onChange={(color) => {
-                    setValue("metadata.theme.background", color);
+                    setValue('metadata.theme.background', color)
                   }}
                 />
               </PopoverContent>
@@ -93,7 +99,7 @@ export const ThemeSection = () => {
               value={theme.background}
               className="pl-10"
               onChange={(event) => {
-                setValue("metadata.theme.background", event.target.value);
+                setValue('metadata.theme.background', event.target.value)
               }}
             />
           </div>
@@ -113,7 +119,7 @@ export const ThemeSection = () => {
                 <HexColorPicker
                   color={theme.text}
                   onChange={(color) => {
-                    setValue("metadata.theme.text", color);
+                    setValue('metadata.theme.text', color)
                   }}
                 />
               </PopoverContent>
@@ -123,12 +129,12 @@ export const ThemeSection = () => {
               value={theme.text}
               className="pl-10"
               onChange={(event) => {
-                setValue("metadata.theme.text", event.target.value);
+                setValue('metadata.theme.text', event.target.value)
               }}
             />
           </div>
         </div>
       </main>
     </section>
-  );
-};
+  )
+}

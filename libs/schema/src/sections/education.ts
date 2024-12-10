@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from 'zod'
 
-import { defaultItem, defaultUrl, itemSchema, urlSchema } from "../shared";
+import { defaultItem, defaultUrl, itemSchema, urlSchema } from '../shared'
 
 // Schema
 export const educationSchema = itemSchema.extend({
@@ -10,21 +10,21 @@ export const educationSchema = itemSchema.extend({
   score: z.string(),
   date: z.string(),
   summary: z.string(),
-  url: urlSchema,
-});
+  url: urlSchema
+})
 
 // Type
-export type Education = z.infer<typeof educationSchema>;
+export type Education = z.infer<typeof educationSchema>
 
 // Defaults
 export const defaultEducation: Education = {
   ...defaultItem,
-  id: "",
-  institution: "",
-  studyType: "",
-  area: "",
-  score: "",
-  date: "",
-  summary: "",
-  url: defaultUrl,
-};
+  id: '',
+  institution: '',
+  studyType: '',
+  area: '',
+  score: '',
+  date: '',
+  summary: '',
+  url: defaultUrl
+}

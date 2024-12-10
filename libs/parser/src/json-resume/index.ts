@@ -1,4 +1,4 @@
-import { createId } from "@paralleldrive/cuid2";
+import { createId } from '@paralleldrive/cuid2'
 import {
   defaultAward,
   defaultCertification,
@@ -11,63 +11,63 @@ import {
   defaultReference,
   defaultResumeData,
   defaultSkill,
-  defaultVolunteer,
-} from "@reactive-resume/schema";
-import { Json } from "@reactive-resume/utils";
-import { Schema } from "zod";
+  defaultVolunteer
+} from '@reactive-resume/schema'
+import { Json } from '@reactive-resume/utils'
+import { Schema } from 'zod'
 
-import { Parser } from "../interfaces/parser";
-import { JsonResume, jsonResumeSchema } from "./schema";
+import { Parser } from '../interfaces/parser'
+import { JsonResume, jsonResumeSchema } from './schema'
 
-export * from "./schema";
+export * from './schema'
 
 export class JsonResumeParser implements Parser<Json, JsonResume> {
-  schema: Schema;
+  schema: Schema
 
   constructor() {
-    this.schema = jsonResumeSchema;
+    this.schema = jsonResumeSchema
   }
 
   readFile(file: File): Promise<Json> {
     return new Promise((resolve, reject) => {
-      const reader = new FileReader();
+      const reader = new FileReader()
 
       // eslint-disable-next-line unicorn/prefer-add-event-listener
       reader.onload = () => {
         try {
-          const result = JSON.parse(reader.result as string) as Json;
-          resolve(result);
+          const result = JSON.parse(reader.result as string) as Json
+          resolve(result)
         } catch {
-          reject(new Error("Failed to parse JSON"));
+          reject(new Error('Failed to parse JSON'))
         }
-      };
+      }
 
       // eslint-disable-next-line unicorn/prefer-add-event-listener
       reader.onerror = () => {
-        reject(new Error("Failed to read the file"));
-      };
+        reject(new Error('Failed to read the file'))
+      }
 
       // eslint-disable-next-line unicorn/prefer-blob-reading-methods
-      reader.readAsText(file);
-    });
+      reader.readAsText(file)
+    })
   }
 
   validate(data: Json) {
-    return this.schema.parse(data) as JsonResume;
+    return this.schema.parse(data) as JsonResume
   }
 
   convert(data: JsonResume) {
-    const result = JSON.parse(JSON.stringify(defaultResumeData));
+    const result = JSON.parse(JSON.stringify(defaultResumeData))
 
     // Basics
-    result.basics.name = data.basics?.name ?? "";
-    result.basics.headline = data.basics?.label ?? "";
-    result.basics.picture.url = data.basics?.image ?? "";
-    result.basics.email = data.basics?.email ?? "";
-    result.basics.phone = data.basics?.phone ?? "";
-    result.basics.location = data.basics?.location?.address ?? "";
-    result.basics.url.href = data.basics?.url ?? "";
-    result.sections.summary.content = data.basics?.summary ?? "";
+    result.basics.name = data.basics?.name ?? ''
+    result.basics.headline = data.basics?.label ?? ''
+    result.basics.picture.url = data.basics?.image ?? ''
+    result.basics.email = data.basics?.email ?? ''
+    result.basics.phone = data.basics?.phone ?? ''
+    result.basics.location = data.basics?.location?.address ?? ''
+    result.basics.url.href = data.basics?.url ?? ''
+    result.sections.summary.content = data.basics?.summary ?? ''
 
     // Profiles
     if (data.basics?.profiles) {
@@ -75,11 +75,11 @@ export class JsonResumeParser implements Parser<Json, JsonResume> {
         result.sections.profiles.items.push({
           ...defaultProfile,
           id: createId(),
-          icon: profile.network?.toLocaleLowerCase() ?? "",
-          network: profile.network ?? "",
-          username: profile.username ?? "",
-          url: { ...defaultProfile.url, href: profile.url ?? "" },
-        });
+          icon: profile.network?.toLocaleLowerCase() ?? '',
+          network: profile.network ?? '',
+          username: profile.username ?? '',
+          url: { ...defaultProfile.url, href: profile.url ?? '' }
+        })
       }
     }
 
@@ -89,12 +89,12 @@ export class JsonResumeParser implements Parser<Json, JsonResume> {
         result.sections.experience.items.push({
           ...defaultExperience,
           id: createId(),
-          company: work.name ?? "",
-          position: work.position ?? "",
-          summary: work.summary ?? "",
+          company: work.name ?? '',
+          position: work.position ?? '',
+          summary: work.summary ?? '',
           date: `${work.startDate} - ${work.endDate}`,
-          url: { ...defaultExperience.url, href: work.url ?? "" },
-        });
+          url: { ...defaultExperience.url, href: work.url ?? '' }
+        })
       }
     }
 
@@ -104,12 +104,12 @@ export class JsonResumeParser implements Parser<Json, JsonResume> {
         result.sections.volunteer.items.push({
           ...defaultVolunteer,
           id: createId(),
-          organization: volunteer.organization ?? "",
+          organization: volunteer.organization ?? '',
           date: `${volunteer.startDate} - ${volunteer.endDate}`,
-          position: volunteer.position ?? "",
-          summary: volunteer.summary ?? "",
-          url: { ...defaultVolunteer.url, href: volunteer.url ?? "" },
-        });
+          position: volunteer.position ?? '',
+          summary: volunteer.summary ?? '',
+          url: { ...defaultVolunteer.url, href: volunteer.url ?? '' }
+        })
       }
     }
 
@@ -119,13 +119,13 @@ export class JsonResumeParser implements Parser<Json, JsonResume> {
         result.sections.education.items.push({
           ...defaultEducation,
           id: createId(),
-          institution: education.institution ?? "",
-          studyType: education.studyType ?? "",
-          area: education.area ?? "",
-          score: education.score ?? "",
+          institution: education.institution ?? '',
+          studyType: education.studyType ?? '',
+          area: education.area ?? '',
+          score: education.score ?? '',
           date: `${education.startDate} - ${education.endDate}`,
-          url: { ...defaultEducation.url, href: education.url ?? "" },
-        });
+          url: { ...defaultEducation.url, href: education.url ?? '' }
+        })
       }
     }
 
@@ -135,11 +135,11 @@ export class JsonResumeParser implements Parser<Json, JsonResume> {
         result.sections.awards.items.push({
           ...defaultAward,
           id: createId(),
-          title: award.title ?? "",
-          date: award.date ?? "",
-          awarder: award.awarder ?? "",
-          summary: award.summary ?? "",
-        });
+          title: award.title ?? '',
+          date: award.date ?? '',
+          awarder: award.awarder ?? '',
+          summary: award.summary ?? ''
+        })
       }
     }
 
@@ -149,11 +149,11 @@ export class JsonResumeParser implements Parser<Json, JsonResume> {
         result.sections.certifications.items.push({
           ...defaultCertification,
           id: createId(),
-          name: certificate.name ?? "",
-          date: certificate.date ?? "",
-          issuer: certificate.issuer ?? "",
-          summary: certificate.summary ?? "",
-        });
+          name: certificate.name ?? '',
+          date: certificate.date ?? '',
+          issuer: certificate.issuer ?? '',
+          summary: certificate.summary ?? ''
+        })
       }
     }
 
@@ -163,12 +163,12 @@ export class JsonResumeParser implements Parser<Json, JsonResume> {
         result.sections.publications.items.push({
           ...defaultPublication,
           id: createId(),
-          name: publication.name ?? "",
-          publisher: publication.publisher ?? "",
-          summary: publication.summary ?? "",
-          date: publication.releaseDate ?? "",
-          url: { ...defaultPublication.url, href: publication.url ?? "" },
-        });
+          name: publication.name ?? '',
+          publisher: publication.publisher ?? '',
+          summary: publication.summary ?? '',
+          date: publication.releaseDate ?? '',
+          url: { ...defaultPublication.url, href: publication.url ?? '' }
+        })
       }
     }
 
@@ -178,10 +178,10 @@ export class JsonResumeParser implements Parser<Json, JsonResume> {
         result.sections.skills.items.push({
           ...defaultSkill,
           id: createId(),
-          name: skill.name ?? "",
-          description: skill.level ?? "",
-          keywords: skill.keywords ?? [],
-        });
+          name: skill.name ?? '',
+          description: skill.level ?? '',
+          keywords: skill.keywords ?? []
+        })
       }
     }
 
@@ -191,9 +191,9 @@ export class JsonResumeParser implements Parser<Json, JsonResume> {
         result.sections.languages.items.push({
           ...defaultLanguage,
           id: createId(),
-          name: language.language ?? "",
-          description: language.fluency ?? "",
-        });
+          name: language.language ?? '',
+          description: language.fluency ?? ''
+        })
       }
     }
 
@@ -203,9 +203,9 @@ export class JsonResumeParser implements Parser<Json, JsonResume> {
         result.sections.interests.items.push({
           ...defaultInterest,
           id: createId(),
-          name: interest.name ?? "",
-          keywords: interest.keywords ?? [],
-        });
+          name: interest.name ?? '',
+          keywords: interest.keywords ?? []
+        })
       }
     }
 
@@ -215,12 +215,12 @@ export class JsonResumeParser implements Parser<Json, JsonResume> {
         result.sections.references.items.push({
           ...defaultReference,
           id: createId(),
-          name: reference.name ?? "",
-          summary: reference.reference ?? "",
-        });
+          name: reference.name ?? '',
+          summary: reference.reference ?? ''
+        })
       }
     }
 
-    return result;
+    return result
   }
 }

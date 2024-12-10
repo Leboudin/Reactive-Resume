@@ -1,19 +1,17 @@
-import { z } from "zod";
+import { z } from 'zod'
 
-const dateSchema = z
-  .object({ start: z.string().optional(), end: z.string().optional() })
-  .optional();
+const dateSchema = z.object({ start: z.string().optional(), end: z.string().optional() }).optional()
 
 const profileSchema = z.object({
   id: z.string().optional(),
   url: z.string().optional(),
   network: z.string().optional(),
-  username: z.string().optional(),
-});
+  username: z.string().optional()
+})
 
 const basicsSchema = z.object({
   name: z.string().optional(),
-  email: z.literal("").or(z.string().email()),
+  email: z.literal('').or(z.string().email()),
   phone: z.string().optional(),
   headline: z.string().optional(),
   summary: z
@@ -22,8 +20,8 @@ const basicsSchema = z.object({
       z.object({
         body: z.string().optional(),
         visible: z.boolean().default(true),
-        heading: z.string().optional(),
-      }),
+        heading: z.string().optional()
+      })
     )
     .optional(),
   birthdate: z.string().optional(),
@@ -34,7 +32,7 @@ const basicsSchema = z.object({
     postalCode: z.string().optional(),
     city: z.string().optional(),
     country: z.string().optional(),
-    region: z.string().optional(),
+    region: z.string().optional()
   }),
   photo: z.object({
     visible: z.boolean(),
@@ -43,18 +41,18 @@ const basicsSchema = z.object({
       shape: z.string().nullable().optional(),
       size: z.coerce.number(),
       border: z.boolean(),
-      grayscale: z.boolean(),
-    }),
-  }),
-});
+      grayscale: z.boolean()
+    })
+  })
+})
 
 const sectionSchema = z.object({
   id: z.string().optional(),
   name: z.string().optional(),
-  type: z.enum(["basic", "work", "custom"]),
+  type: z.enum(['basic', 'work', 'custom']),
   columns: z.coerce.number().or(z.null()).default(1),
-  visible: z.boolean(),
-});
+  visible: z.boolean()
+})
 
 const workSchema = z
   .object({
@@ -63,9 +61,9 @@ const workSchema = z
     date: dateSchema,
     name: z.string().optional(),
     position: z.string().optional(),
-    summary: z.string().nullable().optional(),
+    summary: z.string().nullable().optional()
   })
-  .nullable();
+  .nullable()
 
 const awardSchema = z
   .object({
@@ -74,9 +72,9 @@ const awardSchema = z
     date: z.string().optional(),
     title: z.string().optional(),
     awarder: z.string().optional(),
-    summary: z.string().nullable().optional(),
+    summary: z.string().nullable().optional()
   })
-  .nullable();
+  .nullable()
 
 const skillSchema = z
   .object({
@@ -84,9 +82,9 @@ const skillSchema = z
     name: z.string().optional(),
     level: z.coerce.string().optional(),
     keywords: z.array(z.string().nullable()).optional(),
-    levelNum: z.coerce.number(),
+    levelNum: z.coerce.number()
   })
-  .nullable();
+  .nullable()
 
 const projectSchema = z
   .object({
@@ -96,9 +94,9 @@ const projectSchema = z
     name: z.string().optional(),
     summary: z.string().nullable().optional(),
     keywords: z.array(z.string().nullable()).optional(),
-    description: z.string().optional(),
+    description: z.string().optional()
   })
-  .nullable();
+  .nullable()
 
 const educationSchema = z
   .object({
@@ -110,26 +108,26 @@ const educationSchema = z
     degree: z.string().optional(),
     courses: z.array(z.string().nullable()).optional(),
     summary: z.string().nullable().optional(),
-    institution: z.string().optional(),
+    institution: z.string().optional()
   })
-  .nullable();
+  .nullable()
 
 const interestSchema = z
   .object({
     id: z.string().optional(),
     name: z.string().optional(),
-    keywords: z.array(z.string().nullable()).optional(),
+    keywords: z.array(z.string().nullable()).optional()
   })
-  .nullable();
+  .nullable()
 
 const languageSchema = z
   .object({
     id: z.string().optional(),
     name: z.string().optional(),
     level: z.string().optional(),
-    levelNum: z.coerce.number(),
+    levelNum: z.coerce.number()
   })
-  .nullable();
+  .nullable()
 
 const volunteerSchema = z
   .object({
@@ -138,9 +136,9 @@ const volunteerSchema = z
     position: z.string().optional(),
     date: dateSchema,
     url: z.string().optional(),
-    summary: z.string().nullable().optional(),
+    summary: z.string().nullable().optional()
   })
-  .nullable();
+  .nullable()
 
 const referenceSchema = z
   .object({
@@ -149,9 +147,9 @@ const referenceSchema = z
     email: z.string().optional(),
     phone: z.string().optional(),
     summary: z.string().nullable().optional(),
-    relationship: z.string().optional(),
+    relationship: z.string().optional()
   })
-  .nullable();
+  .nullable()
 
 const publicationSchema = z
   .object({
@@ -160,9 +158,9 @@ const publicationSchema = z
     date: z.string().optional(),
     name: z.string().optional(),
     publisher: z.string().optional(),
-    summary: z.string().nullable().optional(),
+    summary: z.string().nullable().optional()
   })
-  .nullable();
+  .nullable()
 
 const certificationSchema = z
   .object({
@@ -171,9 +169,9 @@ const certificationSchema = z
     date: z.string().optional(),
     name: z.string().optional(),
     issuer: z.string().optional(),
-    summary: z.string().nullable().optional(),
+    summary: z.string().nullable().optional()
   })
-  .nullable();
+  .nullable()
 
 const metadataSchema = z
   .object({
@@ -183,7 +181,7 @@ const metadataSchema = z
       .object({
         text: z.string().optional(),
         primary: z.string().optional(),
-        background: z.string().optional(),
+        background: z.string().optional()
       })
       .optional(),
     layout: z.array(z.array(z.array(z.string().nullable()))).optional(),
@@ -194,13 +192,11 @@ const metadataSchema = z
         size: z
           .object({ body: z.coerce.number().optional(), heading: z.coerce.number().optional() })
           .optional(),
-        family: z
-          .object({ body: z.string().optional(), heading: z.string().optional() })
-          .optional(),
+        family: z.object({ body: z.string().optional(), heading: z.string().optional() }).optional()
       })
-      .optional(),
+      .optional()
   })
-  .optional();
+  .optional()
 
 export const reactiveResumeV3Schema = z.object({
   public: z.boolean(),
@@ -218,11 +214,11 @@ export const reactiveResumeV3Schema = z.object({
     publications: sectionSchema.extend({ items: z.array(publicationSchema) }).optional(),
     certifications: sectionSchema
       .extend({
-        items: z.array(certificationSchema),
+        items: z.array(certificationSchema)
       })
-      .optional(),
+      .optional()
   }),
-  metadata: metadataSchema,
-});
+  metadata: metadataSchema
+})
 
-export type ReactiveResumeV3 = z.infer<typeof reactiveResumeV3Schema>;
+export type ReactiveResumeV3 = z.infer<typeof reactiveResumeV3Schema>

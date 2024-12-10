@@ -1,5 +1,5 @@
-import { idSchema } from "@reactive-resume/schema";
-import { z } from "nestjs-zod/z";
+import { idSchema } from '@reactive-resume/schema'
+import { z } from 'nestjs-zod/z'
 
 export const secretsSchema = z.object({
   id: idSchema,
@@ -10,5 +10,5 @@ export const secretsSchema = z.object({
   twoFactorBackupCodes: z.array(z.string()).default([]),
   refreshToken: z.string().nullable(),
   resetToken: z.string().nullable(),
-  userId: idSchema,
-});
+  userId: idSchema
+})

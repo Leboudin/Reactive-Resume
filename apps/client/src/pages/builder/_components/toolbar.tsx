@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { t } from '@lingui/macro'
 import {
   ArrowClockwise,
   ArrowCounterClockwise,
@@ -10,55 +10,55 @@ import {
   LineSegment,
   LinkSimple,
   MagnifyingGlassMinus,
-  MagnifyingGlassPlus,
-} from "@phosphor-icons/react";
-import { Button, Separator, Toggle, Tooltip } from "@reactive-resume/ui";
-import { motion } from "framer-motion";
+  MagnifyingGlassPlus
+} from '@phosphor-icons/react'
+import { Button, Separator, Toggle, Tooltip } from '@reactive-resume/ui'
+import { motion } from 'framer-motion'
 
-import { useToast } from "@/client/hooks/use-toast";
-import { usePrintResume } from "@/client/services/resume";
-import { useBuilderStore } from "@/client/stores/builder";
-import { useResumeStore, useTemporalResumeStore } from "@/client/stores/resume";
+import { useToast } from '@/client/hooks/use-toast'
+import { usePrintResume } from '@/client/services/resume'
+import { useBuilderStore } from '@/client/stores/builder'
+import { useResumeStore, useTemporalResumeStore } from '@/client/stores/resume'
 
 const openInNewTab = (url: string) => {
-  const win = window.open(url, "_blank");
-  if (win) win.focus();
-};
+  const win = window.open(url, '_blank')
+  if (win) win.focus()
+}
 
 export const BuilderToolbar = () => {
-  const { toast } = useToast();
-  const setValue = useResumeStore((state) => state.setValue);
-  const undo = useTemporalResumeStore((state) => state.undo);
-  const redo = useTemporalResumeStore((state) => state.redo);
-  const frameRef = useBuilderStore((state) => state.frame.ref);
+  const { toast } = useToast()
+  const setValue = useResumeStore((state) => state.setValue)
+  const undo = useTemporalResumeStore((state) => state.undo)
+  const redo = useTemporalResumeStore((state) => state.redo)
+  const frameRef = useBuilderStore((state) => state.frame.ref)
 
-  const id = useResumeStore((state) => state.resume.id);
-  const isPublic = useResumeStore((state) => state.resume.visibility === "public");
-  const pageOptions = useResumeStore((state) => state.resume.data.metadata.page.options);
+  const id = useResumeStore((state) => state.resume.id)
+  const isPublic = useResumeStore((state) => state.resume.visibility === 'public')
+  const pageOptions = useResumeStore((state) => state.resume.data.metadata.page.options)
 
-  const { printResume, loading } = usePrintResume();
+  const { printResume, loading } = usePrintResume()
 
   const onPrint = async () => {
-    const { url } = await printResume({ id });
+    const { url } = await printResume({ id })
 
-    openInNewTab(url);
-  };
+    openInNewTab(url)
+  }
 
   const onCopy = async () => {
-    const { url } = await printResume({ id });
-    await navigator.clipboard.writeText(url);
+    const { url } = await printResume({ id })
+    await navigator.clipboard.writeText(url)
 
     toast({
-      variant: "success",
+      variant: 'success',
       title: t`A link has been copied to your clipboard.`,
-      description: t`Anyone with this link can view and download the resume. Share it on your profile or with recruiters.`,
-    });
-  };
+      description: t`Anyone with this link can view and download the resume. Share it on your profile or with recruiters.`
+    })
+  }
 
-  const onZoomIn = () => frameRef?.contentWindow?.postMessage({ type: "ZOOM_IN" }, "*");
-  const onZoomOut = () => frameRef?.contentWindow?.postMessage({ type: "ZOOM_OUT" }, "*");
-  const onResetView = () => frameRef?.contentWindow?.postMessage({ type: "RESET_VIEW" }, "*");
-  const onCenterView = () => frameRef?.contentWindow?.postMessage({ type: "CENTER_VIEW" }, "*");
+  const onZoomIn = () => frameRef?.contentWindow?.postMessage({ type: 'ZOOM_IN' }, '*')
+  const onZoomOut = () => frameRef?.contentWindow?.postMessage({ type: 'ZOOM_OUT' }, '*')
+  const onResetView = () => frameRef?.contentWindow?.postMessage({ type: 'RESET_VIEW' }, '*')
+  const onCenterView = () => frameRef?.contentWindow?.postMessage({ type: 'CENTER_VIEW' }, '*')
 
   return (
     <motion.div className="fixed inset-x-0 bottom-0 mx-auto hidden py-6 text-center md:block">
@@ -69,7 +69,7 @@ export const BuilderToolbar = () => {
             variant="ghost"
             className="rounded-none"
             onClick={() => {
-              undo();
+              undo()
             }}
           >
             <ArrowCounterClockwise />
@@ -82,47 +82,73 @@ export const BuilderToolbar = () => {
             variant="ghost"
             className="rounded-none"
             onClick={() => {
-              redo();
+              redo()
             }}
           >
             <ArrowClockwise />
           </Button>
         </Tooltip>
 
-        <Separator orientation="vertical" className="h-9" />
+        <Separator
+          orientation="vertical"
+          className="h-9"
+        />
 
         <Tooltip content={t`Zoom In`}>
-          <Button size="icon" variant="ghost" className="rounded-none" onClick={onZoomIn}>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="rounded-none"
+            onClick={onZoomIn}
+          >
             <MagnifyingGlassPlus />
           </Button>
         </Tooltip>
 
         <Tooltip content={t`Zoom Out`}>
-          <Button size="icon" variant="ghost" className="rounded-none" onClick={onZoomOut}>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="rounded-none"
+            onClick={onZoomOut}
+          >
             <MagnifyingGlassMinus />
           </Button>
         </Tooltip>
 
         <Tooltip content={t`Reset Zoom`}>
-          <Button size="icon" variant="ghost" className="rounded-none" onClick={onResetView}>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="rounded-none"
+            onClick={onResetView}
+          >
             <ClockClockwise />
           </Button>
         </Tooltip>
 
         <Tooltip content={t`Center Artboard`}>
-          <Button size="icon" variant="ghost" className="rounded-none" onClick={onCenterView}>
+          <Button
+            size="icon"
+            variant="ghost"
+            className="rounded-none"
+            onClick={onCenterView}
+          >
             <CubeFocus />
           </Button>
         </Tooltip>
 
-        <Separator orientation="vertical" className="h-9" />
+        <Separator
+          orientation="vertical"
+          className="h-9"
+        />
 
         <Tooltip content={t`Toggle Page Break Line`}>
           <Toggle
             className="rounded-none"
             pressed={pageOptions.breakLine}
             onPressedChange={(pressed) => {
-              setValue("metadata.page.options.breakLine", pressed);
+              setValue('metadata.page.options.breakLine', pressed)
             }}
           >
             <LineSegment />
@@ -134,14 +160,17 @@ export const BuilderToolbar = () => {
             className="rounded-none"
             pressed={pageOptions.pageNumbers}
             onPressedChange={(pressed) => {
-              setValue("metadata.page.options.pageNumbers", pressed);
+              setValue('metadata.page.options.pageNumbers', pressed)
             }}
           >
             <Hash />
           </Toggle>
         </Tooltip>
 
-        <Separator orientation="vertical" className="h-9" />
+        <Separator
+          orientation="vertical"
+          className="h-9"
+        />
 
         <Tooltip content={t`Copy Link to Resume`}>
           <Button
@@ -168,5 +197,5 @@ export const BuilderToolbar = () => {
         </Tooltip>
       </div>
     </motion.div>
-  );
-};
+  )
+}

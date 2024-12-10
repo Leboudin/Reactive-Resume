@@ -1,40 +1,45 @@
-import { t, Trans } from "@lingui/macro";
-import { ArrowRight, Info, SealCheck } from "@phosphor-icons/react";
-import { Alert, AlertDescription, AlertTitle, Button } from "@reactive-resume/ui";
-import { useEffect } from "react";
-import { Helmet } from "react-helmet-async";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { t, Trans } from '@lingui/macro'
+import { ArrowRight, Info, SealCheck } from '@phosphor-icons/react'
+import { Alert, AlertDescription, AlertTitle, Button } from '@reactive-resume/ui'
+import { useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 
-import { useToast } from "@/client/hooks/use-toast";
-import { queryClient } from "@/client/libs/query-client";
-import { useVerifyEmail } from "@/client/services/auth";
+import { useToast } from '@/client/hooks/use-toast'
+import { queryClient } from '@/client/libs/query-client'
+import { useVerifyEmail } from '@/client/services/auth'
 
 export const VerifyEmailPage = () => {
-  const { toast } = useToast();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const token = searchParams.get("token");
+  const { toast } = useToast()
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const token = searchParams.get('token')
 
-  const { verifyEmail, loading } = useVerifyEmail();
+  const { verifyEmail, loading } = useVerifyEmail()
 
   useEffect(() => {
     const handleVerifyEmail = async (token: string) => {
-      await verifyEmail({ token });
-      await queryClient.invalidateQueries({ queryKey: ["user"] });
+      await verifyEmail({ token })
+      await queryClient.invalidateQueries({ queryKey: ['user'] })
 
       toast({
-        variant: "success",
-        icon: <SealCheck size={16} weight="bold" />,
-        title: t`Your email address has been verified successfully.`,
-      });
+        variant: 'success',
+        icon: (
+          <SealCheck
+            size={16}
+            weight="bold"
+          />
+        ),
+        title: t`Your email address has been verified successfully.`
+      })
 
-      navigate("/dashboard/resumes", { replace: true });
-    };
+      navigate('/dashboard/resumes', { replace: true })
+    }
 
-    if (!token) return;
+    if (!token) return
 
-    void handleVerifyEmail(token);
-  }, [token, navigate, verifyEmail]);
+    void handleVerifyEmail(token)
+  }, [token, navigate, verifyEmail])
 
   return (
     <div className="space-y-6">
@@ -62,12 +67,15 @@ export const VerifyEmailPage = () => {
         </AlertDescription>
       </Alert>
 
-      <Button asChild disabled={loading}>
+      <Button
+        asChild
+        disabled={loading}
+      >
         <Link to="/dashboard">
           {t`Go to Dashboard`}
           <ArrowRight className="ml-2" />
         </Link>
       </Button>
     </div>
-  );
-};
+  )
+}

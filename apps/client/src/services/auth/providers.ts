@@ -1,24 +1,24 @@
-import { AuthProvidersDto } from "@reactive-resume/dto";
-import { useQuery } from "@tanstack/react-query";
+import { AuthProvidersDto } from '@reactive-resume/dto'
+import { useQuery } from '@tanstack/react-query'
 
-import { AUTH_PROVIDERS_KEY } from "@/client/constants/query-keys";
-import { axios } from "@/client/libs/axios";
+import { AUTH_PROVIDERS_KEY } from '@/client/constants/query-keys'
+import { axios } from '@/client/libs/axios'
 
 export const getAuthProviders = async () => {
-  const response = await axios.get<AuthProvidersDto>(`/auth/providers`);
+  const response = await axios.get<AuthProvidersDto>(`/auth/providers`)
 
-  return response.data;
-};
+  return response.data
+}
 
 export const useAuthProviders = () => {
   const {
     error,
     isPending: loading,
-    data: providers,
+    data: providers
   } = useQuery({
     queryKey: [AUTH_PROVIDERS_KEY],
-    queryFn: getAuthProviders,
-  });
+    queryFn: getAuthProviders
+  })
 
-  return { providers, loading, error };
-};
+  return { providers, loading, error }
+}

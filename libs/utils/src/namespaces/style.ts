@@ -1,5 +1,5 @@
-import { ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { ClassValue, clsx } from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 export const breakpoints = {
   xs: 0,
@@ -7,7 +7,7 @@ export const breakpoints = {
   md: 768,
   lg: 1024,
   xl: 1280,
-  "2xl": 1400,
-};
+  '2xl': 1400
+}
 
-export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs));
+export const cn = (...inputs: ClassValue[]) => twMerge(clsx(inputs))

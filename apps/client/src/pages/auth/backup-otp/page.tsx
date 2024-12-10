@@ -1,8 +1,8 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { t } from "@lingui/macro";
-import { ArrowLeft } from "@phosphor-icons/react";
-import { twoFactorBackupSchema } from "@reactive-resume/dto";
-import { usePasswordToggle } from "@reactive-resume/hooks";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { t } from '@lingui/macro'
+import { ArrowLeft } from '@phosphor-icons/react'
+import { twoFactorBackupSchema } from '@reactive-resume/dto'
+import { usePasswordToggle } from '@reactive-resume/hooks'
 import {
   Button,
   Form,
@@ -11,39 +11,39 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-} from "@reactive-resume/ui";
-import { useRef } from "react";
-import { Helmet } from "react-helmet-async";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { z } from "zod";
+  Input
+} from '@reactive-resume/ui'
+import { useRef } from 'react'
+import { Helmet } from 'react-helmet-async'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { z } from 'zod'
 
-import { useBackupOtp } from "@/client/services/auth";
+import { useBackupOtp } from '@/client/services/auth'
 
-type FormValues = z.infer<typeof twoFactorBackupSchema>;
+type FormValues = z.infer<typeof twoFactorBackupSchema>
 
 export const BackupOtpPage = () => {
-  const navigate = useNavigate();
-  const { backupOtp, loading } = useBackupOtp();
+  const navigate = useNavigate()
+  const { backupOtp, loading } = useBackupOtp()
 
-  const formRef = useRef<HTMLFormElement>(null);
-  usePasswordToggle(formRef);
+  const formRef = useRef<HTMLFormElement>(null)
+  usePasswordToggle(formRef)
 
   const form = useForm<FormValues>({
     resolver: zodResolver(twoFactorBackupSchema),
-    defaultValues: { code: "" },
-  });
+    defaultValues: { code: '' }
+  })
 
   const onSubmit = async (data: FormValues) => {
     try {
-      await backupOtp(data);
+      await backupOtp(data)
 
-      navigate("/dashboard");
+      navigate('/dashboard')
     } catch {
-      form.reset();
+      form.reset()
     }
-  };
+  }
 
   return (
     <div className="space-y-8">
@@ -91,14 +91,21 @@ export const BackupOtpPage = () => {
                 variant="link"
                 className="px-5"
                 onClick={() => {
-                  navigate(-1);
+                  navigate(-1)
                 }}
               >
-                <ArrowLeft size={14} className="mr-2" />
+                <ArrowLeft
+                  size={14}
+                  className="mr-2"
+                />
                 <span>{t`Back`}</span>
               </Button>
 
-              <Button type="submit" disabled={loading} className="flex-1">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="flex-1"
+              >
                 {t`Sign in`}
               </Button>
             </div>
@@ -106,5 +113,5 @@ export const BackupOtpPage = () => {
         </Form>
       </div>
     </div>
-  );
-};
+  )
+}

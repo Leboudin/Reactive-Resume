@@ -1,11 +1,11 @@
-import { t } from "@lingui/macro";
-import { Separator } from "@reactive-resume/ui";
-import { Link } from "react-router-dom";
+import { t } from '@lingui/macro'
+import { Separator } from '@reactive-resume/ui'
+import { Link } from 'react-router-dom'
 
-import { Copyright } from "@/client/components/copyright";
-import { LocaleSwitch } from "@/client/components/locale-switch";
-import { Logo } from "@/client/components/logo";
-import { ThemeSwitch } from "@/client/components/theme-switch";
+import { Copyright } from '@/client/components/copyright'
+import { LocaleSwitch } from '@/client/components/locale-switch'
+import { Logo } from '@/client/components/logo'
+import { ThemeSwitch } from '@/client/components/theme-switch'
 
 export const Footer = () => (
   <footer className="bg-background">
@@ -13,7 +13,10 @@ export const Footer = () => (
 
     <div className="container grid py-12 sm:grid-cols-3 lg:grid-cols-4">
       <div className="flex flex-col gap-y-2">
-        <Logo size={96} className="-ml-2" />
+        <Logo
+          size={96}
+          className="-ml-2"
+        />
 
         <h2 className="text-xl font-medium">{t`Reactive Resume`}</h2>
 
@@ -57,4 +60,4 @@ export const Footer = () => (
       </div>
     </div>
   </footer>
-);
+)

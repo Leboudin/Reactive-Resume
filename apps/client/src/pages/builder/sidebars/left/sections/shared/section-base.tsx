@@ -5,85 +5,85 @@ import {
   KeyboardSensor,
   PointerSensor,
   useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import { restrictToParentElement } from "@dnd-kit/modifiers";
+  useSensors
+} from '@dnd-kit/core'
+import { restrictToParentElement } from '@dnd-kit/modifiers'
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { t } from "@lingui/macro";
-import { Plus } from "@phosphor-icons/react";
-import { SectionItem, SectionKey, SectionWithItem } from "@reactive-resume/schema";
-import { Button } from "@reactive-resume/ui";
-import { cn } from "@reactive-resume/utils";
-import { AnimatePresence, motion } from "framer-motion";
-import get from "lodash.get";
+  verticalListSortingStrategy
+} from '@dnd-kit/sortable'
+import { t } from '@lingui/macro'
+import { Plus } from '@phosphor-icons/react'
+import { SectionItem, SectionKey, SectionWithItem } from '@reactive-resume/schema'
+import { Button } from '@reactive-resume/ui'
+import { cn } from '@reactive-resume/utils'
+import { AnimatePresence, motion } from 'framer-motion'
+import get from 'lodash.get'
 
-import { useDialog } from "@/client/stores/dialog";
-import { useResumeStore } from "@/client/stores/resume";
+import { useDialog } from '@/client/stores/dialog'
+import { useResumeStore } from '@/client/stores/resume'
 
-import { getSectionIcon } from "./section-icon";
-import { SectionListItem } from "./section-list-item";
-import { SectionOptions } from "./section-options";
+import { getSectionIcon } from './section-icon'
+import { SectionListItem } from './section-list-item'
+import { SectionOptions } from './section-options'
 
 type Props<T extends SectionItem> = {
-  id: SectionKey;
-  title: (item: T) => string;
-  description?: (item: T) => string | undefined;
-};
+  id: SectionKey
+  title: (item: T) => string
+  description?: (item: T) => string | undefined
+}
 
 export const SectionBase = <T extends SectionItem>({ id, title, description }: Props<T>) => {
-  const { open } = useDialog(id);
+  const { open } = useDialog(id)
 
-  const setValue = useResumeStore((state) => state.setValue);
+  const setValue = useResumeStore((state) => state.setValue)
   const section = useResumeStore((state) =>
-    get(state.resume.data.sections, id),
-  ) as SectionWithItem<T>;
+    get(state.resume.data.sections, id)
+  ) as SectionWithItem<T>
 
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
+      coordinateGetter: sortableKeyboardCoordinates
+    })
+  )
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  if (!section) return null;
+  if (!section) return null
 
   const onDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
+    const { active, over } = event
 
-    if (!over) return;
+    if (!over) return
 
     if (active.id !== over.id) {
-      const oldIndex = section.items.findIndex((item) => item.id === active.id);
-      const newIndex = section.items.findIndex((item) => item.id === over.id);
+      const oldIndex = section.items.findIndex((item) => item.id === active.id)
+      const newIndex = section.items.findIndex((item) => item.id === over.id)
 
-      const sortedList = arrayMove(section.items as T[], oldIndex, newIndex);
-      setValue(`sections.${id}.items`, sortedList);
+      const sortedList = arrayMove(section.items as T[], oldIndex, newIndex)
+      setValue(`sections.${id}.items`, sortedList)
     }
-  };
+  }
 
   const onCreate = () => {
-    open("create", { id });
-  };
+    open('create', { id })
+  }
   const onUpdate = (item: T) => {
-    open("update", { id, item });
-  };
+    open('update', { id, item })
+  }
   const onDuplicate = (item: T) => {
-    open("duplicate", { id, item });
-  };
+    open('duplicate', { id, item })
+  }
   const onDelete = (item: T) => {
-    open("delete", { id, item });
-  };
+    open('delete', { id, item })
+  }
 
   const onToggleVisibility = (index: number) => {
-    const visible = get(section, `items[${index}].visible`, true);
-    setValue(`sections.${id}.items[${index}].visible`, !visible);
-  };
+    const visible = get(section, `items[${index}].visible`, true)
+    setValue(`sections.${id}.items[${index}].visible`, !visible)
+  }
 
   return (
     <motion.section
@@ -105,7 +105,7 @@ export const SectionBase = <T extends SectionItem>({ id, title, description }: P
         </div>
       </header>
 
-      <main className={cn("grid transition-opacity", !section.visible && "opacity-50")}>
+      <main className={cn('grid transition-opacity', !section.visible && 'opacity-50')}>
         {section.items.length === 0 && (
           <Button
             variant="outline"
@@ -115,8 +115,8 @@ export const SectionBase = <T extends SectionItem>({ id, title, description }: P
             <Plus size={14} />
             <span className="font-medium">
               {t({
-                message: "Add a new item",
-                context: "For example, add a new work experience, or add a new profile.",
+                message: 'Add a new item',
+                context: 'For example, add a new work experience, or add a new profile.'
               })}
             </span>
           </Button>
@@ -128,7 +128,10 @@ export const SectionBase = <T extends SectionItem>({ id, title, description }: P
           modifiers={[restrictToParentElement]}
           onDragEnd={onDragEnd}
         >
-          <SortableContext items={section.items} strategy={verticalListSortingStrategy}>
+          <SortableContext
+            items={section.items}
+            strategy={verticalListSortingStrategy}
+          >
             <AnimatePresence>
               {section.items.map((item, index) => (
                 <SectionListItem
@@ -138,16 +141,16 @@ export const SectionBase = <T extends SectionItem>({ id, title, description }: P
                   title={title(item as T)}
                   description={description?.(item as T)}
                   onUpdate={() => {
-                    onUpdate(item as T);
+                    onUpdate(item as T)
                   }}
                   onDelete={() => {
-                    onDelete(item as T);
+                    onDelete(item as T)
                   }}
                   onDuplicate={() => {
-                    onDuplicate(item as T);
+                    onDuplicate(item as T)
                   }}
                   onToggleVisibility={() => {
-                    onToggleVisibility(index);
+                    onToggleVisibility(index)
                   }}
                 />
               ))}
@@ -158,17 +161,21 @@ export const SectionBase = <T extends SectionItem>({ id, title, description }: P
 
       {section.items.length > 0 && (
         <footer className="flex items-center justify-end">
-          <Button variant="outline" className="ml-auto gap-x-2" onClick={onCreate}>
+          <Button
+            variant="outline"
+            className="ml-auto gap-x-2"
+            onClick={onCreate}
+          >
             <Plus />
             <span>
               {t({
-                message: "Add a new item",
-                context: "For example, add a new work experience, or add a new profile.",
+                message: 'Add a new item',
+                context: 'For example, add a new work experience, or add a new profile.'
               })}
             </span>
           </Button>
         </footer>
       )}
     </motion.section>
-  );
-};
+  )
+}

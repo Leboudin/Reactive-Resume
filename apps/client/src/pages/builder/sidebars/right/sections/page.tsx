@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { t } from '@lingui/macro'
 import {
   Label,
   Select,
@@ -7,22 +7,25 @@ import {
   SelectTrigger,
   SelectValue,
   Slider,
-  Switch,
-} from "@reactive-resume/ui";
+  Switch
+} from '@reactive-resume/ui'
 
-import { useResumeStore } from "@/client/stores/resume";
+import { useResumeStore } from '@/client/stores/resume'
 
-import { getSectionIcon } from "../shared/section-icon";
+import { getSectionIcon } from '../shared/section-icon'
 
 export const PageSection = () => {
-  const setValue = useResumeStore((state) => state.setValue);
-  const page = useResumeStore((state) => state.resume.data.metadata.page);
+  const setValue = useResumeStore((state) => state.setValue)
+  const page = useResumeStore((state) => state.resume.data.metadata.page)
 
   return (
-    <section id="page" className="grid gap-y-6">
+    <section
+      id="page"
+      className="grid gap-y-6"
+    >
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-x-4">
-          {getSectionIcon("page")}
+          {getSectionIcon('page')}
           <h2 className="line-clamp-1 text-3xl font-bold">{t`Page`}</h2>
         </div>
       </header>
@@ -33,7 +36,7 @@ export const PageSection = () => {
           <Select
             value={page.format}
             onValueChange={(value) => {
-              setValue("metadata.page.format", value);
+              setValue('metadata.page.format', value)
             }}
           >
             <SelectTrigger>
@@ -55,7 +58,7 @@ export const PageSection = () => {
               step={2}
               value={[page.margin]}
               onValueChange={(value) => {
-                setValue("metadata.page.margin", value[0]);
+                setValue('metadata.page.margin', value[0])
               }}
             />
 
@@ -72,7 +75,7 @@ export const PageSection = () => {
                 id="metadata.page.options.breakLine"
                 checked={page.options.breakLine}
                 onCheckedChange={(checked) => {
-                  setValue("metadata.page.options.breakLine", checked);
+                  setValue('metadata.page.options.breakLine', checked)
                 }}
               />
               <Label htmlFor="metadata.page.options.breakLine">{t`Show Break Line`}</Label>
@@ -85,7 +88,7 @@ export const PageSection = () => {
                 id="metadata.page.options.pageNumbers"
                 checked={page.options.pageNumbers}
                 onCheckedChange={(checked) => {
-                  setValue("metadata.page.options.pageNumbers", checked);
+                  setValue('metadata.page.options.pageNumbers', checked)
                 }}
               />
               <Label htmlFor="metadata.page.options.pageNumbers">{t`Show Page Numbers`}</Label>
@@ -94,5 +97,5 @@ export const PageSection = () => {
         </div>
       </main>
     </section>
-  );
-};
+  )
+}

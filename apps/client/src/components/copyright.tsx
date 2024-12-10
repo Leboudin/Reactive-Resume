@@ -1,20 +1,20 @@
-import { t, Trans } from "@lingui/macro";
-import { cn } from "@reactive-resume/utils";
+import { t, Trans } from '@lingui/macro'
+import { cn } from '@reactive-resume/utils'
 
 type Props = {
-  className?: string;
-};
+  className?: string
+}
 
 export const Copyright = ({ className }: Props) => (
   <div
     className={cn(
-      "prose prose-sm prose-zinc flex max-w-none flex-col gap-y-1 text-xs opacity-40 dark:prose-invert",
-      className,
+      'prose prose-sm prose-zinc flex max-w-none flex-col gap-y-1 text-xs opacity-40 dark:prose-invert',
+      className
     )}
   >
     <span>
       <Trans>
-        Licensed under{" "}
+        Licensed under{' '}
         <a
           target="_blank"
           rel="noopener noreferrer nofollow"
@@ -32,7 +32,7 @@ export const Copyright = ({ className }: Props) => (
     </span>
 
     <span className="mt-4">
-      {t`Reactive Resume`} {"v" + appVersion}
+      {t`Reactive Resume`} {'v' + appVersion}
     </span>
   </div>
-);
+)

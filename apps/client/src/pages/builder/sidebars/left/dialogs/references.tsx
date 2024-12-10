@@ -1,6 +1,6 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { t } from "@lingui/macro";
-import { defaultReference, referenceSchema } from "@reactive-resume/schema";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { t } from '@lingui/macro'
+import { defaultReference, referenceSchema } from '@reactive-resume/schema'
 import {
   FormControl,
   FormField,
@@ -8,28 +8,32 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  RichInput,
-} from "@reactive-resume/ui";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+  RichInput
+} from '@reactive-resume/ui'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { AiActions } from "@/client/components/ai-actions";
+import { AiActions } from '@/client/components/ai-actions'
 
-import { SectionDialog } from "../sections/shared/section-dialog";
-import { URLInput } from "../sections/shared/url-input";
+import { SectionDialog } from '../sections/shared/section-dialog'
+import { URLInput } from '../sections/shared/url-input'
 
-const formSchema = referenceSchema;
+const formSchema = referenceSchema
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<typeof formSchema>
 
 export const ReferencesDialog = () => {
   const form = useForm<FormValues>({
     defaultValues: defaultReference,
-    resolver: zodResolver(formSchema),
-  });
+    resolver: zodResolver(formSchema)
+  })
 
   return (
-    <SectionDialog<FormValues> id="references" form={form} defaultValues={defaultReference}>
+    <SectionDialog<FormValues>
+      id="references"
+      form={form}
+      defaultValues={defaultReference}
+    >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <FormField
           name="name"
@@ -84,10 +88,13 @@ export const ReferencesDialog = () => {
                   {...field}
                   content={field.value}
                   footer={(editor) => (
-                    <AiActions value={editor.getText()} onChange={editor.commands.setContent} />
+                    <AiActions
+                      value={editor.getText()}
+                      onChange={editor.commands.setContent}
+                    />
                   )}
                   onChange={(value) => {
-                    field.onChange(value);
+                    field.onChange(value)
                   }}
                 />
               </FormControl>
@@ -97,5 +104,5 @@ export const ReferencesDialog = () => {
         />
       </div>
     </SectionDialog>
-  );
-};
+  )
+}

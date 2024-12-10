@@ -1,7 +1,7 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { t } from "@lingui/macro";
-import { X } from "@phosphor-icons/react";
-import { defaultSkill, skillSchema } from "@reactive-resume/schema";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { t } from '@lingui/macro'
+import { X } from '@phosphor-icons/react'
+import { defaultSkill, skillSchema } from '@reactive-resume/schema'
 import {
   Badge,
   BadgeInput,
@@ -12,26 +12,26 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Slider,
-} from "@reactive-resume/ui";
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+  Slider
+} from '@reactive-resume/ui'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { SectionDialog } from "../sections/shared/section-dialog";
+import { SectionDialog } from '../sections/shared/section-dialog'
 
-const formSchema = skillSchema;
+const formSchema = skillSchema
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<typeof formSchema>
 
 export const SkillsDialog = () => {
   const form = useForm<FormValues>({
     defaultValues: defaultSkill,
-    resolver: zodResolver(formSchema),
-  });
+    resolver: zodResolver(formSchema)
+  })
 
-  const [pendingKeyword, setPendingKeyword] = useState("");
+  const [pendingKeyword, setPendingKeyword] = useState('')
 
   return (
     <SectionDialog<FormValues>
@@ -84,7 +84,7 @@ export const SkillsDialog = () => {
                     value={[field.value]}
                     orientation="horizontal"
                     onValueChange={(value) => {
-                      field.onChange(value[0]);
+                      field.onChange(value[0])
                     }}
                   />
 
@@ -108,7 +108,10 @@ export const SkillsDialog = () => {
               <FormItem>
                 <FormLabel>{t`Keywords`}</FormLabel>
                 <FormControl>
-                  <BadgeInput {...field} setPendingKeyword={setPendingKeyword} />
+                  <BadgeInput
+                    {...field}
+                    setPendingKeyword={setPendingKeyword}
+                  />
                 </FormControl>
                 <FormDescription>
                   {t`You can add multiple keywords by separating them with a comma or pressing enter.`}
@@ -129,11 +132,14 @@ export const SkillsDialog = () => {
                       <Badge
                         className="cursor-pointer"
                         onClick={() => {
-                          field.onChange(field.value.filter((v) => item !== v));
+                          field.onChange(field.value.filter((v) => item !== v))
                         }}
                       >
                         <span className="mr-1">{item}</span>
-                        <X size={12} weight="bold" />
+                        <X
+                          size={12}
+                          weight="bold"
+                        />
                       </Badge>
                     </motion.div>
                   ))}
@@ -144,5 +150,5 @@ export const SkillsDialog = () => {
         />
       </div>
     </SectionDialog>
-  );
-};
+  )
+}

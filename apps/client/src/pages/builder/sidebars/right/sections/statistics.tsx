@@ -1,25 +1,28 @@
-import { t } from "@lingui/macro";
-import { Info } from "@phosphor-icons/react";
-import { Alert, AlertDescription, AlertTitle } from "@reactive-resume/ui";
-import { cn } from "@reactive-resume/utils";
-import { AnimatePresence, motion } from "framer-motion";
+import { t } from '@lingui/macro'
+import { Info } from '@phosphor-icons/react'
+import { Alert, AlertDescription, AlertTitle } from '@reactive-resume/ui'
+import { cn } from '@reactive-resume/utils'
+import { AnimatePresence, motion } from 'framer-motion'
 
-import { useResumeStatistics } from "@/client/services/resume";
-import { useResumeStore } from "@/client/stores/resume";
+import { useResumeStatistics } from '@/client/services/resume'
+import { useResumeStore } from '@/client/stores/resume'
 
-import { getSectionIcon } from "../shared/section-icon";
+import { getSectionIcon } from '../shared/section-icon'
 
 export const StatisticsSection = () => {
-  const id = useResumeStore((state) => state.resume.id);
-  const isPublic = useResumeStore((state) => state.resume.visibility === "public");
+  const id = useResumeStore((state) => state.resume.id)
+  const isPublic = useResumeStore((state) => state.resume.visibility === 'public')
 
-  const { statistics } = useResumeStatistics(id, isPublic);
+  const { statistics } = useResumeStatistics(id, isPublic)
 
   return (
-    <section id="statistics" className="grid gap-y-6">
+    <section
+      id="statistics"
+      className="grid gap-y-6"
+    >
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-x-4">
-          {getSectionIcon("statistics")}
+          {getSectionIcon('statistics')}
           <h2 className="line-clamp-1 text-3xl font-bold">{t`Statistics`}</h2>
         </div>
       </header>
@@ -29,9 +32,9 @@ export const StatisticsSection = () => {
           {!isPublic && (
             <motion.div
               className="col-span-2"
-              initial={{ opacity: 0, y: -50, filter: "blur(10px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -50, filter: "blur(10px)" }}
+              initial={{ opacity: 0, y: -50, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, y: -50, filter: 'blur(10px)' }}
             >
               <Alert variant="info">
                 <Info size={18} />
@@ -45,19 +48,19 @@ export const StatisticsSection = () => {
         </AnimatePresence>
 
         <div>
-          <h3 className={cn("text-4xl font-bold blur-none transition-all", !isPublic && "blur-sm")}>
+          <h3 className={cn('text-4xl font-bold blur-none transition-all', !isPublic && 'blur-sm')}>
             {statistics?.views ?? 0}
           </h3>
           <p className="opacity-75">{t`Views`}</p>
         </div>
 
         <div>
-          <h3 className={cn("text-4xl font-bold blur-none transition-all", !isPublic && "blur-sm")}>
+          <h3 className={cn('text-4xl font-bold blur-none transition-all', !isPublic && 'blur-sm')}>
             {statistics?.downloads ?? 0}
           </h3>
           <p className="opacity-75">{t`Downloads`}</p>
         </div>
       </main>
     </section>
-  );
-};
+  )
+}

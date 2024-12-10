@@ -1,18 +1,18 @@
-import { useTheme } from "@reactive-resume/hooks";
-import { useEffect } from "react";
+import { useTheme } from '@reactive-resume/hooks'
+import { useEffect } from 'react'
 
-type Props = { children: React.ReactNode };
+type Props = { children: React.ReactNode }
 
 export const ThemeProvider = ({ children }: Props) => {
-  const { isDarkMode } = useTheme();
+  const { isDarkMode } = useTheme()
 
   useEffect(() => {
     if (isDarkMode) {
-      document.documentElement.classList.add("dark");
+      document.documentElement.classList.add('dark')
     } else {
-      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.remove('dark')
     }
-  }, [isDarkMode]);
+  }, [isDarkMode])
 
-  return children;
-};
+  return children
+}

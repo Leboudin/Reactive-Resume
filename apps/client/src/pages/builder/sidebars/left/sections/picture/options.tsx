@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { t } from '@lingui/macro'
 import {
   AspectRatio,
   Checkbox,
@@ -6,64 +6,64 @@ import {
   Label,
   ToggleGroup,
   ToggleGroupItem,
-  Tooltip,
-} from "@reactive-resume/ui";
-import { useMemo } from "react";
+  Tooltip
+} from '@reactive-resume/ui'
+import { useMemo } from 'react'
 
-import { useResumeStore } from "@/client/stores/resume";
+import { useResumeStore } from '@/client/stores/resume'
 
 // Aspect Ratio Helpers
 const stringToRatioMap = {
   square: 1,
   portrait: 0.75,
-  horizontal: 1.33,
-} as const;
+  horizontal: 1.33
+} as const
 
 const ratioToStringMap = {
-  "1": "square",
-  "0.75": "portrait",
-  "1.33": "horizontal",
-} as const;
+  '1': 'square',
+  '0.75': 'portrait',
+  '1.33': 'horizontal'
+} as const
 
-type AspectRatio = keyof typeof stringToRatioMap;
+type AspectRatio = keyof typeof stringToRatioMap
 
 // Border Radius Helpers
 const stringToBorderRadiusMap = {
   square: 0,
   rounded: 6,
-  circle: 9999,
-};
+  circle: 9999
+}
 
 const borderRadiusToStringMap = {
-  "0": "square",
-  "6": "rounded",
-  "9999": "circle",
-};
+  '0': 'square',
+  '6': 'rounded',
+  '9999': 'circle'
+}
 
-type BorderRadius = keyof typeof stringToBorderRadiusMap;
+type BorderRadius = keyof typeof stringToBorderRadiusMap
 
 export const PictureOptions = () => {
-  const setValue = useResumeStore((state) => state.setValue);
-  const picture = useResumeStore((state) => state.resume.data.basics.picture);
+  const setValue = useResumeStore((state) => state.setValue)
+  const picture = useResumeStore((state) => state.resume.data.basics.picture)
 
   const aspectRatio = useMemo(() => {
-    const ratio = picture.aspectRatio.toString() as keyof typeof ratioToStringMap;
-    return ratioToStringMap[ratio];
-  }, [picture.aspectRatio]);
+    const ratio = picture.aspectRatio.toString() as keyof typeof ratioToStringMap
+    return ratioToStringMap[ratio]
+  }, [picture.aspectRatio])
 
   const onAspectRatioChange = (value: string) => {
-    if (!value) return;
-    setValue("basics.picture.aspectRatio", stringToRatioMap[value as AspectRatio]);
-  };
+    if (!value) return
+    setValue('basics.picture.aspectRatio', stringToRatioMap[value as AspectRatio])
+  }
 
   const borderRadius = useMemo(() => {
-    const radius = picture.borderRadius.toString() as keyof typeof borderRadiusToStringMap;
-    return borderRadiusToStringMap[radius];
-  }, [picture.borderRadius]);
+    const radius = picture.borderRadius.toString() as keyof typeof borderRadiusToStringMap
+    return borderRadiusToStringMap[radius]
+  }, [picture.borderRadius])
 
   const onBorderRadiusChange = (value: BorderRadius) => {
-    setValue("basics.picture.borderRadius", stringToBorderRadiusMap[value]);
-  };
+    setValue('basics.picture.borderRadius', stringToBorderRadiusMap[value])
+  }
 
   return (
     <div className="flex flex-col gap-y-5">
@@ -76,7 +76,7 @@ export const PictureOptions = () => {
           value={picture.size}
           className="col-span-2"
           onChange={(event) => {
-            setValue("basics.picture.size", event.target.valueAsNumber);
+            setValue('basics.picture.size', event.target.valueAsNumber)
           }}
         />
       </div>
@@ -118,9 +118,9 @@ export const PictureOptions = () => {
             id="picture.aspectRatio"
             value={picture.aspectRatio}
             onChange={(event) => {
-              if (!event.target.valueAsNumber) return;
-              if (Number.isNaN(event.target.valueAsNumber)) return;
-              setValue("basics.picture.aspectRatio", event.target.valueAsNumber);
+              if (!event.target.valueAsNumber) return
+              if (Number.isNaN(event.target.valueAsNumber)) return
+              setValue('basics.picture.aspectRatio', event.target.valueAsNumber)
             }}
           />
         </div>
@@ -163,7 +163,7 @@ export const PictureOptions = () => {
             id="picture.borderRadius"
             value={picture.borderRadius}
             onChange={(event) => {
-              setValue("basics.picture.borderRadius", event.target.valueAsNumber);
+              setValue('basics.picture.borderRadius', event.target.valueAsNumber)
             }}
           />
         </div>
@@ -180,7 +180,7 @@ export const PictureOptions = () => {
                 id="picture.effects.hidden"
                 checked={picture.effects.hidden}
                 onCheckedChange={(checked) => {
-                  setValue("basics.picture.effects.hidden", checked);
+                  setValue('basics.picture.effects.hidden', checked)
                 }}
               />
               <Label htmlFor="picture.effects.hidden">{t`Hidden`}</Label>
@@ -191,7 +191,7 @@ export const PictureOptions = () => {
                 id="picture.effects.border"
                 checked={picture.effects.border}
                 onCheckedChange={(checked) => {
-                  setValue("basics.picture.effects.border", checked);
+                  setValue('basics.picture.effects.border', checked)
                 }}
               />
               <Label htmlFor="picture.effects.border">{t`Border`}</Label>
@@ -202,7 +202,7 @@ export const PictureOptions = () => {
                 id="picture.effects.grayscale"
                 checked={picture.effects.grayscale}
                 onCheckedChange={(checked) => {
-                  setValue("basics.picture.effects.grayscale", checked);
+                  setValue('basics.picture.effects.grayscale', checked)
                 }}
               />
               <Label htmlFor="picture.effects.grayscale">{t`Grayscale`}</Label>
@@ -211,5 +211,5 @@ export const PictureOptions = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

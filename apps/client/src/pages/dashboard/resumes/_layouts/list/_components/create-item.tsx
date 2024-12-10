@@ -1,14 +1,14 @@
-import { t } from "@lingui/macro";
-import { Plus } from "@phosphor-icons/react";
-import { ResumeDto } from "@reactive-resume/dto";
-import { KeyboardShortcut } from "@reactive-resume/ui";
+import { t } from '@lingui/macro'
+import { Plus } from '@phosphor-icons/react'
+import { ResumeDto } from '@reactive-resume/dto'
+import { KeyboardShortcut } from '@reactive-resume/ui'
 
-import { useDialog } from "@/client/stores/dialog";
+import { useDialog } from '@/client/stores/dialog'
 
-import { BaseListItem } from "./base-item";
+import { BaseListItem } from './base-item'
 
 export const CreateResumeListItem = () => {
-  const { open } = useDialog<ResumeDto>("resume");
+  const { open } = useDialog<ResumeDto>('resume')
 
   return (
     <BaseListItem
@@ -22,8 +22,8 @@ export const CreateResumeListItem = () => {
       }
       description={t`Start building from scratch`}
       onClick={() => {
-        open("create");
+        open('create')
       }}
     />
-  );
-};
+  )
+}

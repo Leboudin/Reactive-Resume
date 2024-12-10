@@ -9,10 +9,10 @@ import {
   Post,
   Query,
   Res,
-  UseGuards,
-} from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { ApiTags } from "@nestjs/swagger";
+  UseGuards
+} from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { ApiTags } from '@nestjs/swagger'
 import {
   authResponseSchema,
   backupCodesSchema,
@@ -24,43 +24,43 @@ import {
   TwoFactorDto,
   UpdatePasswordDto,
   userSchema,
-  UserWithSecrets,
-} from "@reactive-resume/dto";
-import { ErrorMessage } from "@reactive-resume/utils";
-import type { Response } from "express";
+  UserWithSecrets
+} from '@reactive-resume/dto'
+import { ErrorMessage } from '@reactive-resume/utils'
+import type { Response } from 'express'
 
-import { User } from "../user/decorators/user.decorator";
-import { AuthService } from "./auth.service";
-import { GitHubGuard } from "./guards/github.guard";
-import { GoogleGuard } from "./guards/google.guard";
-import { JwtGuard } from "./guards/jwt.guard";
-import { LocalGuard } from "./guards/local.guard";
-import { RefreshGuard } from "./guards/refresh.guard";
-import { TwoFactorGuard } from "./guards/two-factor.guard";
-import { getCookieOptions } from "./utils/cookie";
-import { payloadSchema } from "./utils/payload";
+import { User } from '../user/decorators/user.decorator'
+import { AuthService } from './auth.service'
+import { GitHubGuard } from './guards/github.guard'
+import { GoogleGuard } from './guards/google.guard'
+import { JwtGuard } from './guards/jwt.guard'
+import { LocalGuard } from './guards/local.guard'
+import { RefreshGuard } from './guards/refresh.guard'
+import { TwoFactorGuard } from './guards/two-factor.guard'
+import { getCookieOptions } from './utils/cookie'
+import { payloadSchema } from './utils/payload'
 
-@ApiTags("Authentication")
-@Controller("auth")
+@ApiTags('Authentication')
+@Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly configService: ConfigService,
+    private readonly configService: ConfigService
   ) {}
 
   private async exchangeToken(id: string, email: string, isTwoFactorAuth = false) {
     try {
-      const payload = payloadSchema.parse({ id, isTwoFactorAuth });
+      const payload = payloadSchema.parse({ id, isTwoFactorAuth })
 
-      const accessToken = this.authService.generateToken("access", payload);
-      const refreshToken = this.authService.generateToken("refresh", payload);
+      const accessToken = this.authService.generateToken('access', payload)
+      const refreshToken = this.authService.generateToken('refresh', payload)
 
       // Set Refresh Token in Database
-      await this.authService.setRefreshToken(email, refreshToken);
+      await this.authService.setRefreshToken(email, refreshToken)
 
-      return { accessToken, refreshToken };
+      return { accessToken, refreshToken }
     } catch (error) {
-      throw new InternalServerErrorException(error, ErrorMessage.SomethingWentWrong);
+      throw new InternalServerErrorException(error, ErrorMessage.SomethingWentWrong)
     }
   }
 
@@ -68,249 +68,249 @@ export class AuthController {
     user: UserWithSecrets,
     response: Response,
     isTwoFactorAuth = false,
-    redirect = false,
+    redirect = false
   ) {
-    let status = "authenticated";
+    let status = 'authenticated'
 
-    const baseUrl = this.configService.get("PUBLIC_URL");
-    const redirectUrl = new URL(`${baseUrl}/auth/callback`);
+    const baseUrl = this.configService.get('PUBLIC_URL')
+    const redirectUrl = new URL(`${baseUrl}/auth/callback`)
 
     const { accessToken, refreshToken } = await this.exchangeToken(
       user.id,
       user.email,
-      isTwoFactorAuth,
-    );
+      isTwoFactorAuth
+    )
 
-    response.cookie("Authentication", accessToken, getCookieOptions("access"));
-    response.cookie("Refresh", refreshToken, getCookieOptions("refresh"));
+    response.cookie('Authentication', accessToken, getCookieOptions('access'))
+    response.cookie('Refresh', refreshToken, getCookieOptions('refresh'))
 
-    if (user.twoFactorEnabled && !isTwoFactorAuth) status = "2fa_required";
+    if (user.twoFactorEnabled && !isTwoFactorAuth) status = '2fa_required'
 
-    const responseData = authResponseSchema.parse({ status, user });
+    const responseData = authResponseSchema.parse({ status, user })
 
-    redirectUrl.searchParams.set("status", status);
+    redirectUrl.searchParams.set('status', status)
 
-    if (redirect) response.redirect(redirectUrl.toString());
-    else response.status(200).send(responseData);
+    if (redirect) response.redirect(redirectUrl.toString())
+    else response.status(200).send(responseData)
   }
 
-  @Post("register")
+  @Post('register')
   async register(@Body() registerDto: RegisterDto, @Res({ passthrough: true }) response: Response) {
-    const user = await this.authService.register(registerDto);
+    const user = await this.authService.register(registerDto)
 
-    return this.handleAuthenticationResponse(user, response);
+    return this.handleAuthenticationResponse(user, response)
   }
 
-  @Post("login")
+  @Post('login')
   @UseGuards(LocalGuard)
   async login(@User() user: UserWithSecrets, @Res({ passthrough: true }) response: Response) {
-    return this.handleAuthenticationResponse(user, response);
+    return this.handleAuthenticationResponse(user, response)
   }
 
-  @Get("providers")
+  @Get('providers')
   getAuthProviders() {
-    return this.authService.getAuthProviders();
+    return this.authService.getAuthProviders()
   }
 
   // OAuth Flows
-  @ApiTags("OAuth", "GitHub")
-  @Get("github")
+  @ApiTags('OAuth', 'GitHub')
+  @Get('github')
   @UseGuards(GitHubGuard)
   githubLogin() {
-    return;
+    return
   }
 
-  @ApiTags("OAuth", "GitHub")
-  @Get("github/callback")
+  @ApiTags('OAuth', 'GitHub')
+  @Get('github/callback')
   @UseGuards(GitHubGuard)
   async githubCallback(
     @User() user: UserWithSecrets,
-    @Res({ passthrough: true }) response: Response,
+    @Res({ passthrough: true }) response: Response
   ) {
-    return this.handleAuthenticationResponse(user, response, false, true);
+    return this.handleAuthenticationResponse(user, response, false, true)
   }
 
-  @ApiTags("OAuth", "Google")
-  @Get("google")
+  @ApiTags('OAuth', 'Google')
+  @Get('google')
   @UseGuards(GoogleGuard)
   googleLogin() {
-    return;
+    return
   }
 
-  @ApiTags("OAuth", "Google")
-  @Get("google/callback")
+  @ApiTags('OAuth', 'Google')
+  @Get('google/callback')
   @UseGuards(GoogleGuard)
   async googleCallback(
     @User() user: UserWithSecrets,
-    @Res({ passthrough: true }) response: Response,
+    @Res({ passthrough: true }) response: Response
   ) {
-    return this.handleAuthenticationResponse(user, response, false, true);
+    return this.handleAuthenticationResponse(user, response, false, true)
   }
 
-  @Post("refresh")
+  @Post('refresh')
   @UseGuards(RefreshGuard)
   async refresh(@User() user: UserWithSecrets, @Res({ passthrough: true }) response: Response) {
-    return this.handleAuthenticationResponse(user, response, true);
+    return this.handleAuthenticationResponse(user, response, true)
   }
 
-  @Patch("password")
+  @Patch('password')
   @UseGuards(TwoFactorGuard)
-  async updatePassword(@User("email") email: string, @Body() { password }: UpdatePasswordDto) {
-    await this.authService.updatePassword(email, password);
+  async updatePassword(@User('email') email: string, @Body() { password }: UpdatePasswordDto) {
+    await this.authService.updatePassword(email, password)
 
-    return { message: "Your password has been successfully updated." };
+    return { message: 'Your password has been successfully updated.' }
   }
 
-  @Post("logout")
+  @Post('logout')
   @UseGuards(TwoFactorGuard)
   async logout(@User() user: UserWithSecrets, @Res({ passthrough: true }) response: Response) {
-    await this.authService.setRefreshToken(user.email, null);
+    await this.authService.setRefreshToken(user.email, null)
 
-    response.clearCookie("Authentication");
-    response.clearCookie("Refresh");
+    response.clearCookie('Authentication')
+    response.clearCookie('Refresh')
 
-    const data = messageSchema.parse({ message: "You have been logged out, tschüss!" });
-    response.status(200).send(data);
+    const data = messageSchema.parse({ message: 'You have been logged out, tschüss!' })
+    response.status(200).send(data)
   }
 
   // Two-Factor Authentication Flows
-  @ApiTags("Two-Factor Auth")
-  @Post("2fa/setup")
+  @ApiTags('Two-Factor Auth')
+  @Post('2fa/setup')
   @UseGuards(JwtGuard)
-  async setup2FASecret(@User("email") email: string) {
-    return this.authService.setup2FASecret(email);
+  async setup2FASecret(@User('email') email: string) {
+    return this.authService.setup2FASecret(email)
   }
 
-  @ApiTags("Two-Factor Auth")
+  @ApiTags('Two-Factor Auth')
   @HttpCode(200)
-  @Post("2fa/enable")
+  @Post('2fa/enable')
   @UseGuards(JwtGuard)
   async enable2FA(
-    @User("id") id: string,
-    @User("email") email: string,
+    @User('id') id: string,
+    @User('email') email: string,
     @Body() { code }: TwoFactorDto,
-    @Res({ passthrough: true }) response: Response,
+    @Res({ passthrough: true }) response: Response
   ) {
-    const { backupCodes } = await this.authService.enable2FA(email, code);
+    const { backupCodes } = await this.authService.enable2FA(email, code)
 
-    const { accessToken, refreshToken } = await this.exchangeToken(id, email, true);
+    const { accessToken, refreshToken } = await this.exchangeToken(id, email, true)
 
-    response.cookie("Authentication", accessToken, getCookieOptions("access"));
-    response.cookie("Refresh", refreshToken, getCookieOptions("refresh"));
+    response.cookie('Authentication', accessToken, getCookieOptions('access'))
+    response.cookie('Refresh', refreshToken, getCookieOptions('refresh'))
 
-    const data = backupCodesSchema.parse({ backupCodes });
-    response.status(200).send(data);
+    const data = backupCodesSchema.parse({ backupCodes })
+    response.status(200).send(data)
   }
 
-  @ApiTags("Two-Factor Auth")
+  @ApiTags('Two-Factor Auth')
   @HttpCode(200)
-  @Post("2fa/disable")
+  @Post('2fa/disable')
   @UseGuards(TwoFactorGuard)
-  async disable2FA(@User("email") email: string) {
-    await this.authService.disable2FA(email);
+  async disable2FA(@User('email') email: string) {
+    await this.authService.disable2FA(email)
 
-    return { message: "Two-factor authentication has been successfully disabled on your account." };
+    return { message: 'Two-factor authentication has been successfully disabled on your account.' }
   }
 
-  @ApiTags("Two-Factor Auth")
+  @ApiTags('Two-Factor Auth')
   @HttpCode(200)
-  @Post("2fa/verify")
+  @Post('2fa/verify')
   @UseGuards(JwtGuard)
   async verify2FACode(
     @User() user: UserWithSecrets,
     @Body() { code }: TwoFactorDto,
-    @Res({ passthrough: true }) response: Response,
+    @Res({ passthrough: true }) response: Response
   ) {
-    await this.authService.verify2FACode(user.email, code);
+    await this.authService.verify2FACode(user.email, code)
 
-    const { accessToken, refreshToken } = await this.exchangeToken(user.id, user.email, true);
+    const { accessToken, refreshToken } = await this.exchangeToken(user.id, user.email, true)
 
-    response.cookie("Authentication", accessToken, getCookieOptions("access"));
-    response.cookie("Refresh", refreshToken, getCookieOptions("refresh"));
+    response.cookie('Authentication', accessToken, getCookieOptions('access'))
+    response.cookie('Refresh', refreshToken, getCookieOptions('refresh'))
 
-    response.status(200).send(userSchema.parse(user));
+    response.status(200).send(userSchema.parse(user))
   }
 
-  @ApiTags("Two-Factor Auth")
+  @ApiTags('Two-Factor Auth')
   @HttpCode(200)
-  @Post("2fa/backup")
+  @Post('2fa/backup')
   @UseGuards(JwtGuard)
   async useBackup2FACode(
-    @User("id") id: string,
-    @User("email") email: string,
+    @User('id') id: string,
+    @User('email') email: string,
     @Body() { code }: TwoFactorBackupDto,
-    @Res({ passthrough: true }) response: Response,
+    @Res({ passthrough: true }) response: Response
   ) {
-    const user = await this.authService.useBackup2FACode(email, code);
+    const user = await this.authService.useBackup2FACode(email, code)
 
-    return this.handleAuthenticationResponse(user, response, true);
+    return this.handleAuthenticationResponse(user, response, true)
   }
 
   // Password Recovery Flows
-  @ApiTags("Password Reset")
+  @ApiTags('Password Reset')
   @HttpCode(200)
-  @Post("forgot-password")
+  @Post('forgot-password')
   async forgotPassword(@Body() { email }: ForgotPasswordDto) {
     try {
-      await this.authService.forgotPassword(email);
+      await this.authService.forgotPassword(email)
     } catch {
       // pass
     }
 
     return {
       message:
-        "A password reset link should have been sent to your inbox, if an account existed with the email you provided.",
-    };
+        'A password reset link should have been sent to your inbox, if an account existed with the email you provided.'
+    }
   }
 
-  @ApiTags("Password Reset")
+  @ApiTags('Password Reset')
   @HttpCode(200)
-  @Post("reset-password")
+  @Post('reset-password')
   async resetPassword(@Body() { token, password }: ResetPasswordDto) {
     try {
-      await this.authService.resetPassword(token, password);
+      await this.authService.resetPassword(token, password)
 
-      return { message: "Your password has been successfully reset." };
+      return { message: 'Your password has been successfully reset.' }
     } catch {
-      throw new BadRequestException(ErrorMessage.InvalidResetToken);
+      throw new BadRequestException(ErrorMessage.InvalidResetToken)
     }
   }
 
   // Email Verification Flows
-  @ApiTags("Email Verification")
-  @Post("verify-email")
+  @ApiTags('Email Verification')
+  @Post('verify-email')
   @UseGuards(TwoFactorGuard)
   async verifyEmail(
-    @User("id") id: string,
-    @User("emailVerified") emailVerified: boolean,
-    @Query("token") token: string,
+    @User('id') id: string,
+    @User('emailVerified') emailVerified: boolean,
+    @Query('token') token: string
   ) {
-    if (!token) throw new BadRequestException(ErrorMessage.InvalidVerificationToken);
+    if (!token) throw new BadRequestException(ErrorMessage.InvalidVerificationToken)
 
     if (emailVerified) {
-      throw new BadRequestException(ErrorMessage.EmailAlreadyVerified);
+      throw new BadRequestException(ErrorMessage.EmailAlreadyVerified)
     }
 
-    await this.authService.verifyEmail(id, token);
+    await this.authService.verifyEmail(id, token)
 
-    return { message: "Your email has been successfully verified." };
+    return { message: 'Your email has been successfully verified.' }
   }
 
-  @ApiTags("Email Verification")
-  @Post("verify-email/resend")
+  @ApiTags('Email Verification')
+  @Post('verify-email/resend')
   @UseGuards(TwoFactorGuard)
   async resendVerificationEmail(
-    @User("email") email: string,
-    @User("emailVerified") emailVerified: boolean,
+    @User('email') email: string,
+    @User('emailVerified') emailVerified: boolean
   ) {
     if (emailVerified) {
-      throw new BadRequestException(ErrorMessage.EmailAlreadyVerified);
+      throw new BadRequestException(ErrorMessage.EmailAlreadyVerified)
     }
 
-    await this.authService.sendVerificationEmail(email);
+    await this.authService.sendVerificationEmail(email)
 
     return {
-      message: "You should have received a new email with a link to verify your email address.",
-    };
+      message: 'You should have received a new email with a link to verify your email address.'
+    }
   }
 }

@@ -1,6 +1,6 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { t } from "@lingui/macro";
-import { defaultLanguage, languageSchema } from "@reactive-resume/schema";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { t } from '@lingui/macro'
+import { defaultLanguage, languageSchema } from '@reactive-resume/schema'
 import {
   FormControl,
   FormField,
@@ -8,25 +8,29 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Slider,
-} from "@reactive-resume/ui";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+  Slider
+} from '@reactive-resume/ui'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { SectionDialog } from "../sections/shared/section-dialog";
+import { SectionDialog } from '../sections/shared/section-dialog'
 
-const formSchema = languageSchema;
+const formSchema = languageSchema
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<typeof formSchema>
 
 export const LanguagesDialog = () => {
   const form = useForm<FormValues>({
     defaultValues: defaultLanguage,
-    resolver: zodResolver(formSchema),
-  });
+    resolver: zodResolver(formSchema)
+  })
 
   return (
-    <SectionDialog<FormValues> id="languages" form={form} defaultValues={defaultLanguage}>
+    <SectionDialog<FormValues>
+      id="languages"
+      form={form}
+      defaultValues={defaultLanguage}
+    >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <FormField
           name="name"
@@ -70,7 +74,7 @@ export const LanguagesDialog = () => {
                     max={5}
                     value={[field.value]}
                     onValueChange={(value) => {
-                      field.onChange(value[0]);
+                      field.onChange(value[0])
                     }}
                   />
 
@@ -87,5 +91,5 @@ export const LanguagesDialog = () => {
         />
       </div>
     </SectionDialog>
-  );
-};
+  )
+}

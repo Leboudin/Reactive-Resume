@@ -1,32 +1,36 @@
-import { t } from "@lingui/macro";
+import { t } from '@lingui/macro'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  KeyboardShortcut,
-} from "@reactive-resume/ui";
-import { useNavigate } from "react-router-dom";
+  KeyboardShortcut
+} from '@reactive-resume/ui'
+import { useNavigate } from 'react-router-dom'
 
-import { useLogout } from "../services/auth";
+import { useLogout } from '../services/auth'
 
 type Props = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
 export const UserOptions = ({ children }: Props) => {
-  const navigate = useNavigate();
-  const { logout } = useLogout();
+  const navigate = useNavigate()
+  const { logout } = useLogout()
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
 
-      <DropdownMenuContent side="top" align="start" className="w-48">
+      <DropdownMenuContent
+        side="top"
+        align="start"
+        className="w-48"
+      >
         <DropdownMenuItem
           onClick={() => {
-            navigate("/dashboard/settings");
+            navigate('/dashboard/settings')
           }}
         >
           {t`Settings`}
@@ -41,5 +45,5 @@ export const UserOptions = ({ children }: Props) => {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  );
-};
+  )
+}

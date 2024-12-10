@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from 'zod'
 
-import { defaultItem, defaultUrl, itemSchema, urlSchema } from "../shared";
+import { defaultItem, defaultUrl, itemSchema, urlSchema } from '../shared'
 
 // Schema
 export const certificationSchema = itemSchema.extend({
@@ -8,18 +8,18 @@ export const certificationSchema = itemSchema.extend({
   issuer: z.string(),
   date: z.string(),
   summary: z.string(),
-  url: urlSchema,
-});
+  url: urlSchema
+})
 
 // Type
-export type Certification = z.infer<typeof certificationSchema>;
+export type Certification = z.infer<typeof certificationSchema>
 
 // Defaults
 export const defaultCertification: Certification = {
   ...defaultItem,
-  name: "",
-  issuer: "",
-  date: "",
-  summary: "",
-  url: defaultUrl,
-};
+  name: '',
+  issuer: '',
+  date: '',
+  summary: '',
+  url: defaultUrl
+}

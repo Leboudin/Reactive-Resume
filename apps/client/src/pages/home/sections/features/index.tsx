@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { t } from '@lingui/macro'
 import {
   Brain,
   Cloud,
@@ -23,24 +23,24 @@ import {
   Star,
   Swatches,
   TextAa,
-  Translate,
-} from "@phosphor-icons/react";
-import { cn, languages, templatesList } from "@reactive-resume/utils";
-import { motion } from "framer-motion";
+  Translate
+} from '@phosphor-icons/react'
+import { cn, languages, templatesList } from '@reactive-resume/utils'
+import { motion } from 'framer-motion'
 
 type Feature = {
-  icon: React.ReactNode;
-  title: string;
-  className?: string;
-};
+  icon: React.ReactNode
+  title: string
+  className?: string
+}
 
 const featureLabel = cn(
-  "flex cursor-default items-center justify-center gap-x-2 rounded bg-secondary px-4 py-3 text-sm font-medium leading-none text-primary transition-colors hover:bg-primary hover:text-background",
-);
+  'flex cursor-default items-center justify-center gap-x-2 rounded bg-secondary px-4 py-3 text-sm font-medium leading-none text-primary transition-colors hover:bg-primary hover:text-background'
+)
 
 export const FeaturesSection = () => {
-  const languagesCount = languages.length;
-  const templatesCount = templatesList.length;
+  const languagesCount = languages.length
+  const templatesCount = templatesList.length
 
   const features: Feature[] = [
     { icon: <CurrencyDollarSimple />, title: t`Free, forever` },
@@ -70,15 +70,30 @@ export const FeaturesSection = () => {
     {
       icon: (
         <div className="flex items-center space-x-1">
-          <img src="https://cdn.simpleicons.org/react" alt="React" width={14} height={14} />
-          <img src="https://cdn.simpleicons.org/vite" alt="Vite" width={14} height={14} />
+          <img
+            src="https://cdn.simpleicons.org/react"
+            alt="React"
+            width={14}
+            height={14}
+          />
+          <img
+            src="https://cdn.simpleicons.org/vite"
+            alt="Vite"
+            width={14}
+            height={14}
+          />
           <img
             src="https://cdn.simpleicons.org/tailwindcss"
             alt="TailwindCSS"
             width={14}
             height={14}
           />
-          <img src="https://cdn.simpleicons.org/nestjs" alt="NestJS" width={14} height={14} />
+          <img
+            src="https://cdn.simpleicons.org/nestjs"
+            alt="NestJS"
+            width={14}
+            height={14}
+          />
           <img
             src="https://cdn.simpleicons.org/googlechrome"
             alt="Google Chrome"
@@ -94,12 +109,15 @@ export const FeaturesSection = () => {
         </div>
       ),
       title: t`Powered by`,
-      className: "flex-row-reverse",
-    },
-  ];
+      className: 'flex-row-reverse'
+    }
+  ]
 
   return (
-    <section id="features" className="relative bg-secondary-accent py-24 sm:py-32">
+    <section
+      id="features"
+      className="relative bg-secondary-accent py-24 sm:py-32"
+    >
       <div className="container">
         <div className="space-y-6 leading-loose">
           <h2 className="text-4xl font-bold">{t`Rich in features, not in pricing.`}</h2>
@@ -107,7 +125,7 @@ export const FeaturesSection = () => {
             {t`Reactive Resume is a passion project of over 3 years of hard work, and with that comes a number of re-iterated ideas and features that have been built to (near) perfection.`}
           </p>
 
-          <IconContext.Provider value={{ size: 14, weight: "bold" }}>
+          <IconContext.Provider value={{ size: 14, weight: 'bold' }}>
             <div className="!mt-12 flex flex-wrap items-center gap-4">
               {features.map((feature, index) => (
                 <motion.div
@@ -128,7 +146,7 @@ export const FeaturesSection = () => {
                 whileInView={{
                   opacity: 1,
                   x: 0,
-                  transition: { delay: (features.length + 1) * 0.1 },
+                  transition: { delay: (features.length + 1) * 0.1 }
                 }}
               >
                 {t`and many more...`}
@@ -138,5 +156,5 @@ export const FeaturesSection = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}

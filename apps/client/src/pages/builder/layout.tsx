@@ -1,18 +1,18 @@
-import { useBreakpoint } from "@reactive-resume/hooks";
-import { Panel, PanelGroup, PanelResizeHandle, Sheet, SheetContent } from "@reactive-resume/ui";
-import { cn } from "@reactive-resume/utils";
-import { Outlet } from "react-router-dom";
+import { useBreakpoint } from '@reactive-resume/hooks'
+import { Panel, PanelGroup, PanelResizeHandle, Sheet, SheetContent } from '@reactive-resume/ui'
+import { cn } from '@reactive-resume/utils'
+import { Outlet } from 'react-router-dom'
 
-import { useBuilderStore } from "@/client/stores/builder";
+import { useBuilderStore } from '@/client/stores/builder'
 
-import { BuilderHeader } from "./_components/header";
-import { BuilderToolbar } from "./_components/toolbar";
-import { LeftSidebar } from "./sidebars/left";
-import { RightSidebar } from "./sidebars/right";
+import { BuilderHeader } from './_components/header'
+import { BuilderToolbar } from './_components/toolbar'
+import { LeftSidebar } from './sidebars/left'
+import { RightSidebar } from './sidebars/right'
 
 const onOpenAutoFocus = (event: Event) => {
-  event.preventDefault();
-};
+  event.preventDefault()
+}
 
 const OutletSlot = () => (
   <>
@@ -24,18 +24,18 @@ const OutletSlot = () => (
 
     <BuilderToolbar />
   </>
-);
+)
 
 export const BuilderLayout = () => {
-  const { isDesktop } = useBreakpoint();
+  const { isDesktop } = useBreakpoint()
 
-  const sheet = useBuilderStore((state) => state.sheet);
+  const sheet = useBuilderStore((state) => state.sheet)
 
-  const leftSetSize = useBuilderStore((state) => state.panel.left.setSize);
-  const rightSetSize = useBuilderStore((state) => state.panel.right.setSize);
+  const leftSetSize = useBuilderStore((state) => state.panel.left.setSize)
+  const rightSetSize = useBuilderStore((state) => state.panel.right.setSize)
 
-  const leftHandle = useBuilderStore((state) => state.panel.left.handle);
-  const rightHandle = useBuilderStore((state) => state.panel.right.handle);
+  const leftHandle = useBuilderStore((state) => state.panel.left.handle)
+  const rightHandle = useBuilderStore((state) => state.panel.right.handle)
 
   if (isDesktop) {
     return (
@@ -45,7 +45,7 @@ export const BuilderLayout = () => {
             minSize={25}
             maxSize={45}
             defaultSize={30}
-            className={cn("z-10 bg-background", !leftHandle.isDragging && "transition-[flex]")}
+            className={cn('z-10 bg-background', !leftHandle.isDragging && 'transition-[flex]')}
             onResize={leftSetSize}
           >
             <LeftSidebar />
@@ -65,19 +65,22 @@ export const BuilderLayout = () => {
             minSize={25}
             maxSize={45}
             defaultSize={30}
-            className={cn("z-10 bg-background", !rightHandle.isDragging && "transition-[flex]")}
+            className={cn('z-10 bg-background', !rightHandle.isDragging && 'transition-[flex]')}
             onResize={rightSetSize}
           >
             <RightSidebar />
           </Panel>
         </PanelGroup>
       </div>
-    );
+    )
   }
 
   return (
     <div className="relative">
-      <Sheet open={sheet.left.open} onOpenChange={sheet.left.setOpen}>
+      <Sheet
+        open={sheet.left.open}
+        onOpenChange={sheet.left.setOpen}
+      >
         <SheetContent
           side="left"
           showClose={false}
@@ -90,7 +93,10 @@ export const BuilderLayout = () => {
 
       <OutletSlot />
 
-      <Sheet open={sheet.right.open} onOpenChange={sheet.right.setOpen}>
+      <Sheet
+        open={sheet.right.open}
+        onOpenChange={sheet.right.setOpen}
+      >
         <SheetContent
           side="right"
           showClose={false}
@@ -101,5 +107,5 @@ export const BuilderLayout = () => {
         </SheetContent>
       </Sheet>
     </div>
-  );
-};
+  )
+}

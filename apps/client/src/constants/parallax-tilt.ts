@@ -1,4 +1,4 @@
-import { ReactParallaxTiltProps } from "react-parallax-tilt";
+import { ReactParallaxTiltProps } from 'react-parallax-tilt'
 
 export const defaultTiltProps: ReactParallaxTiltProps = {
   scale: 1.05,
@@ -7,5 +7,5 @@ export const defaultTiltProps: ReactParallaxTiltProps = {
   perspective: 1400,
   glareEnable: true,
   glareMaxOpacity: 0.1,
-  glareColor: "#fafafa",
-};
+  glareColor: '#fafafa'
+}

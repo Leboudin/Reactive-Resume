@@ -1,6 +1,6 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { t } from "@lingui/macro";
-import { certificationSchema, defaultCertification } from "@reactive-resume/schema";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { t } from '@lingui/macro'
+import { certificationSchema, defaultCertification } from '@reactive-resume/schema'
 import {
   FormControl,
   FormField,
@@ -8,35 +8,39 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  RichInput,
-} from "@reactive-resume/ui";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+  RichInput
+} from '@reactive-resume/ui'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { AiActions } from "@/client/components/ai-actions";
+import { AiActions } from '@/client/components/ai-actions'
 
-import { SectionDialog } from "../sections/shared/section-dialog";
-import { URLInput } from "../sections/shared/url-input";
+import { SectionDialog } from '../sections/shared/section-dialog'
+import { URLInput } from '../sections/shared/url-input'
 
-const formSchema = certificationSchema;
+const formSchema = certificationSchema
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<typeof formSchema>
 
 export const CertificationsDialog = () => {
   const form = useForm<FormValues>({
     defaultValues: defaultCertification,
-    resolver: zodResolver(formSchema),
-  });
+    resolver: zodResolver(formSchema)
+  })
 
   return (
-    <SectionDialog<FormValues> id="certifications" form={form} defaultValues={defaultCertification}>
+    <SectionDialog<FormValues>
+      id="certifications"
+      form={form}
+      defaultValues={defaultCertification}
+    >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <FormField
           name="name"
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t({ message: "Name", context: "Name of the Certification" })}</FormLabel>
+              <FormLabel>{t({ message: 'Name', context: 'Name of the Certification' })}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -66,7 +70,10 @@ export const CertificationsDialog = () => {
             <FormItem>
               <FormLabel>{t`Date`}</FormLabel>
               <FormControl>
-                <Input {...field} placeholder={t`March 2023`} />
+                <Input
+                  {...field}
+                  placeholder={t`March 2023`}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -80,7 +87,10 @@ export const CertificationsDialog = () => {
             <FormItem>
               <FormLabel>{t`Website`}</FormLabel>
               <FormControl>
-                <URLInput {...field} placeholder="https://udemy.com/certificate/UC-..." />
+                <URLInput
+                  {...field}
+                  placeholder="https://udemy.com/certificate/UC-..."
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -98,10 +108,13 @@ export const CertificationsDialog = () => {
                   {...field}
                   content={field.value}
                   footer={(editor) => (
-                    <AiActions value={editor.getText()} onChange={editor.commands.setContent} />
+                    <AiActions
+                      value={editor.getText()}
+                      onChange={editor.commands.setContent}
+                    />
                   )}
                   onChange={(value) => {
-                    field.onChange(value);
+                    field.onChange(value)
                   }}
                 />
               </FormControl>
@@ -111,5 +124,5 @@ export const CertificationsDialog = () => {
         />
       </div>
     </SectionDialog>
-  );
-};
+  )
+}

@@ -1,6 +1,6 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { t } from "@lingui/macro";
-import { defaultEducation, educationSchema } from "@reactive-resume/schema";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { t } from '@lingui/macro'
+import { defaultEducation, educationSchema } from '@reactive-resume/schema'
 import {
   FormControl,
   FormField,
@@ -8,28 +8,32 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  RichInput,
-} from "@reactive-resume/ui";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+  RichInput
+} from '@reactive-resume/ui'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { AiActions } from "@/client/components/ai-actions";
+import { AiActions } from '@/client/components/ai-actions'
 
-import { SectionDialog } from "../sections/shared/section-dialog";
-import { URLInput } from "../sections/shared/url-input";
+import { SectionDialog } from '../sections/shared/section-dialog'
+import { URLInput } from '../sections/shared/url-input'
 
-const formSchema = educationSchema;
+const formSchema = educationSchema
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<typeof formSchema>
 
 export const EducationDialog = () => {
   const form = useForm<FormValues>({
     defaultValues: defaultEducation,
-    resolver: zodResolver(formSchema),
-  });
+    resolver: zodResolver(formSchema)
+  })
 
   return (
-    <SectionDialog<FormValues> id="education" form={form} defaultValues={defaultEducation}>
+    <SectionDialog<FormValues>
+      id="education"
+      form={form}
+      defaultValues={defaultEducation}
+    >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <FormField
           name="institution"
@@ -52,8 +56,8 @@ export const EducationDialog = () => {
             <FormItem>
               <FormLabel>
                 {t({
-                  message: "Type of Study",
-                  comment: "For example, Bachelor's Degree or Master's Degree",
+                  message: 'Type of Study',
+                  comment: "For example, Bachelor's Degree or Master's Degree"
                 })}
               </FormLabel>
               <FormControl>
@@ -71,8 +75,8 @@ export const EducationDialog = () => {
             <FormItem>
               <FormLabel>
                 {t({
-                  message: "Area of Study",
-                  comment: "For example, Computer Science or Business Administration",
+                  message: 'Area of Study',
+                  comment: 'For example, Computer Science or Business Administration'
                 })}
               </FormLabel>
               <FormControl>
@@ -90,12 +94,15 @@ export const EducationDialog = () => {
             <FormItem>
               <FormLabel>
                 {t({
-                  message: "Score",
-                  comment: "Score or honors for the degree, for example, CGPA or magna cum laude",
+                  message: 'Score',
+                  comment: 'Score or honors for the degree, for example, CGPA or magna cum laude'
                 })}
               </FormLabel>
               <FormControl>
-                <Input {...field} placeholder="9.2 GPA" />
+                <Input
+                  {...field}
+                  placeholder="9.2 GPA"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -109,7 +116,10 @@ export const EducationDialog = () => {
             <FormItem className="sm:col-span-2">
               <FormLabel>{t`Date or Date Range`}</FormLabel>
               <FormControl>
-                <Input {...field} placeholder={t`March 2023 - Present`} />
+                <Input
+                  {...field}
+                  placeholder={t`March 2023 - Present`}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -141,10 +151,13 @@ export const EducationDialog = () => {
                   {...field}
                   content={field.value}
                   footer={(editor) => (
-                    <AiActions value={editor.getText()} onChange={editor.commands.setContent} />
+                    <AiActions
+                      value={editor.getText()}
+                      onChange={editor.commands.setContent}
+                    />
                   )}
                   onChange={(value) => {
-                    field.onChange(value);
+                    field.onChange(value)
                   }}
                 />
               </FormControl>
@@ -154,5 +167,5 @@ export const EducationDialog = () => {
         />
       </div>
     </SectionDialog>
-  );
-};
+  )
+}

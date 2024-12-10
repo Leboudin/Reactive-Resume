@@ -1,6 +1,6 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { t, Trans } from "@lingui/macro";
-import { FloppyDisk, TrashSimple } from "@phosphor-icons/react";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { t, Trans } from '@lingui/macro'
+import { FloppyDisk, TrashSimple } from '@phosphor-icons/react'
 import {
   Alert,
   Button,
@@ -10,66 +10,66 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-} from "@reactive-resume/ui";
-import { cn } from "@reactive-resume/utils";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+  Input
+} from '@reactive-resume/ui'
+import { cn } from '@reactive-resume/utils'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { useOpenAiStore } from "@/client/stores/openai";
-import { DEFAULT_MAX_TOKENS, DEFAULT_MODEL } from "@/client/constants/llm";
+import { useOpenAiStore } from '@/client/stores/openai'
+import { DEFAULT_MAX_TOKENS, DEFAULT_MODEL } from '@/client/constants/llm'
 
 const formSchema = z.object({
   apiKey: z
     .string()
     // eslint-disable-next-line lingui/t-call-in-function
     .regex(/^sk-.+$/, t`That doesn't look like a valid OpenAI API key.`)
-    .default(""),
+    .default(''),
   baseURL: z
     .string()
     .regex(/https?:\/\/[^\/]+\/?v1$/, t`That doesn't look like a valid URL`)
-    .default(""),
+    .default(''),
   model: z.string().default(DEFAULT_MODEL),
-  maxTokens: z.number().default(DEFAULT_MAX_TOKENS),
-});
+  maxTokens: z.number().default(DEFAULT_MAX_TOKENS)
+})
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<typeof formSchema>
 
 export const OpenAISettings = () => {
   const { apiKey, setApiKey, baseURL, setBaseURL, model, setModel, maxTokens, setMaxTokens } =
-    useOpenAiStore();
-  const isEnabled = !!apiKey || !!baseURL || !!model || !!maxTokens;
+    useOpenAiStore()
+  const isEnabled = !!apiKey || !!baseURL || !!model || !!maxTokens
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      apiKey: apiKey ?? "",
-      baseURL: baseURL ?? "",
+      apiKey: apiKey ?? '',
+      baseURL: baseURL ?? '',
       model: model ?? DEFAULT_MODEL,
-      maxTokens: maxTokens ?? DEFAULT_MAX_TOKENS,
-    },
-  });
+      maxTokens: maxTokens ?? DEFAULT_MAX_TOKENS
+    }
+  })
 
   const onSubmit = ({ apiKey, baseURL, model, maxTokens }: FormValues) => {
-    setApiKey(apiKey);
+    setApiKey(apiKey)
     if (baseURL) {
-      setBaseURL(baseURL);
+      setBaseURL(baseURL)
     }
     if (model) {
-      setModel(model);
+      setModel(model)
     }
     if (maxTokens) {
-      setMaxTokens(maxTokens);
+      setMaxTokens(maxTokens)
     }
-  };
+  }
 
   const onRemove = () => {
-    setApiKey(null);
-    setBaseURL(null);
-    setModel(DEFAULT_MODEL);
-    setMaxTokens(DEFAULT_MAX_TOKENS);
-    form.reset({ apiKey: "", baseURL: "", model: DEFAULT_MODEL, maxTokens: DEFAULT_MAX_TOKENS });
-  };
+    setApiKey(null)
+    setBaseURL(null)
+    setModel(DEFAULT_MODEL)
+    setMaxTokens(DEFAULT_MAX_TOKENS)
+    form.reset({ apiKey: '', baseURL: '', model: DEFAULT_MODEL, maxTokens: DEFAULT_MAX_TOKENS })
+  }
 
   return (
     <div className="space-y-6">
@@ -83,7 +83,7 @@ export const OpenAISettings = () => {
       <div className="prose prose-sm prose-zinc max-w-full dark:prose-invert">
         <p>
           <Trans>
-            You have the option to{" "}
+            You have the option to{' '}
             <a
               target="_blank"
               rel="noopener noreferrer nofollow"
@@ -111,7 +111,10 @@ export const OpenAISettings = () => {
       </div>
 
       <Form {...form}>
-        <form className="grid gap-6 sm:grid-cols-2" onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          className="grid gap-6 sm:grid-cols-2"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
           <FormField
             name="apiKey"
             control={form.control}
@@ -119,7 +122,11 @@ export const OpenAISettings = () => {
               <FormItem>
                 <FormLabel>{t`OpenAI / Ollama API Key`}</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="sk-..." {...field} />
+                  <Input
+                    type="password"
+                    placeholder="sk-..."
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -132,7 +139,11 @@ export const OpenAISettings = () => {
               <FormItem>
                 <FormLabel>{t`Base URL`}</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="http://localhost:11434/v1" {...field} />
+                  <Input
+                    type="text"
+                    placeholder="http://localhost:11434/v1"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -145,7 +156,11 @@ export const OpenAISettings = () => {
               <FormItem>
                 <FormLabel>{t`Model`}</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder={DEFAULT_MODEL} {...field} />
+                  <Input
+                    type="text"
+                    placeholder={DEFAULT_MODEL}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -171,17 +186,24 @@ export const OpenAISettings = () => {
           />
           <div
             className={cn(
-              "flex items-center space-x-2 self-end sm:col-start-2",
-              !!form.formState.errors.apiKey && "self-center",
+              'flex items-center space-x-2 self-end sm:col-start-2',
+              !!form.formState.errors.apiKey && 'self-center'
             )}
           >
-            <Button type="submit" disabled={!form.formState.isValid}>
+            <Button
+              type="submit"
+              disabled={!form.formState.isValid}
+            >
               {isEnabled && <FloppyDisk className="mr-2" />}
               {isEnabled ? t`Saved` : t`Save Locally`}
             </Button>
 
             {isEnabled && (
-              <Button type="reset" variant="ghost" onClick={onRemove}>
+              <Button
+                type="reset"
+                variant="ghost"
+                onClick={onRemove}
+              >
                 <TrashSimple className="mr-2" />
                 {t`Forget`}
               </Button>
@@ -204,22 +226,22 @@ export const OpenAISettings = () => {
         <div className="prose prose-neutral max-w-full text-xs leading-relaxed text-primary dark:prose-invert">
           <Trans>
             <span className="font-medium">Note: </span>
-            By utilizing the OpenAI API, you acknowledge and accept the{" "}
+            By utilizing the OpenAI API, you acknowledge and accept the{' '}
             <a
               href="https://openai.com/policies/terms-of-use"
               rel="noopener noreferrer nofollow"
               target="_blank"
             >
               terms of use
-            </a>{" "}
-            and{" "}
+            </a>{' '}
+            and{' '}
             <a
               href="https://openai.com/policies/privacy-policy"
               rel="noopener noreferrer nofollow"
               target="_blank"
             >
               privacy policy
-            </a>{" "}
+            </a>{' '}
             outlined by OpenAI. Please note that Reactive Resume bears no responsibility for any
             improper or unauthorized utilization of the service, and any resulting repercussions or
             liabilities solely rest on the user.
@@ -227,5 +249,5 @@ export const OpenAISettings = () => {
         </div>
       </Alert>
     </div>
-  );
-};
+  )
+}

@@ -1,18 +1,22 @@
-import { t } from "@lingui/macro";
-import { GithubLogo, GoogleLogo } from "@phosphor-icons/react";
-import { Button } from "@reactive-resume/ui";
+import { t } from '@lingui/macro'
+import { GithubLogo, GoogleLogo } from '@phosphor-icons/react'
+import { Button } from '@reactive-resume/ui'
 
-import { useAuthProviders } from "@/client/services/auth/providers";
+import { useAuthProviders } from '@/client/services/auth/providers'
 
 export const SocialAuth = () => {
-  const { providers } = useAuthProviders();
+  const { providers } = useAuthProviders()
 
-  if (!providers || providers.length === 0) return null;
+  if (!providers || providers.length === 0) return null
 
   return (
     <div className="grid grid-cols-2 gap-4">
-      {providers.includes("github") && (
-        <Button asChild size="lg" className="w-full !bg-[#222] !text-white hover:!bg-[#222]/80">
+      {providers.includes('github') && (
+        <Button
+          asChild
+          size="lg"
+          className="w-full !bg-[#222] !text-white hover:!bg-[#222]/80"
+        >
           <a href="/api/auth/github">
             <GithubLogo className="mr-3 size-4" />
             {t`GitHub`}
@@ -20,7 +24,7 @@ export const SocialAuth = () => {
         </Button>
       )}
 
-      {providers.includes("google") && (
+      {providers.includes('google') && (
         <Button
           asChild
           size="lg"
@@ -33,5 +37,5 @@ export const SocialAuth = () => {
         </Button>
       )}
     </div>
-  );
-};
+  )
+}

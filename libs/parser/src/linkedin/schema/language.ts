@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from 'zod'
 
 export const languageSchema = z.object({
   Name: z.string(),
-  Proficiency: z.string().optional(),
-});
+  Proficiency: z.string().optional()
+})

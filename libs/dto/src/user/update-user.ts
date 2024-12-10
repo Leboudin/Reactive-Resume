@@ -1,13 +1,13 @@
-import { createZodDto } from "nestjs-zod/dto";
+import { createZodDto } from 'nestjs-zod/dto'
 
-import { userSchema } from "./user";
+import { userSchema } from './user'
 
 export const updateUserSchema = userSchema.partial().pick({
   name: true,
   locale: true,
   username: true,
   email: true,
-  picture: true,
-});
+  picture: true
+})
 
 export class UpdateUserDto extends createZodDto(updateUserSchema) {}

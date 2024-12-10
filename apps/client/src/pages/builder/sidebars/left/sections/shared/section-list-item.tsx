@@ -1,29 +1,29 @@
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { t } from "@lingui/macro";
-import { CopySimple, DotsSixVertical, PencilSimple, TrashSimple } from "@phosphor-icons/react";
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { t } from '@lingui/macro'
+import { CopySimple, DotsSixVertical, PencilSimple, TrashSimple } from '@phosphor-icons/react'
 import {
   ContextMenu,
   ContextMenuCheckboxItem,
   ContextMenuContent,
   ContextMenuItem,
-  ContextMenuTrigger,
-} from "@reactive-resume/ui";
-import { cn } from "@reactive-resume/utils";
-import { motion } from "framer-motion";
+  ContextMenuTrigger
+} from '@reactive-resume/ui'
+import { cn } from '@reactive-resume/utils'
+import { motion } from 'framer-motion'
 
 export type SectionListItemProps = {
-  id: string;
-  title: string;
-  visible?: boolean;
-  description?: string;
+  id: string
+  title: string
+  visible?: boolean
+  description?: string
 
   // Callbacks
-  onUpdate?: () => void;
-  onDuplicate?: () => void;
-  onDelete?: () => void;
-  onToggleVisibility?: () => void;
-};
+  onUpdate?: () => void
+  onDuplicate?: () => void
+  onDelete?: () => void
+  onToggleVisibility?: () => void
+}
 
 export const SectionListItem = ({
   id,
@@ -33,18 +33,18 @@ export const SectionListItem = ({
   onUpdate,
   onDuplicate,
   onDelete,
-  onToggleVisibility,
+  onToggleVisibility
 }: SectionListItemProps) => {
   const { setNodeRef, transform, transition, attributes, listeners, isDragging } = useSortable({
-    id,
-  });
+    id
+  })
 
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
     opacity: isDragging ? 0.5 : undefined,
     zIndex: isDragging ? 100 : undefined,
-    transition,
-  };
+    transition
+  }
 
   return (
     <motion.section
@@ -54,17 +54,23 @@ export const SectionListItem = ({
       exit={{ opacity: 0, x: -50 }}
       className="border-x border-t bg-secondary/10 first-of-type:rounded-t last-of-type:rounded-b last-of-type:border-b"
     >
-      <div style={style} className="flex transition-opacity">
+      <div
+        style={style}
+        className="flex transition-opacity"
+      >
         {/* Drag Handle */}
         <div
           {...listeners}
           {...attributes}
           className={cn(
-            "flex w-5 cursor-move items-center justify-center",
-            !isDragging && "hover:bg-secondary",
+            'flex w-5 cursor-move items-center justify-center',
+            !isDragging && 'hover:bg-secondary'
           )}
         >
-          <DotsSixVertical weight="bold" size={12} />
+          <DotsSixVertical
+            weight="bold"
+            size={12}
+          />
         </div>
 
         {/* List Item */}
@@ -72,8 +78,8 @@ export const SectionListItem = ({
           <ContextMenuTrigger asChild>
             <div
               className={cn(
-                "flex-1 cursor-context-menu p-4 hover:bg-secondary-accent",
-                !visible && "opacity-50",
+                'flex-1 cursor-context-menu p-4 hover:bg-secondary-accent',
+                !visible && 'opacity-50'
               )}
               onClick={onUpdate}
             >
@@ -82,7 +88,10 @@ export const SectionListItem = ({
             </div>
           </ContextMenuTrigger>
           <ContextMenuContent>
-            <ContextMenuCheckboxItem checked={visible} onCheckedChange={onToggleVisibility}>
+            <ContextMenuCheckboxItem
+              checked={visible}
+              onCheckedChange={onToggleVisibility}
+            >
               <span className="-ml-0.5">{t`Visible`}</span>
             </ContextMenuCheckboxItem>
             <ContextMenuItem onClick={onUpdate}>
@@ -93,7 +102,10 @@ export const SectionListItem = ({
               <CopySimple size={14} />
               <span className="ml-2">{t`Copy`}</span>
             </ContextMenuItem>
-            <ContextMenuItem className="text-error" onClick={onDelete}>
+            <ContextMenuItem
+              className="text-error"
+              onClick={onDelete}
+            >
               <TrashSimple size={14} />
               <span className="ml-2">{t`Remove`}</span>
             </ContextMenuItem>
@@ -101,5 +113,5 @@ export const SectionListItem = ({
         </ContextMenu>
       </div>
     </motion.section>
-  );
-};
+  )
+}

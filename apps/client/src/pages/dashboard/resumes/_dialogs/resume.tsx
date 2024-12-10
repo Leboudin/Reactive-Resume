@@ -1,8 +1,8 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { t } from "@lingui/macro";
-import { CaretDown, Flask, MagicWand, Plus } from "@phosphor-icons/react";
-import { createResumeSchema, ResumeDto } from "@reactive-resume/dto";
-import { idSchema, sampleResume } from "@reactive-resume/schema";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { t } from '@lingui/macro'
+import { CaretDown, Flask, MagicWand, Plus } from '@phosphor-icons/react'
+import { createResumeSchema, ResumeDto } from '@reactive-resume/dto'
+import { idSchema, sampleResume } from '@reactive-resume/schema'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -31,115 +31,118 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Tooltip,
-} from "@reactive-resume/ui";
-import { cn, generateRandomName, kebabCase } from "@reactive-resume/utils";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+  Tooltip
+} from '@reactive-resume/ui'
+import { cn, generateRandomName, kebabCase } from '@reactive-resume/utils'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { useCreateResume, useDeleteResume, useUpdateResume } from "@/client/services/resume";
-import { useImportResume } from "@/client/services/resume/import";
-import { useDialog } from "@/client/stores/dialog";
+import { useCreateResume, useDeleteResume, useUpdateResume } from '@/client/services/resume'
+import { useImportResume } from '@/client/services/resume/import'
+import { useDialog } from '@/client/stores/dialog'
 
-const formSchema = createResumeSchema.extend({ id: idSchema.optional() });
+const formSchema = createResumeSchema.extend({ id: idSchema.optional() })
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<typeof formSchema>
 
 export const ResumeDialog = () => {
-  const { isOpen, mode, payload, close } = useDialog<ResumeDto>("resume");
+  const { isOpen, mode, payload, close } = useDialog<ResumeDto>('resume')
 
-  const isCreate = mode === "create";
-  const isUpdate = mode === "update";
-  const isDelete = mode === "delete";
-  const isDuplicate = mode === "duplicate";
+  const isCreate = mode === 'create'
+  const isUpdate = mode === 'update'
+  const isDelete = mode === 'delete'
+  const isDuplicate = mode === 'duplicate'
 
-  const { createResume, loading: createLoading } = useCreateResume();
-  const { updateResume, loading: updateLoading } = useUpdateResume();
-  const { deleteResume, loading: deleteLoading } = useDeleteResume();
-  const { importResume: duplicateResume, loading: duplicateLoading } = useImportResume();
+  const { createResume, loading: createLoading } = useCreateResume()
+  const { updateResume, loading: updateLoading } = useUpdateResume()
+  const { deleteResume, loading: deleteLoading } = useDeleteResume()
+  const { importResume: duplicateResume, loading: duplicateLoading } = useImportResume()
 
-  const loading = createLoading || updateLoading || deleteLoading || duplicateLoading;
+  const loading = createLoading || updateLoading || deleteLoading || duplicateLoading
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { title: "", slug: "" },
-  });
+    defaultValues: { title: '', slug: '' }
+  })
 
   useEffect(() => {
-    if (isOpen) onReset();
-  }, [isOpen, payload]);
+    if (isOpen) onReset()
+  }, [isOpen, payload])
 
   useEffect(() => {
-    const slug = kebabCase(form.watch("title"));
-    form.setValue("slug", slug);
-  }, [form.watch("title")]);
+    const slug = kebabCase(form.watch('title'))
+    form.setValue('slug', slug)
+  }, [form.watch('title')])
 
   const onSubmit = async (values: FormValues) => {
     if (isCreate) {
-      await createResume({ slug: values.slug, title: values.title, visibility: "private" });
+      await createResume({ slug: values.slug, title: values.title, visibility: 'private' })
     }
 
     if (isUpdate) {
-      if (!payload.item?.id) return;
+      if (!payload.item?.id) return
 
       await updateResume({
         ...payload.item,
         title: values.title,
-        slug: values.slug,
-      });
+        slug: values.slug
+      })
     }
 
     if (isDuplicate) {
-      if (!payload.item?.id) return;
+      if (!payload.item?.id) return
 
       await duplicateResume({
         title: values.title,
         slug: values.slug,
-        data: payload.item.data,
-      });
+        data: payload.item.data
+      })
     }
 
     if (isDelete) {
-      if (!payload.item?.id) return;
+      if (!payload.item?.id) return
 
-      await deleteResume({ id: payload.item.id });
+      await deleteResume({ id: payload.item.id })
     }
 
-    close();
-  };
+    close()
+  }
 
   const onReset = () => {
-    if (isCreate) form.reset({ title: "", slug: "" });
+    if (isCreate) form.reset({ title: '', slug: '' })
     if (isUpdate)
-      form.reset({ id: payload.item?.id, title: payload.item?.title, slug: payload.item?.slug });
+      form.reset({ id: payload.item?.id, title: payload.item?.title, slug: payload.item?.slug })
     if (isDuplicate)
-      form.reset({ title: `${payload.item?.title} (Copy)`, slug: `${payload.item?.slug}-copy` });
+      form.reset({ title: `${payload.item?.title} (Copy)`, slug: `${payload.item?.slug}-copy` })
     if (isDelete)
-      form.reset({ id: payload.item?.id, title: payload.item?.title, slug: payload.item?.slug });
-  };
+      form.reset({ id: payload.item?.id, title: payload.item?.title, slug: payload.item?.slug })
+  }
 
   const onGenerateRandomName = () => {
-    const name = generateRandomName();
-    form.setValue("title", name);
-    form.setValue("slug", kebabCase(name));
-  };
+    const name = generateRandomName()
+    form.setValue('title', name)
+    form.setValue('slug', kebabCase(name))
+  }
 
   const onCreateSample = async () => {
-    const randomName = generateRandomName();
+    const randomName = generateRandomName()
 
     await duplicateResume({
       title: randomName,
       slug: kebabCase(randomName),
-      data: sampleResume,
-    });
+      data: sampleResume
+    })
 
-    close();
-  };
+    close()
+  }
 
   if (isDelete) {
     return (
-      <AlertDialog open={isOpen} onOpenChange={close}>
+      <AlertDialog
+        open={isOpen}
+        onOpenChange={close}
+      >
         <AlertDialogContent>
           <Form {...form}>
             <form>
@@ -152,7 +155,10 @@ export const ResumeDialog = () => {
 
               <AlertDialogFooter>
                 <AlertDialogCancel>{t`Cancel`}</AlertDialogCancel>
-                <AlertDialogAction variant="error" onClick={form.handleSubmit(onSubmit)}>
+                <AlertDialogAction
+                  variant="error"
+                  onClick={form.handleSubmit(onSubmit)}
+                >
                   {t`Delete`}
                 </AlertDialogAction>
               </AlertDialogFooter>
@@ -160,14 +166,20 @@ export const ResumeDialog = () => {
           </Form>
         </AlertDialogContent>
       </AlertDialog>
-    );
+    )
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={close}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={close}
+    >
       <DialogContent>
         <Form {...form}>
-          <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+          <form
+            className="space-y-4"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
             <DialogHeader>
               <DialogTitle>
                 <div className="flex items-center space-x-2.5">
@@ -194,7 +206,10 @@ export const ResumeDialog = () => {
                   <FormLabel>{t`Title`}</FormLabel>
                   <FormControl>
                     <div className="flex items-center justify-between gap-x-2">
-                      <Input {...field} className="flex-1" />
+                      <Input
+                        {...field}
+                        className="flex-1"
+                      />
 
                       {(isCreate || isDuplicate) && (
                         <Tooltip content={t`Generate a random title for your resume`}>
@@ -237,7 +252,7 @@ export const ResumeDialog = () => {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className={cn(isCreate && "rounded-r-none")}
+                  className={cn(isCreate && 'rounded-r-none')}
                 >
                   {isCreate && t`Create`}
                   {isUpdate && t`Save Changes`}
@@ -247,11 +262,18 @@ export const ResumeDialog = () => {
                 {isCreate && (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button type="button" size="icon" className="rounded-l-none border-l">
+                      <Button
+                        type="button"
+                        size="icon"
+                        className="rounded-l-none border-l"
+                      >
                         <CaretDown />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent side="right" align="center">
+                    <DropdownMenuContent
+                      side="right"
+                      align="center"
+                    >
                       <DropdownMenuItem onClick={onCreateSample}>
                         <Flask className="mr-2" />
                         {t`Create Sample Resume`}
@@ -265,5 +287,5 @@ export const ResumeDialog = () => {
         </Form>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}

@@ -1,13 +1,13 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get } from '@nestjs/common'
 
-import { TranslationService } from "./translation.service";
+import { TranslationService } from './translation.service'
 
-@Controller("translation")
+@Controller('translation')
 export class TranslationController {
   constructor(private readonly translationService: TranslationService) {}
 
-  @Get("/languages")
+  @Get('/languages')
   async languages() {
-    return this.translationService.fetchLanguages();
+    return this.translationService.fetchLanguages()
   }
 }

@@ -1,58 +1,58 @@
-import { Template } from "@reactive-resume/utils";
+import { Template } from '@reactive-resume/utils'
 
-import { Azurill } from "./azurill";
-import { Bronzor } from "./bronzor";
-import { Chikorita } from "./chikorita";
-import { Ditto } from "./ditto";
-import { Gengar } from "./gengar";
-import { Glalie } from "./glalie";
-import { Kakuna } from "./kakuna";
-import { Leafish } from "./leafish";
-import { Nosepass } from "./nosepass";
-import { Onyx } from "./onyx";
-import { Pikachu } from "./pikachu";
-import { Rhyhorn } from "./rhyhorn";
+import { Azurill } from './azurill'
+import { Bronzor } from './bronzor'
+import { Chikorita } from './chikorita'
+import { Ditto } from './ditto'
+import { Gengar } from './gengar'
+import { Glalie } from './glalie'
+import { Kakuna } from './kakuna'
+import { Leafish } from './leafish'
+import { Nosepass } from './nosepass'
+import { Onyx } from './onyx'
+import { Pikachu } from './pikachu'
+import { Rhyhorn } from './rhyhorn'
 
 export const getTemplate = (template: Template) => {
   switch (template) {
-    case "azurill": {
-      return Azurill;
+    case 'azurill': {
+      return Azurill
     }
-    case "bronzor": {
-      return Bronzor;
+    case 'bronzor': {
+      return Bronzor
     }
-    case "chikorita": {
-      return Chikorita;
+    case 'chikorita': {
+      return Chikorita
     }
-    case "ditto": {
-      return Ditto;
+    case 'ditto': {
+      return Ditto
     }
-    case "gengar": {
-      return Gengar;
+    case 'gengar': {
+      return Gengar
     }
-    case "glalie": {
-      return Glalie;
+    case 'glalie': {
+      return Glalie
     }
-    case "kakuna": {
-      return Kakuna;
+    case 'kakuna': {
+      return Kakuna
     }
-    case "leafish": {
-      return Leafish;
+    case 'leafish': {
+      return Leafish
     }
-    case "nosepass": {
-      return Nosepass;
+    case 'nosepass': {
+      return Nosepass
     }
-    case "onyx": {
-      return Onyx;
+    case 'onyx': {
+      return Onyx
     }
-    case "pikachu": {
-      return Pikachu;
+    case 'pikachu': {
+      return Pikachu
     }
-    case "rhyhorn": {
-      return Rhyhorn;
+    case 'rhyhorn': {
+      return Rhyhorn
     }
     default: {
-      return Onyx;
+      return Onyx
     }
   }
-};
+}

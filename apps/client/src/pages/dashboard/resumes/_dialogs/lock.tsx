@@ -1,5 +1,5 @@
-import { t } from "@lingui/macro";
-import { ResumeDto } from "@reactive-resume/dto";
+import { t } from '@lingui/macro'
+import { ResumeDto } from '@reactive-resume/dto'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -8,30 +8,33 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
-} from "@reactive-resume/ui";
+  AlertDialogTitle
+} from '@reactive-resume/ui'
 
-import { useLockResume } from "@/client/services/resume/lock";
-import { useDialog } from "@/client/stores/dialog";
+import { useLockResume } from '@/client/services/resume/lock'
+import { useDialog } from '@/client/stores/dialog'
 
 export const LockDialog = () => {
-  const { isOpen, mode, payload, close } = useDialog<ResumeDto>("lock");
+  const { isOpen, mode, payload, close } = useDialog<ResumeDto>('lock')
 
-  const isLockMode = mode === "create";
-  const isUnlockMode = mode === "update";
+  const isLockMode = mode === 'create'
+  const isUnlockMode = mode === 'update'
 
-  const { lockResume, loading } = useLockResume();
+  const { lockResume, loading } = useLockResume()
 
   const onSubmit = async () => {
-    if (!payload.item) return;
+    if (!payload.item) return
 
-    await lockResume({ id: payload.item.id, set: isLockMode });
+    await lockResume({ id: payload.item.id, set: isLockMode })
 
-    close();
-  };
+    close()
+  }
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={close}>
+    <AlertDialog
+      open={isOpen}
+      onOpenChange={close}
+    >
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
@@ -47,12 +50,16 @@ export const LockDialog = () => {
 
         <AlertDialogFooter>
           <AlertDialogCancel>{t`Cancel`}</AlertDialogCancel>
-          <AlertDialogAction variant="info" disabled={loading} onClick={onSubmit}>
+          <AlertDialogAction
+            variant="info"
+            disabled={loading}
+            onClick={onSubmit}
+          >
             {isLockMode && t`Lock`}
             {isUnlockMode && t`Unlock`}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  );
-};
+  )
+}

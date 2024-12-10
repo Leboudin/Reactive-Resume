@@ -1,15 +1,15 @@
-(function initializeTheme() {
+;(function initializeTheme() {
   try {
     if (
-      localStorage.theme === "dark" ||
+      localStorage.theme === 'dark' ||
       // eslint-disable-next-line lingui/no-unlocalized-strings
-      window.matchMedia("(prefers-color-scheme: dark)").matches
+      window.matchMedia('(prefers-color-scheme: dark)').matches
     ) {
-      document.documentElement.classList.add("dark");
+      document.documentElement.classList.add('dark')
     } else {
-      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.remove('dark')
     }
   } catch {
     // pass
   }
-})();
+})()

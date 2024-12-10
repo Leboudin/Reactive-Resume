@@ -1,11 +1,11 @@
-import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group";
-import { cn } from "@reactive-resume/utils";
-import { VariantProps } from "class-variance-authority";
-import { forwardRef } from "react";
+import * as ToggleGroupPrimitive from '@radix-ui/react-toggle-group'
+import { cn } from '@reactive-resume/utils'
+import { VariantProps } from 'class-variance-authority'
+import { forwardRef } from 'react'
 
-import { toggleVariants } from "../variants/toggle";
+import { toggleVariants } from '../variants/toggle'
 
-export const ToggleGroup = ToggleGroupPrimitive.Root;
+export const ToggleGroup = ToggleGroupPrimitive.Root
 
 export const ToggleGroupItem = forwardRef<
   React.ElementRef<typeof ToggleGroupPrimitive.Item>,
@@ -16,8 +16,8 @@ export const ToggleGroupItem = forwardRef<
     ref={ref}
     className={cn(
       toggleVariants({ variant, size, className }),
-      "rounded-none first:rounded-l last:rounded-r",
+      'rounded-none first:rounded-l last:rounded-r'
     )}
     {...props}
   />
-));
+))

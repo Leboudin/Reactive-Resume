@@ -1,23 +1,26 @@
-import { t } from "@lingui/macro";
-import { basicsSchema } from "@reactive-resume/schema";
-import { Input, Label } from "@reactive-resume/ui";
+import { t } from '@lingui/macro'
+import { basicsSchema } from '@reactive-resume/schema'
+import { Input, Label } from '@reactive-resume/ui'
 
-import { useResumeStore } from "@/client/stores/resume";
+import { useResumeStore } from '@/client/stores/resume'
 
-import { CustomFieldsSection } from "./custom/section";
-import { PictureSection } from "./picture/section";
-import { getSectionIcon } from "./shared/section-icon";
-import { URLInput } from "./shared/url-input";
+import { CustomFieldsSection } from './custom/section'
+import { PictureSection } from './picture/section'
+import { getSectionIcon } from './shared/section-icon'
+import { URLInput } from './shared/url-input'
 
 export const BasicsSection = () => {
-  const setValue = useResumeStore((state) => state.setValue);
-  const basics = useResumeStore((state) => state.resume.data.basics);
+  const setValue = useResumeStore((state) => state.setValue)
+  const basics = useResumeStore((state) => state.resume.data.basics)
 
   return (
-    <section id="basics" className="grid gap-y-6">
+    <section
+      id="basics"
+      className="grid gap-y-6"
+    >
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-x-4">
-          {getSectionIcon("basics")}
+          {getSectionIcon('basics')}
           <h2 className="line-clamp-1 text-3xl font-bold">{t`Basics`}</h2>
         </div>
       </header>
@@ -34,7 +37,7 @@ export const BasicsSection = () => {
             value={basics.name}
             hasError={!basicsSchema.pick({ name: true }).safeParse({ name: basics.name }).success}
             onChange={(event) => {
-              setValue("basics.name", event.target.value);
+              setValue('basics.name', event.target.value)
             }}
           />
         </div>
@@ -45,7 +48,7 @@ export const BasicsSection = () => {
             id="basics.headline"
             value={basics.headline}
             onChange={(event) => {
-              setValue("basics.headline", event.target.value);
+              setValue('basics.headline', event.target.value)
             }}
           />
         </div>
@@ -60,7 +63,7 @@ export const BasicsSection = () => {
               !basicsSchema.pick({ email: true }).safeParse({ email: basics.email }).success
             }
             onChange={(event) => {
-              setValue("basics.email", event.target.value);
+              setValue('basics.email', event.target.value)
             }}
           />
         </div>
@@ -72,7 +75,7 @@ export const BasicsSection = () => {
             value={basics.url}
             placeholder="https://example.com"
             onChange={(value) => {
-              setValue("basics.url", value);
+              setValue('basics.url', value)
             }}
           />
         </div>
@@ -84,7 +87,7 @@ export const BasicsSection = () => {
             placeholder="+1 (123) 4567 7890"
             value={basics.phone}
             onChange={(event) => {
-              setValue("basics.phone", event.target.value);
+              setValue('basics.phone', event.target.value)
             }}
           />
         </div>
@@ -95,7 +98,7 @@ export const BasicsSection = () => {
             id="basics.location"
             value={basics.location}
             onChange={(event) => {
-              setValue("basics.location", event.target.value);
+              setValue('basics.location', event.target.value)
             }}
           />
         </div>
@@ -103,5 +106,5 @@ export const BasicsSection = () => {
         <CustomFieldsSection className="sm:col-span-2" />
       </main>
     </section>
-  );
-};
+  )
+}

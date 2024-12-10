@@ -1,16 +1,16 @@
-import { t, Trans } from "@lingui/macro";
-import { Book, EnvelopeSimpleOpen, GithubLogo, HandHeart } from "@phosphor-icons/react";
+import { t, Trans } from '@lingui/macro'
+import { Book, EnvelopeSimpleOpen, GithubLogo, HandHeart } from '@phosphor-icons/react'
 import {
   buttonVariants,
   Card,
   CardContent,
   CardDescription,
   CardFooter,
-  CardTitle,
-} from "@reactive-resume/ui";
-import { cn } from "@reactive-resume/utils";
+  CardTitle
+} from '@reactive-resume/ui'
+import { cn } from '@reactive-resume/utils'
 
-import { getSectionIcon } from "../shared/section-icon";
+import { getSectionIcon } from '../shared/section-icon'
 
 const DonateCard = () => (
   <Card className="space-y-4 bg-info text-info-foreground">
@@ -32,16 +32,20 @@ const DonateCard = () => (
     <CardFooter>
       <a
         href="https://opencollective.com/reactive-resume"
-        className={cn(buttonVariants({ size: "sm" }))}
+        className={cn(buttonVariants({ size: 'sm' }))}
         rel="noopener noreferrer nofollow"
         target="_blank"
       >
-        <HandHeart size={14} weight="bold" className="mr-2" />
+        <HandHeart
+          size={14}
+          weight="bold"
+          className="mr-2"
+        />
         <span className="line-clamp-1">{t`Donate to Reactive Resume`}</span>
       </a>
     </CardFooter>
   </Card>
-);
+)
 
 const IssuesCard = () => (
   <Card className="space-y-4">
@@ -61,21 +65,32 @@ const IssuesCard = () => (
     <CardFooter className="space-x-4">
       <a
         href="https://github.com/AmruthPillai/Reactive-Resume/issues/new/choose"
-        className={cn(buttonVariants({ size: "sm" }))}
+        className={cn(buttonVariants({ size: 'sm' }))}
         rel="noopener noreferrer nofollow"
         target="_blank"
       >
-        <GithubLogo size={14} weight="bold" className="mr-2" />
+        <GithubLogo
+          size={14}
+          weight="bold"
+          className="mr-2"
+        />
         <span className="line-clamp-1">{t`Raise an issue`}</span>
       </a>
 
-      <a className={cn(buttonVariants({ size: "sm" }))} href="mailto:hello@amruthpillai.com">
-        <EnvelopeSimpleOpen size={14} weight="bold" className="mr-2" />
+      <a
+        className={cn(buttonVariants({ size: 'sm' }))}
+        href="mailto:hello@amruthpillai.com"
+      >
+        <EnvelopeSimpleOpen
+          size={14}
+          weight="bold"
+          className="mr-2"
+        />
         <span className="line-clamp-1">{t`Send me a message`}</span>
       </a>
     </CardFooter>
   </Card>
-);
+)
 
 const DocumentationCard = () => (
   <Card className="space-y-4">
@@ -96,24 +111,31 @@ const DocumentationCard = () => (
     </CardContent>
     <CardFooter className="space-x-4">
       <a
-        className={cn(buttonVariants({ size: "sm" }))}
+        className={cn(buttonVariants({ size: 'sm' }))}
         href="https://docs.rxresu.me/"
         target="_blank"
         rel="noopener noreferrer nofollow"
       >
-        <Book size={14} weight="bold" className="mr-2" />
+        <Book
+          size={14}
+          weight="bold"
+          className="mr-2"
+        />
         <span className="line-clamp-1">{t`Documentation`}</span>
       </a>
     </CardFooter>
   </Card>
-);
+)
 
 export const InformationSection = () => {
   return (
-    <section id="information" className="grid gap-y-6">
+    <section
+      id="information"
+      className="grid gap-y-6"
+    >
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-x-4">
-          {getSectionIcon("information")}
+          {getSectionIcon('information')}
           <h2 className="line-clamp-1 text-3xl font-bold">{t`Information`}</h2>
         </div>
       </header>
@@ -124,5 +146,5 @@ export const InformationSection = () => {
         <IssuesCard />
       </main>
     </section>
-  );
-};
+  )
+}

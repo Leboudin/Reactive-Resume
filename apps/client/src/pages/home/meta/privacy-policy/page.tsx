@@ -1,7 +1,7 @@
 /* eslint-disable lingui/no-unlocalized-strings */
 
-import { t } from "@lingui/macro";
-import { Helmet } from "react-helmet-async";
+import { t } from '@lingui/macro'
+import { Helmet } from 'react-helmet-async'
 
 export const PrivacyPolicyPage = () => (
   <main className="relative isolate bg-background">
@@ -110,4 +110,4 @@ export const PrivacyPolicyPage = () => (
       </ol>
     </section>
   </main>
-);
+)

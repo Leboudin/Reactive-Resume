@@ -1,13 +1,13 @@
-import { t } from "@lingui/macro";
-import { DownloadSimple } from "@phosphor-icons/react";
-import { KeyboardShortcut } from "@reactive-resume/ui";
+import { t } from '@lingui/macro'
+import { DownloadSimple } from '@phosphor-icons/react'
+import { KeyboardShortcut } from '@reactive-resume/ui'
 
-import { useDialog } from "@/client/stores/dialog";
+import { useDialog } from '@/client/stores/dialog'
 
-import { BaseListItem } from "./base-item";
+import { BaseListItem } from './base-item'
 
 export const ImportResumeListItem = () => {
-  const { open } = useDialog("import");
+  const { open } = useDialog('import')
 
   return (
     <BaseListItem
@@ -21,8 +21,8 @@ export const ImportResumeListItem = () => {
       }
       description={t`LinkedIn, JSON Resume, etc.`}
       onClick={() => {
-        open("create");
+        open('create')
       }}
     />
-  );
-};
+  )
+}

@@ -1,4 +1,4 @@
-import { createId } from "@paralleldrive/cuid2";
+import { createId } from '@paralleldrive/cuid2'
 import {
   defaultCertification,
   defaultEducation,
@@ -8,87 +8,87 @@ import {
   defaultProject,
   defaultResumeData,
   defaultSkill,
-  resumeDataSchema,
-} from "@reactive-resume/schema";
-import { extractUrl, Json, parseArrayLikeCSVEntry, parseCSV } from "@reactive-resume/utils";
-import * as JSZip from "jszip";
-import { Schema } from "zod";
+  resumeDataSchema
+} from '@reactive-resume/schema'
+import { extractUrl, Json, parseArrayLikeCSVEntry, parseCSV } from '@reactive-resume/utils'
+import * as JSZip from 'jszip'
+import { Schema } from 'zod'
 
-import { Parser } from "../interfaces/parser";
-import { LinkedIn, linkedInSchema } from "./schema";
+import { Parser } from '../interfaces/parser'
+import { LinkedIn, linkedInSchema } from './schema'
 
-export * from "./schema";
+export * from './schema'
 
 const avoidTooShort = (name: string, len: number) => {
-  if (!name || name.length < len) return "Unknown";
-  return name;
-};
+  if (!name || name.length < len) return 'Unknown'
+  return name
+}
 
 export class LinkedInParser implements Parser<JSZip, LinkedIn> {
-  schema: Schema;
+  schema: Schema
 
   constructor() {
-    this.schema = linkedInSchema;
+    this.schema = linkedInSchema
   }
 
   async readFile(file: File): Promise<JSZip> {
-    const data = await JSZip.loadAsync(file);
+    const data = await JSZip.loadAsync(file)
 
     if (Object.keys(data.files).length === 0) {
-      throw new Error("ParserError: There were no files found inside the zip archive.");
+      throw new Error('ParserError: There were no files found inside the zip archive.')
     }
 
-    return data;
+    return data
   }
 
   async validate(data: JSZip) {
-    const result: Json = {};
+    const result: Json = {}
 
     for (const [name, file] of Object.entries(data.files)) {
       for (const key of Object.keys(linkedInSchema.shape)) {
         if (name.includes(key)) {
-          const content = await file.async("text");
-          result[key] = await parseCSV(content);
+          const content = await file.async('text')
+          result[key] = await parseCSV(content)
         }
       }
     }
 
-    return linkedInSchema.parse(result);
+    return linkedInSchema.parse(result)
   }
 
   convert(data: LinkedIn) {
-    const result = JSON.parse(JSON.stringify(defaultResumeData));
+    const result = JSON.parse(JSON.stringify(defaultResumeData))
 
     // Profile
     if (data.Profile && data.Profile.length > 0) {
-      const profile = data.Profile[0];
-      const twitterHandle = profile["Twitter Handles"];
+      const profile = data.Profile[0]
+      const twitterHandle = profile['Twitter Handles']
 
-      result.basics.name = `${profile["First Name"]} ${profile["Last Name"]}`;
-      result.basics.location = profile["Geo Location"];
-      result.basics.headline = profile.Headline;
+      result.basics.name = `${profile['First Name']} ${profile['Last Name']}`
+      result.basics.location = profile['Geo Location']
+      result.basics.headline = profile.Headline
       // profile.Websites is represented as an array-like structure f.e. [COMPANY:https://some.link,PORTFOLIO:...]
       const extractFirstWebsiteLink = (entry: string) =>
-        (parseArrayLikeCSVEntry(entry)[0] ?? "").replace(/.*?:/, "");
-      result.basics.url.href = extractUrl(extractFirstWebsiteLink(profile.Websites)) ?? "";
-      result.sections.summary.content = profile.Summary;
+        (parseArrayLikeCSVEntry(entry)[0] ?? '').replace(/.*?:/, '')
+      result.basics.url.href = extractUrl(extractFirstWebsiteLink(profile.Websites)) ?? ''
+      result.sections.summary.content = profile.Summary
       if (twitterHandle) {
         result.sections.profiles.items.push({
           ...defaultProfile,
           id: createId(),
-          icon: "twitter",
-          network: "Twitter",
+          icon: 'twitter',
+          network: 'Twitter',
           username: twitterHandle,
-          url: { ...defaultProfile.url, href: `https://twitter.com/${twitterHandle}` },
-        });
+          url: { ...defaultProfile.url, href: `https://twitter.com/${twitterHandle}` }
+        })
       }
     }
 
     // Email Addresses
-    if (data["Email Addresses"] && data["Email Addresses"].length > 0) {
-      const email = data["Email Addresses"][0];
+    if (data['Email Addresses'] && data['Email Addresses'].length > 0) {
+      const email = data['Email Addresses'][0]
 
-      result.basics.email = email["Email Address"];
+      result.basics.email = email['Email Address']
     }
 
     // Positions
@@ -97,12 +97,12 @@ export class LinkedInParser implements Parser<JSZip, LinkedIn> {
         result.sections.experience.items.push({
           ...defaultExperience,
           id: createId(),
-          company: position["Company Name"],
+          company: position['Company Name'],
           position: position.Title,
           location: position.Location,
-          summary: position.Description ?? "",
-          date: `${position["Started On"]} - ${position["Finished On"] ?? "Present"}`,
-        });
+          summary: position.Description ?? '',
+          date: `${position['Started On']} - ${position['Finished On'] ?? 'Present'}`
+        })
       }
     }
 
@@ -112,11 +112,11 @@ export class LinkedInParser implements Parser<JSZip, LinkedIn> {
         result.sections.education.items.push({
           ...defaultEducation,
           id: createId(),
-          institution: avoidTooShort(education["School Name"], 2),
-          studyType: avoidTooShort(education["Degree Name"], 2),
-          summary: avoidTooShort(education.Notes ?? "", 2),
-          date: `${education["Start Date"]} - ${education["End Date"] ?? "Present"}`,
-        });
+          institution: avoidTooShort(education['School Name'], 2),
+          studyType: avoidTooShort(education['Degree Name'], 2),
+          summary: avoidTooShort(education.Notes ?? '', 2),
+          date: `${education['Start Date']} - ${education['End Date'] ?? 'Present'}`
+        })
       }
     }
 
@@ -126,8 +126,8 @@ export class LinkedInParser implements Parser<JSZip, LinkedIn> {
         result.sections.skills.items.push({
           ...defaultSkill,
           id: createId(),
-          name: skill.Name,
-        });
+          name: skill.Name
+        })
       }
     }
 
@@ -138,8 +138,8 @@ export class LinkedInParser implements Parser<JSZip, LinkedIn> {
           ...defaultLanguage,
           id: createId(),
           name: language.Name,
-          description: language.Proficiency ?? "",
-        });
+          description: language.Proficiency ?? ''
+        })
       }
     }
 
@@ -152,8 +152,8 @@ export class LinkedInParser implements Parser<JSZip, LinkedIn> {
           name: certification.Name,
           issuer: certification.Authority,
           url: { ...defaultCertification.url, href: certification.Url },
-          date: `${certification["Started On"]} - ${certification["Finished On"] ?? "Present"}`,
-        });
+          date: `${certification['Started On']} - ${certification['Finished On'] ?? 'Present'}`
+        })
       }
     }
 
@@ -165,12 +165,12 @@ export class LinkedInParser implements Parser<JSZip, LinkedIn> {
           id: createId(),
           name: project.Title,
           description: project.Description,
-          url: { ...defaultProject.url, href: project.Url ?? "" },
-          date: `${project["Started On"]} - ${project["Finished On"] ?? "Present"}`,
-        });
+          url: { ...defaultProject.url, href: project.Url ?? '' },
+          date: `${project['Started On']} - ${project['Finished On'] ?? 'Present'}`
+        })
       }
     }
 
-    return resumeDataSchema.parse(result);
+    return resumeDataSchema.parse(result)
   }
 }

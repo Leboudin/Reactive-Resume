@@ -1,8 +1,8 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { t, Trans } from "@lingui/macro";
-import { ArrowRight } from "@phosphor-icons/react";
-import { registerSchema } from "@reactive-resume/dto";
-import { usePasswordToggle } from "@reactive-resume/hooks";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { t, Trans } from '@lingui/macro'
+import { ArrowRight } from '@phosphor-icons/react'
+import { registerSchema } from '@reactive-resume/dto'
+import { usePasswordToggle } from '@reactive-resume/hooks'
 import {
   Alert,
   AlertTitle,
@@ -14,48 +14,48 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-} from "@reactive-resume/ui";
-import { cn } from "@reactive-resume/utils";
-import { useRef } from "react";
-import { Helmet } from "react-helmet-async";
-import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import { z } from "zod";
+  Input
+} from '@reactive-resume/ui'
+import { cn } from '@reactive-resume/utils'
+import { useRef } from 'react'
+import { Helmet } from 'react-helmet-async'
+import { useForm } from 'react-hook-form'
+import { Link, useNavigate } from 'react-router-dom'
+import { z } from 'zod'
 
-import { useRegister } from "@/client/services/auth";
-import { useFeatureFlags } from "@/client/services/feature";
+import { useRegister } from '@/client/services/auth'
+import { useFeatureFlags } from '@/client/services/feature'
 
-type FormValues = z.infer<typeof registerSchema>;
+type FormValues = z.infer<typeof registerSchema>
 
 export const RegisterPage = () => {
-  const navigate = useNavigate();
-  const { flags } = useFeatureFlags();
-  const { register, loading } = useRegister();
+  const navigate = useNavigate()
+  const { flags } = useFeatureFlags()
+  const { register, loading } = useRegister()
 
-  const formRef = useRef<HTMLFormElement>(null);
-  usePasswordToggle(formRef);
+  const formRef = useRef<HTMLFormElement>(null)
+  usePasswordToggle(formRef)
 
   const form = useForm<FormValues>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name: "",
-      username: "",
-      email: "",
-      password: "",
-      locale: "en-US",
-    },
-  });
+      name: '',
+      username: '',
+      email: '',
+      password: '',
+      locale: 'en-US'
+    }
+  })
 
   const onSubmit = async (data: FormValues) => {
     try {
-      await register(data);
+      await register(data)
 
-      navigate("/auth/verify-email");
+      navigate('/auth/verify-email')
     } catch {
-      form.reset();
+      form.reset()
     }
-  };
+  }
 
   return (
     <div className="space-y-8">
@@ -69,7 +69,11 @@ export const RegisterPage = () => {
         <h2 className="text-2xl font-semibold tracking-tight">{t`Create a new account`}</h2>
         <h6>
           <span className="opacity-75">{t`Already have an account?`}</span>
-          <Button asChild variant="link" className="px-1.5">
+          <Button
+            asChild
+            variant="link"
+            className="px-1.5"
+          >
             <Link to="/auth/login">
               {t`Sign in now`} <ArrowRight className="ml-1" />
             </Link>
@@ -83,7 +87,7 @@ export const RegisterPage = () => {
         </Alert>
       )}
 
-      <div className={cn(flags.isSignupsDisabled && "pointer-events-none select-none blur-sm")}>
+      <div className={cn(flags.isSignupsDisabled && 'pointer-events-none select-none blur-sm')}>
         <Form {...form}>
           <form
             ref={formRef}
@@ -99,9 +103,9 @@ export const RegisterPage = () => {
                   <FormControl>
                     <Input
                       placeholder={t({
-                        message: "John Doe",
+                        message: 'John Doe',
                         context:
-                          "Localized version of a placeholder name. For example, Max Mustermann in German or Jan Kowalski in Polish.",
+                          'Localized version of a placeholder name. For example, Max Mustermann in German or Jan Kowalski in Polish.'
                       })}
                       {...field}
                     />
@@ -120,9 +124,9 @@ export const RegisterPage = () => {
                   <FormControl>
                     <Input
                       placeholder={t({
-                        message: "john.doe",
+                        message: 'john.doe',
                         context:
-                          "Localized version of a placeholder username. For example, max.mustermann in German or jan.kowalski in Polish.",
+                          'Localized version of a placeholder username. For example, max.mustermann in German or jan.kowalski in Polish.'
                       })}
                       {...field}
                     />
@@ -141,9 +145,9 @@ export const RegisterPage = () => {
                   <FormControl>
                     <Input
                       placeholder={t({
-                        message: "john.doe@example.com",
+                        message: 'john.doe@example.com',
                         context:
-                          "Localized version of a placeholder email. For example, max.mustermann@example.de in German or jan.kowalski@example.pl in Polish.",
+                          'Localized version of a placeholder email. For example, max.mustermann@example.de in German or jan.kowalski@example.pl in Polish.'
                       })}
                       {...field}
                     />
@@ -160,7 +164,10 @@ export const RegisterPage = () => {
                 <FormItem>
                   <FormLabel>{t`Password`}</FormLabel>
                   <FormControl>
-                    <Input type="password" {...field} />
+                    <Input
+                      type="password"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
                     <Trans>
@@ -173,12 +180,15 @@ export const RegisterPage = () => {
               )}
             />
 
-            <Button disabled={loading} className="mt-4 w-full">
+            <Button
+              disabled={loading}
+              className="mt-4 w-full"
+            >
               {t`Sign up`}
             </Button>
           </form>
         </Form>
       </div>
     </div>
-  );
-};
+  )
+}

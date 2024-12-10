@@ -1,19 +1,22 @@
-import { t } from "@lingui/macro";
-import { RichInput } from "@reactive-resume/ui";
+import { t } from '@lingui/macro'
+import { RichInput } from '@reactive-resume/ui'
 
-import { useResumeStore } from "@/client/stores/resume";
+import { useResumeStore } from '@/client/stores/resume'
 
-import { getSectionIcon } from "../shared/section-icon";
+import { getSectionIcon } from '../shared/section-icon'
 
 export const NotesSection = () => {
-  const setValue = useResumeStore((state) => state.setValue);
-  const notes = useResumeStore((state) => state.resume.data.metadata.notes);
+  const setValue = useResumeStore((state) => state.setValue)
+  const notes = useResumeStore((state) => state.resume.data.metadata.notes)
 
   return (
-    <section id="notes" className="grid gap-y-6">
+    <section
+      id="notes"
+      className="grid gap-y-6"
+    >
       <header className="flex items-center justify-between">
         <div className="flex items-center gap-x-4">
-          {getSectionIcon("notes")}
+          {getSectionIcon('notes')}
           <h2 className="line-clamp-1 text-3xl font-bold">{t`Notes`}</h2>
         </div>
       </header>
@@ -27,7 +30,7 @@ export const NotesSection = () => {
           <RichInput
             content={notes}
             onChange={(content) => {
-              setValue("metadata.notes", content);
+              setValue('metadata.notes', content)
             }}
           />
 
@@ -37,5 +40,5 @@ export const NotesSection = () => {
         </div>
       </main>
     </section>
-  );
-};
+  )
+}

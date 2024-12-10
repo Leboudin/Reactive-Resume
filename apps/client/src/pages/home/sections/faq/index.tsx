@@ -1,10 +1,10 @@
 /* eslint-disable lingui/text-restrictions */
 /* eslint-disable lingui/no-unlocalized-strings */
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@reactive-resume/ui";
-import { cn } from "@reactive-resume/utils";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@reactive-resume/ui'
+import { cn } from '@reactive-resume/utils'
 
-import { useLanguages } from "@/client/services/resume/translation";
+import { useLanguages } from '@/client/services/resume/translation'
 
 // Who are you, and why did you build Reactive Resume?
 const Question1 = () => (
@@ -48,7 +48,7 @@ const Question1 = () => (
       </p>
     </AccordionContent>
   </AccordionItem>
-);
+)
 
 // How much does it cost to run Reactive Resume?
 const Question2 = () => (
@@ -72,14 +72,14 @@ const Question2 = () => (
 
       <p>
         But if you do feel like supporting the developer and the future development of Reactive
-        Resume, please donate (<em>only if you have some extra money lying around</em>) on my{" "}
+        Resume, please donate (<em>only if you have some extra money lying around</em>) on my{' '}
         <a href="https://github.com/sponsors/AmruthPillai/">GitHub Sponsors page</a>. You can choose
         to donate one-time or sponsor a recurring donation.
       </p>
 
       <p>
         Alternatively, if you are in the US, or you are a part of a large educational institution or
-        corporate organization, you can{" "}
+        corporate organization, you can{' '}
         <a href="https://opencollective.com/reactive-resume">
           support the project through Open Collective
         </a>
@@ -88,7 +88,7 @@ const Question2 = () => (
       </p>
     </AccordionContent>
   </AccordionItem>
-);
+)
 
 // Other than donating, how can I support you?
 const Question3 = () => (
@@ -98,8 +98,12 @@ const Question3 = () => (
     </AccordionTrigger>
     <AccordionContent className="prose max-w-none dark:prose-invert">
       <p>
-        <strong>If you speak a language other than English</strong>, sign up to be a translator on{" "}
-        <a href="https://translate.rxresu.me/" target="_blank" rel="noreferrer">
+        <strong>If you speak a language other than English</strong>, sign up to be a translator on{' '}
+        <a
+          href="https://translate.rxresu.me/"
+          target="_blank"
+          rel="noreferrer"
+        >
           Crowdin
         </a>
         , our translation management service. You can help translate the product to your language
@@ -116,24 +120,24 @@ const Question3 = () => (
       </p>
 
       <p>
-        <strong>If you found a bug or have an idea for a feature</strong>, raise an issue on{" "}
+        <strong>If you found a bug or have an idea for a feature</strong>, raise an issue on{' '}
         <a
           href="https://github.com/AmruthPillai/Reactive-Resume/issues/new/choose"
           target="_blank"
           rel="noreferrer"
         >
           GitHub
-        </a>{" "}
+        </a>{' '}
         or shoot me a message and let me know what you'd like to see. I can't promise that it'll be
         done soon, but juggling work, life and open-source, I'll definitely get to it when I can.
       </p>
     </AccordionContent>
   </AccordionItem>
-);
+)
 
 // What languages are supported on Reactive Resume?
 const Question4 = () => {
-  const { languages } = useLanguages();
+  const { languages } = useLanguages()
 
   return (
     <AccordionItem value="4">
@@ -161,9 +165,9 @@ const Question4 = () => {
                 {language.progress !== undefined && (
                   <span
                     className={cn(
-                      "inset-0 bg-warning px-1.5 py-1 text-xs text-white",
-                      language.progress < 40 && "bg-error",
-                      language.progress > 80 && "bg-success",
+                      'inset-0 bg-warning px-1.5 py-1 text-xs text-white',
+                      language.progress < 40 && 'bg-error',
+                      language.progress > 80 && 'bg-success'
                     )}
                   >
                     {language.progress}%
@@ -175,10 +179,14 @@ const Question4 = () => {
         </div>
 
         <p>
-          If you'd like to improve the translations for your language, please{" "}
-          <a href="https://crowdin.com/project/reactive-resume" rel="noreferrer" target="_blank">
+          If you'd like to improve the translations for your language, please{' '}
+          <a
+            href="https://crowdin.com/project/reactive-resume"
+            rel="noreferrer"
+            target="_blank"
+          >
             sign up as a translator on Crowdin
-          </a>{" "}
+          </a>{' '}
           and join the project. You can also choose to be notified of any new phrases that get added
           to the app.
         </p>
@@ -189,8 +197,8 @@ const Question4 = () => {
         </p>
       </AccordionContent>
     </AccordionItem>
-  );
-};
+  )
+}
 
 // How does the OpenAI Integration work?
 const Question5 = () => (
@@ -208,7 +216,7 @@ const Question5 = () => (
       <p>
         While most applications out there charge you a fee to use their AI services (rightfully so,
         because it isn't cheap), you can choose to enter your own OpenAI API key on the Settings
-        page (under OpenAI Integration).{" "}
+        page (under OpenAI Integration).{' '}
         <strong>The key is stored in your browser's local storage</strong>, which means that if you
         uninstall your browser, or even clear your data, the key is gone with it. All requests made
         to OpenAI are also sent directly to their service and does not hit the app servers at all.
@@ -222,10 +230,13 @@ const Question5 = () => (
       </p>
     </AccordionContent>
   </AccordionItem>
-);
+)
 
 export const FAQSection = () => (
-  <section id="faq" className="container relative py-24 sm:py-32">
+  <section
+    id="faq"
+    className="container relative py-24 sm:py-32"
+  >
     <div className="grid gap-12 lg:grid-cols-3">
       <div className="space-y-6">
         <h2 className="text-4xl font-bold">Frequently Asked Questions</h2>
@@ -241,7 +252,10 @@ export const FAQSection = () => (
       </div>
 
       <div className="col-span-2">
-        <Accordion collapsible type="single">
+        <Accordion
+          collapsible
+          type="single"
+        >
           <Question1 />
           <Question2 />
           <Question3 />
@@ -251,4 +265,4 @@ export const FAQSection = () => (
       </div>
     </div>
   </section>
-);
+)

@@ -1,21 +1,24 @@
-import { t } from "@lingui/macro";
-import { Avatar, AvatarFallback, AvatarImage, Tooltip } from "@reactive-resume/ui";
-import { cn } from "@reactive-resume/utils";
-import { motion } from "framer-motion";
-import { useMemo } from "react";
+import { t } from '@lingui/macro'
+import { Avatar, AvatarFallback, AvatarImage, Tooltip } from '@reactive-resume/ui'
+import { cn } from '@reactive-resume/utils'
+import { motion } from 'framer-motion'
+import { useMemo } from 'react'
 
-import { useContributors } from "@/client/services/resume/contributors";
+import { useContributors } from '@/client/services/resume/contributors'
 
 export const ContributorsSection = () => {
-  const { github, crowdin, loading } = useContributors();
+  const { github, crowdin, loading } = useContributors()
 
   const contributors = useMemo(() => {
-    if (github && crowdin) return [...github, ...crowdin];
-    return [];
-  }, [github, crowdin]);
+    if (github && crowdin) return [...github, ...crowdin]
+    return []
+  }, [github, crowdin])
 
   return (
-    <section id="contributors" className="container relative space-y-12 py-24 sm:py-32">
+    <section
+      id="contributors"
+      className="container relative space-y-12 py-24 sm:py-32"
+    >
       <div className="space-y-6 text-center">
         <h1 className="text-4xl font-bold">{t`By the community, for the community.`}</h1>
         <p className="mx-auto max-w-3xl leading-loose">
@@ -48,13 +51,20 @@ export const ContributorsSection = () => {
             key={index}
             viewport={{ once: true }}
             initial={{ opacity: 0, scale: 0 }}
-            className={cn(index >= 30 && "hidden lg:block")}
+            className={cn(index >= 30 && 'hidden lg:block')}
             whileInView={{ opacity: 1, scale: 1, transition: { delay: index * 0.025 } }}
           >
-            <a href={contributor.url} target="_blank" rel="noreferrer">
+            <a
+              href={contributor.url}
+              target="_blank"
+              rel="noreferrer"
+            >
               <Tooltip content={contributor.name}>
                 <Avatar>
-                  <AvatarImage src={contributor.avatar} alt={contributor.name} />
+                  <AvatarImage
+                    src={contributor.avatar}
+                    alt={contributor.name}
+                  />
                   <AvatarFallback>{contributor.name}</AvatarFallback>
                 </Avatar>
               </Tooltip>
@@ -63,5 +73,5 @@ export const ContributorsSection = () => {
         ))}
       </div>
     </section>
-  );
-};
+  )
+}

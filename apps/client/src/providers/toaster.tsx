@@ -4,19 +4,22 @@ import {
   ToastDescription,
   ToastProvider,
   ToastTitle,
-  ToastViewport,
-} from "@reactive-resume/ui";
+  ToastViewport
+} from '@reactive-resume/ui'
 
-import { useToast } from "../hooks/use-toast";
+import { useToast } from '../hooks/use-toast'
 
 export const Toaster = () => {
-  const { toasts } = useToast();
+  const { toasts } = useToast()
 
   return (
     <ToastProvider>
       {toasts.map(({ id, icon, title, description, action, ...props }) => {
         return (
-          <Toast key={id} {...props}>
+          <Toast
+            key={id}
+            {...props}
+          >
             <div className="grid gap-1">
               <div className="flex items-center gap-x-2">
                 {icon}
@@ -28,10 +31,10 @@ export const Toaster = () => {
             {action}
             <ToastClose />
           </Toast>
-        );
+        )
       })}
 
       <ToastViewport />
     </ToastProvider>
-  );
-};
+  )
+}

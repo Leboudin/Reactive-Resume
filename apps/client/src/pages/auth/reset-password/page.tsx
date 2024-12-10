@@ -1,7 +1,7 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { t, Trans } from "@lingui/macro";
-import { resetPasswordSchema } from "@reactive-resume/dto";
-import { usePasswordToggle } from "@reactive-resume/hooks";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { t, Trans } from '@lingui/macro'
+import { resetPasswordSchema } from '@reactive-resume/dto'
+import { usePasswordToggle } from '@reactive-resume/hooks'
 import {
   Button,
   Form,
@@ -11,47 +11,47 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-} from "@reactive-resume/ui";
-import { useEffect, useRef } from "react";
-import { Helmet } from "react-helmet-async";
-import { useForm } from "react-hook-form";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { z } from "zod";
+  Input
+} from '@reactive-resume/ui'
+import { useEffect, useRef } from 'react'
+import { Helmet } from 'react-helmet-async'
+import { useForm } from 'react-hook-form'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { z } from 'zod'
 
-import { useResetPassword } from "@/client/services/auth";
+import { useResetPassword } from '@/client/services/auth'
 
-type FormValues = z.infer<typeof resetPasswordSchema>;
+type FormValues = z.infer<typeof resetPasswordSchema>
 
 export const ResetPasswordPage = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const token = searchParams.get("token") ?? "";
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const token = searchParams.get('token') ?? ''
 
-  const { resetPassword, loading } = useResetPassword();
+  const { resetPassword, loading } = useResetPassword()
 
-  const formRef = useRef<HTMLFormElement>(null);
-  usePasswordToggle(formRef);
+  const formRef = useRef<HTMLFormElement>(null)
+  usePasswordToggle(formRef)
 
   const form = useForm<FormValues>({
     resolver: zodResolver(resetPasswordSchema),
-    defaultValues: { token, password: "" },
-  });
+    defaultValues: { token, password: '' }
+  })
 
   const onSubmit = async (data: FormValues) => {
     try {
-      await resetPassword(data);
+      await resetPassword(data)
 
-      navigate("/auth/login");
+      navigate('/auth/login')
     } catch {
-      form.reset();
+      form.reset()
     }
-  };
+  }
 
   // Redirect the user to the forgot password page if the token is not present.
   useEffect(() => {
-    if (!token) navigate("/auth/forgot-password");
-  }, [token, navigate]);
+    if (!token) navigate('/auth/forgot-password')
+  }, [token, navigate])
 
   return (
     <div className="space-y-8">
@@ -82,7 +82,10 @@ export const ResetPasswordPage = () => {
                 <FormItem>
                   <FormLabel>{t`Password`}</FormLabel>
                   <FormControl>
-                    <Input type="password" {...field} />
+                    <Input
+                      type="password"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
                     <Trans>
@@ -95,12 +98,16 @@ export const ResetPasswordPage = () => {
               )}
             />
 
-            <Button type="submit" disabled={loading} className="mt-4 w-full">
+            <Button
+              type="submit"
+              disabled={loading}
+              className="mt-4 w-full"
+            >
               {t`Change Password`}
             </Button>
           </form>
         </Form>
       </div>
     </div>
-  );
-};
+  )
+}

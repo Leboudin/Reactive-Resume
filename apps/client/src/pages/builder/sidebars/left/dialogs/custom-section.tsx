@@ -1,7 +1,7 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { t } from "@lingui/macro";
-import { X } from "@phosphor-icons/react";
-import { CustomSection, customSectionSchema, defaultCustomSection } from "@reactive-resume/schema";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { t } from '@lingui/macro'
+import { X } from '@phosphor-icons/react'
+import { CustomSection, customSectionSchema, defaultCustomSection } from '@reactive-resume/schema'
 import {
   Badge,
   BadgeInput,
@@ -12,35 +12,35 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  RichInput,
-} from "@reactive-resume/ui";
-import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+  RichInput
+} from '@reactive-resume/ui'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { AiActions } from "@/client/components/ai-actions";
-import { useDialog } from "@/client/stores/dialog";
+import { AiActions } from '@/client/components/ai-actions'
+import { useDialog } from '@/client/stores/dialog'
 
-import { SectionDialog } from "../sections/shared/section-dialog";
-import { URLInput } from "../sections/shared/url-input";
+import { SectionDialog } from '../sections/shared/section-dialog'
+import { URLInput } from '../sections/shared/url-input'
 
-const formSchema = customSectionSchema;
+const formSchema = customSectionSchema
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<typeof formSchema>
 
 export const CustomSectionDialog = () => {
-  const { payload } = useDialog<CustomSection>("custom");
+  const { payload } = useDialog<CustomSection>('custom')
 
   const form = useForm<FormValues>({
     defaultValues: defaultCustomSection,
-    resolver: zodResolver(formSchema),
-  });
+    resolver: zodResolver(formSchema)
+  })
 
-  const [pendingKeyword, setPendingKeyword] = useState("");
+  const [pendingKeyword, setPendingKeyword] = useState('')
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  if (!payload) return null;
+  if (!payload) return null
 
   return (
     <SectionDialog<FormValues>
@@ -131,10 +131,13 @@ export const CustomSectionDialog = () => {
                   {...field}
                   content={field.value}
                   footer={(editor) => (
-                    <AiActions value={editor.getText()} onChange={editor.commands.setContent} />
+                    <AiActions
+                      value={editor.getText()}
+                      onChange={editor.commands.setContent}
+                    />
                   )}
                   onChange={(value) => {
-                    field.onChange(value);
+                    field.onChange(value)
                   }}
                 />
               </FormControl>
@@ -151,7 +154,10 @@ export const CustomSectionDialog = () => {
               <FormItem>
                 <FormLabel>{t`Keywords`}</FormLabel>
                 <FormControl>
-                  <BadgeInput {...field} setPendingKeyword={setPendingKeyword} />
+                  <BadgeInput
+                    {...field}
+                    setPendingKeyword={setPendingKeyword}
+                  />
                 </FormControl>
                 <FormDescription>
                   {t`You can add multiple keywords by separating them with a comma or pressing enter.`}
@@ -172,11 +178,14 @@ export const CustomSectionDialog = () => {
                       <Badge
                         className="cursor-pointer"
                         onClick={() => {
-                          field.onChange(field.value.filter((v) => item !== v));
+                          field.onChange(field.value.filter((v) => item !== v))
                         }}
                       >
                         <span className="mr-1">{item}</span>
-                        <X size={12} weight="bold" />
+                        <X
+                          size={12}
+                          weight="bold"
+                        />
                       </Badge>
                     </motion.div>
                   ))}
@@ -187,5 +196,5 @@ export const CustomSectionDialog = () => {
         />
       </div>
     </SectionDialog>
-  );
-};
+  )
+}

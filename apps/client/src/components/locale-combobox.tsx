@@ -1,5 +1,5 @@
-import { t } from "@lingui/macro";
-import { CaretDown, Check } from "@phosphor-icons/react";
+import { t } from '@lingui/macro'
+import { CaretDown, Check } from '@phosphor-icons/react'
 import {
   Button,
   Command,
@@ -11,28 +11,28 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-  ScrollArea,
-} from "@reactive-resume/ui";
-import { cn } from "@reactive-resume/utils";
-import fuzzy from "fuzzy";
-import { useMemo, useState } from "react";
+  ScrollArea
+} from '@reactive-resume/ui'
+import { cn } from '@reactive-resume/utils'
+import fuzzy from 'fuzzy'
+import { useMemo, useState } from 'react'
 
-import { useLanguages } from "../services/resume/translation";
+import { useLanguages } from '../services/resume/translation'
 
 type Props = {
-  value: string;
-  onValueChange: (locale: string) => void;
-};
+  value: string
+  onValueChange: (locale: string) => void
+}
 
 export const LocaleCombobox = ({ value, onValueChange }: Props) => {
-  const { languages } = useLanguages();
-  const [search, setSearch] = useState("");
+  const { languages } = useLanguages()
+  const [search, setSearch] = useState('')
 
   const options = useMemo(() => {
     return fuzzy.filter(search, languages, {
-      extract: (lang) => `${lang.name} ${lang.locale}`,
-    });
-  }, [search, languages]);
+      extract: (lang) => `${lang.name} ${lang.locale}`
+    })
+  }, [search, languages])
 
   return (
     <Command shouldFilter={false}>
@@ -53,21 +53,21 @@ export const LocaleCombobox = ({ value, onValueChange }: Props) => {
                   value={original.locale.trim()}
                   onSelect={(selectedValue) => {
                     const result = options.find(
-                      ({ original }) => original.locale.trim() === selectedValue,
-                    );
+                      ({ original }) => original.locale.trim() === selectedValue
+                    )
 
-                    if (!result) return null;
+                    if (!result) return null
 
-                    onValueChange(result.original.locale);
+                    onValueChange(result.original.locale)
                   }}
                 >
                   <Check
                     className={cn(
-                      "mr-2 size-4 opacity-0",
-                      value === original.locale && "opacity-100",
+                      'mr-2 size-4 opacity-0',
+                      value === original.locale && 'opacity-100'
                     )}
                   />
-                  {original.name}{" "}
+                  {original.name}{' '}
                   <span className="ml-1 text-xs opacity-50">({original.locale})</span>
                 </CommandItem>
               ))}
@@ -76,24 +76,27 @@ export const LocaleCombobox = ({ value, onValueChange }: Props) => {
         </CommandGroup>
       </CommandList>
     </Command>
-  );
-};
+  )
+}
 
 export const LocaleComboboxPopover = ({ value, onValueChange }: Props) => {
-  const { languages } = useLanguages();
-  const [open, setOpen] = useState(false);
+  const { languages } = useLanguages()
+  const [open, setOpen] = useState(false)
 
   const selected = useMemo(() => {
-    return languages.find((lang) => lang.locale === value);
-  }, [value, languages]);
+    return languages.find((lang) => lang.locale === value)
+  }, [value, languages])
 
   const onSelect = (selectedValue: string) => {
-    onValueChange(selectedValue);
-    setOpen(false);
-  };
+    onValueChange(selectedValue)
+    setOpen(false)
+  }
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover
+      open={open}
+      onOpenChange={setOpen}
+    >
       <PopoverTrigger asChild>
         <Button
           role="combobox"
@@ -106,15 +109,21 @@ export const LocaleComboboxPopover = ({ value, onValueChange }: Props) => {
           </span>
           <CaretDown
             className={cn(
-              "ml-2 size-4 shrink-0 rotate-0 opacity-50 transition-transform",
-              open && "rotate-180",
+              'ml-2 size-4 shrink-0 rotate-0 opacity-50 transition-transform',
+              open && 'rotate-180'
             )}
           />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="p-0">
-        <LocaleCombobox value={value} onValueChange={onSelect} />
+      <PopoverContent
+        align="start"
+        className="p-0"
+      >
+        <LocaleCombobox
+          value={value}
+          onValueChange={onSelect}
+        />
       </PopoverContent>
     </Popover>
-  );
-};
+  )
+}

@@ -1,7 +1,7 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { t } from "@lingui/macro";
-import { ArrowLeft } from "@phosphor-icons/react";
-import { forgotPasswordSchema } from "@reactive-resume/dto";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { t } from '@lingui/macro'
+import { ArrowLeft } from '@phosphor-icons/react'
+import { forgotPasswordSchema } from '@reactive-resume/dto'
 import {
   Alert,
   AlertDescription,
@@ -12,34 +12,34 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-} from "@reactive-resume/ui";
-import { useState } from "react";
-import { Helmet } from "react-helmet-async";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { z } from "zod";
+  Input
+} from '@reactive-resume/ui'
+import { useState } from 'react'
+import { Helmet } from 'react-helmet-async'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { z } from 'zod'
 
-import { useForgotPassword } from "@/client/services/auth";
+import { useForgotPassword } from '@/client/services/auth'
 
-type FormValues = z.infer<typeof forgotPasswordSchema>;
+type FormValues = z.infer<typeof forgotPasswordSchema>
 
 export const ForgotPasswordPage = () => {
-  const navigate = useNavigate();
-  const [submitted, setSubmitted] = useState<boolean>(false);
-  const { forgotPassword, loading } = useForgotPassword();
+  const navigate = useNavigate()
+  const [submitted, setSubmitted] = useState<boolean>(false)
+  const { forgotPassword, loading } = useForgotPassword()
 
   const form = useForm<FormValues>({
     resolver: zodResolver(forgotPasswordSchema),
-    defaultValues: { email: "" },
-  });
+    defaultValues: { email: '' }
+  })
 
   const onSubmit = async (data: FormValues) => {
-    await forgotPassword(data);
+    await forgotPassword(data)
 
-    setSubmitted(true);
-    form.reset();
-  };
+    setSubmitted(true)
+    form.reset()
+  }
 
   if (submitted) {
     return (
@@ -59,7 +59,7 @@ export const ForgotPasswordPage = () => {
           </Alert>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -73,7 +73,10 @@ export const ForgotPasswordPage = () => {
 
       <div>
         <Form {...form}>
-          <form className="flex flex-col gap-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+          <form
+            className="flex flex-col gap-y-4"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
             <FormField
               name="email"
               control={form.control}
@@ -81,7 +84,10 @@ export const ForgotPasswordPage = () => {
                 <FormItem>
                   <FormLabel>{t`Email`}</FormLabel>
                   <FormControl>
-                    <Input placeholder="john.doe@example.com" {...field} />
+                    <Input
+                      placeholder="john.doe@example.com"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -93,14 +99,21 @@ export const ForgotPasswordPage = () => {
                 variant="link"
                 className="px-5"
                 onClick={() => {
-                  navigate(-1);
+                  navigate(-1)
                 }}
               >
-                <ArrowLeft size={14} className="mr-2" />
+                <ArrowLeft
+                  size={14}
+                  className="mr-2"
+                />
                 <span>{t`Back`}</span>
               </Button>
 
-              <Button type="submit" disabled={loading} className="w-full">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full"
+              >
                 {t`Send Email`}
               </Button>
             </div>
@@ -108,5 +121,5 @@ export const ForgotPasswordPage = () => {
         </Form>
       </div>
     </div>
-  );
-};
+  )
+}

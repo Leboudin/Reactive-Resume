@@ -14,6 +14,7 @@
     "url": "https://github.com/AmruthPillai/Reactive-Resume.git"
   },
   "scripts": {
+    "p": "prettier --write './**/*.{js,mjs,cjs,ts,tsx,json,yaml}'",
     "dev": "nx run-many -t serve",
     "test": "pnpm vitest run",
     "prebuild": "pnpm prisma:generate",

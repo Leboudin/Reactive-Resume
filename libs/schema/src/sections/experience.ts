@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from 'zod'
 
-import { defaultItem, defaultUrl, itemSchema, urlSchema } from "../shared";
+import { defaultItem, defaultUrl, itemSchema, urlSchema } from '../shared'
 
 // Schema
 export const experienceSchema = itemSchema.extend({
@@ -9,19 +9,19 @@ export const experienceSchema = itemSchema.extend({
   location: z.string(),
   date: z.string(),
   summary: z.string(),
-  url: urlSchema,
-});
+  url: urlSchema
+})
 
 // Type
-export type Experience = z.infer<typeof experienceSchema>;
+export type Experience = z.infer<typeof experienceSchema>
 
 // Defaults
 export const defaultExperience: Experience = {
   ...defaultItem,
-  company: "",
-  position: "",
-  location: "",
-  date: "",
-  summary: "",
-  url: defaultUrl,
-};
+  company: '',
+  position: '',
+  location: '',
+  date: '',
+  summary: '',
+  url: defaultUrl
+}

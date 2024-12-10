@@ -1,25 +1,25 @@
-import { MessageDto } from "@reactive-resume/dto";
-import { useMutation } from "@tanstack/react-query";
-import { AxiosResponse } from "axios";
+import { MessageDto } from '@reactive-resume/dto'
+import { useMutation } from '@tanstack/react-query'
+import { AxiosResponse } from 'axios'
 
-import { axios } from "@/client/libs/axios";
+import { axios } from '@/client/libs/axios'
 
 export const resendVerificationEmail = async () => {
   const response = await axios.post<MessageDto, AxiosResponse<MessageDto>>(
-    "/auth/verify-email/resend",
-  );
+    '/auth/verify-email/resend'
+  )
 
-  return response.data;
-};
+  return response.data
+}
 
 export const useResendVerificationEmail = () => {
   const {
     error,
     isPending: loading,
-    mutateAsync: resendVerificationEmailFn,
+    mutateAsync: resendVerificationEmailFn
   } = useMutation({
-    mutationFn: resendVerificationEmail,
-  });
+    mutationFn: resendVerificationEmail
+  })
 
-  return { resendVerificationEmail: resendVerificationEmailFn, loading, error };
-};
+  return { resendVerificationEmail: resendVerificationEmailFn, loading, error }
+}

@@ -1,40 +1,40 @@
-import { ResumeDto, UpdateResumeDto } from "@reactive-resume/dto";
-import { useMutation } from "@tanstack/react-query";
-import { AxiosResponse } from "axios";
-import debounce from "lodash.debounce";
+import { ResumeDto, UpdateResumeDto } from '@reactive-resume/dto'
+import { useMutation } from '@tanstack/react-query'
+import { AxiosResponse } from 'axios'
+import debounce from 'lodash.debounce'
 
-import { axios } from "@/client/libs/axios";
-import { queryClient } from "@/client/libs/query-client";
+import { axios } from '@/client/libs/axios'
+import { queryClient } from '@/client/libs/query-client'
 
 export const updateResume = async (data: UpdateResumeDto) => {
   const response = await axios.patch<ResumeDto, AxiosResponse<ResumeDto>, UpdateResumeDto>(
     `/resume/${data.id}`,
-    data,
-  );
+    data
+  )
 
-  queryClient.setQueryData<ResumeDto>(["resume", { id: response.data.id }], response.data);
+  queryClient.setQueryData<ResumeDto>(['resume', { id: response.data.id }], response.data)
 
-  queryClient.setQueryData<ResumeDto[]>(["resumes"], (cache) => {
-    if (!cache) return [response.data];
+  queryClient.setQueryData<ResumeDto[]>(['resumes'], (cache) => {
+    if (!cache) return [response.data]
     return cache.map((resume) => {
-      if (resume.id === response.data.id) return response.data;
-      return resume;
-    });
-  });
+      if (resume.id === response.data.id) return response.data
+      return resume
+    })
+  })
 
-  return response.data;
-};
+  return response.data
+}
 
-export const debouncedUpdateResume = debounce(updateResume, 500);
+export const debouncedUpdateResume = debounce(updateResume, 500)
 
 export const useUpdateResume = () => {
   const {
     error,
     isPending: loading,
-    mutateAsync: updateResumeFn,
+    mutateAsync: updateResumeFn
   } = useMutation({
-    mutationFn: updateResume,
-  });
+    mutationFn: updateResume
+  })
 
-  return { updateResume: updateResumeFn, loading, error };
-};
+  return { updateResume: updateResumeFn, loading, error }
+}

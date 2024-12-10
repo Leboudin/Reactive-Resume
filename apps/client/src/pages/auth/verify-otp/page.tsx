@@ -1,8 +1,8 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { t } from "@lingui/macro";
-import { ArrowRight } from "@phosphor-icons/react";
-import { twoFactorSchema } from "@reactive-resume/dto";
-import { usePasswordToggle } from "@reactive-resume/hooks";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { t } from '@lingui/macro'
+import { ArrowRight } from '@phosphor-icons/react'
+import { twoFactorSchema } from '@reactive-resume/dto'
+import { usePasswordToggle } from '@reactive-resume/hooks'
 import {
   Button,
   Form,
@@ -11,39 +11,39 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-} from "@reactive-resume/ui";
-import { useRef } from "react";
-import { Helmet } from "react-helmet-async";
-import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import { z } from "zod";
+  Input
+} from '@reactive-resume/ui'
+import { useRef } from 'react'
+import { Helmet } from 'react-helmet-async'
+import { useForm } from 'react-hook-form'
+import { Link, useNavigate } from 'react-router-dom'
+import { z } from 'zod'
 
-import { useVerifyOtp } from "@/client/services/auth";
+import { useVerifyOtp } from '@/client/services/auth'
 
-type FormValues = z.infer<typeof twoFactorSchema>;
+type FormValues = z.infer<typeof twoFactorSchema>
 
 export const VerifyOtpPage = () => {
-  const navigate = useNavigate();
-  const { verifyOtp, loading } = useVerifyOtp();
+  const navigate = useNavigate()
+  const { verifyOtp, loading } = useVerifyOtp()
 
-  const formRef = useRef<HTMLFormElement>(null);
-  usePasswordToggle(formRef);
+  const formRef = useRef<HTMLFormElement>(null)
+  usePasswordToggle(formRef)
 
   const form = useForm<FormValues>({
     resolver: zodResolver(twoFactorSchema),
-    defaultValues: { code: "" },
-  });
+    defaultValues: { code: '' }
+  })
 
   const onSubmit = async (data: FormValues) => {
     try {
-      await verifyOtp(data);
+      await verifyOtp(data)
 
-      navigate("/dashboard");
+      navigate('/dashboard')
     } catch {
-      form.reset();
+      form.reset()
     }
-  };
+  }
 
   return (
     <div className="space-y-8">
@@ -59,7 +59,11 @@ export const VerifyOtpPage = () => {
           <span className="leading-relaxed opacity-60">
             {t`Enter the one-time password provided by your authenticator app below.`}
           </span>
-          <Button asChild variant="link" className="px-1.5">
+          <Button
+            asChild
+            variant="link"
+            className="px-1.5"
+          >
             <Link to="/auth/backup-otp">
               {t`Lost your device?`} <ArrowRight className="ml-1" />
             </Link>
@@ -81,19 +85,26 @@ export const VerifyOtpPage = () => {
                 <FormItem>
                   <FormLabel>{t`One-Time Password`}</FormLabel>
                   <FormControl>
-                    <Input placeholder="123456" {...field} />
+                    <Input
+                      placeholder="123456"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <Button type="submit" disabled={loading} className="mt-4 w-full">
+            <Button
+              type="submit"
+              disabled={loading}
+              className="mt-4 w-full"
+            >
               {t`Sign in`}
             </Button>
           </form>
         </Form>
       </div>
     </div>
-  );
-};
+  )
+}

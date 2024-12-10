@@ -1,6 +1,6 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { t, Trans } from "@lingui/macro";
-import { useTheme } from "@reactive-resume/hooks";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { t, Trans } from '@lingui/macro'
+import { useTheme } from '@reactive-resume/hooks'
 import {
   Button,
   Combobox,
@@ -8,57 +8,57 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormLabel,
-} from "@reactive-resume/ui";
-import { cn } from "@reactive-resume/utils";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+  FormLabel
+} from '@reactive-resume/ui'
+import { cn } from '@reactive-resume/utils'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { LocaleComboboxPopover } from "@/client/components/locale-combobox";
-import { useUpdateUser, useUser } from "@/client/services/user";
+import { LocaleComboboxPopover } from '@/client/components/locale-combobox'
+import { useUpdateUser, useUser } from '@/client/services/user'
 
 const formSchema = z.object({
-  theme: z.enum(["system", "light", "dark"]).default("system"),
-  locale: z.string().default("en-US"),
-});
+  theme: z.enum(['system', 'light', 'dark']).default('system'),
+  locale: z.string().default('en-US')
+})
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<typeof formSchema>
 
 export const ProfileSettings = () => {
-  const { user } = useUser();
-  const { theme, setTheme } = useTheme();
-  const { updateUser, loading } = useUpdateUser();
+  const { user } = useUser()
+  const { theme, setTheme } = useTheme()
+  const { updateUser, loading } = useUpdateUser()
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: { theme, locale: "en-US" },
-  });
+    defaultValues: { theme, locale: 'en-US' }
+  })
 
   useEffect(() => {
-    user && onReset();
-  }, [user]);
+    user && onReset()
+  }, [user])
 
   const onReset = () => {
-    if (!user) return;
+    if (!user) return
 
-    form.reset({ theme, locale: user.locale });
-  };
+    form.reset({ theme, locale: user.locale })
+  }
 
   const onSubmit = async (data: FormValues) => {
-    if (!user) return;
+    if (!user) return
 
-    setTheme(data.theme);
+    setTheme(data.theme)
 
     if (user.locale !== data.locale) {
-      window.localStorage.setItem("locale", data.locale);
-      await updateUser({ locale: data.locale });
+      window.localStorage.setItem('locale', data.locale)
+      await updateUser({ locale: data.locale })
 
-      window.location.reload();
+      window.location.reload()
     }
 
-    form.reset(data);
-  };
+    form.reset(data)
+  }
 
   return (
     <div className="space-y-6">
@@ -70,7 +70,10 @@ export const ProfileSettings = () => {
       </div>
 
       <Form {...form}>
-        <form className="grid gap-6 sm:grid-cols-2" onSubmit={form.handleSubmit(onSubmit)}>
+        <form
+          className="grid gap-6 sm:grid-cols-2"
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
           <FormField
             name="theme"
             control={form.control}
@@ -82,9 +85,9 @@ export const ProfileSettings = () => {
                     {...field}
                     value={field.value}
                     options={[
-                      { label: t`System`, value: "system" },
-                      { label: t`Light`, value: "light" },
-                      { label: t`Dark`, value: "dark" },
+                      { label: t`System`, value: 'system' },
+                      { label: t`Light`, value: 'light' },
+                      { label: t`Dark`, value: 'dark' }
                     ]}
                     onValueChange={field.onChange}
                   />
@@ -100,12 +103,15 @@ export const ProfileSettings = () => {
               <FormItem>
                 <FormLabel>{t`Language`}</FormLabel>
                 <div className="w-full">
-                  <LocaleComboboxPopover value={field.value} onValueChange={field.onChange} />
+                  <LocaleComboboxPopover
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  />
                 </div>
                 <FormDescription>
                   <span>
                     <Trans>
-                      Don't see your language?{" "}
+                      Don't see your language?{' '}
                       <a
                         target="_blank"
                         rel="noopener noreferrer nofollow"
@@ -123,19 +129,26 @@ export const ProfileSettings = () => {
 
           <div
             className={cn(
-              "hidden items-center space-x-2 self-center sm:col-start-2",
-              form.formState.isDirty && "flex animate-in fade-in",
+              'hidden items-center space-x-2 self-center sm:col-start-2',
+              form.formState.isDirty && 'flex animate-in fade-in'
             )}
           >
-            <Button type="submit" disabled={loading}>
+            <Button
+              type="submit"
+              disabled={loading}
+            >
               {t`Save Changes`}
             </Button>
-            <Button type="reset" variant="ghost" onClick={onReset}>
+            <Button
+              type="reset"
+              variant="ghost"
+              onClick={onReset}
+            >
               {t`Discard`}
             </Button>
           </div>
         </form>
       </Form>
     </div>
-  );
-};
+  )
+}

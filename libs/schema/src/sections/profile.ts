@@ -1,6 +1,6 @@
-import { z } from "zod";
+import { z } from 'zod'
 
-import { defaultItem, defaultUrl, itemSchema, urlSchema } from "../shared";
+import { defaultItem, defaultUrl, itemSchema, urlSchema } from '../shared'
 
 // Schema
 export const profileSchema = itemSchema.extend({
@@ -9,19 +9,19 @@ export const profileSchema = itemSchema.extend({
   icon: z
     .string()
     .describe(
-      'Slug for the icon from https://simpleicons.org. For example, "github", "linkedin", etc.',
+      'Slug for the icon from https://simpleicons.org. For example, "github", "linkedin", etc.'
     ),
-  url: urlSchema,
-});
+  url: urlSchema
+})
 
 // Type
-export type Profile = z.infer<typeof profileSchema>;
+export type Profile = z.infer<typeof profileSchema>
 
 // Defaults
 export const defaultProfile: Profile = {
   ...defaultItem,
-  network: "",
-  username: "",
-  icon: "",
-  url: defaultUrl,
-};
+  network: '',
+  username: '',
+  icon: '',
+  url: defaultUrl
+}

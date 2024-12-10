@@ -1,4 +1,4 @@
-import { t } from "@lingui/macro";
+import { t } from '@lingui/macro'
 
 export const SupportSection = () => (
   <section
@@ -49,9 +49,17 @@ export const SupportSection = () => (
             alt="Open Collective"
           />
         </a>
-        <a href="https://paypal.me/amruthde" rel="noreferrer noopener nofollow" target="_blank">
+        <a
+          href="https://paypal.me/amruthde"
+          rel="noreferrer noopener nofollow"
+          target="_blank"
+        >
           {/* eslint-disable-next-line lingui/no-unlocalized-strings */}
-          <img src="/support-logos/paypal.svg" className=" max-h-[28px]" alt="PayPal" />
+          <img
+            src="/support-logos/paypal.svg"
+            className=" max-h-[28px]"
+            alt="PayPal"
+          />
         </a>
       </div>
 
@@ -79,4 +87,4 @@ export const SupportSection = () => (
       </p>
     </div>
   </section>
-);
+)

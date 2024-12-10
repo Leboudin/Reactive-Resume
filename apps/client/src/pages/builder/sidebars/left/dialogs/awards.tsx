@@ -1,6 +1,6 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { t } from "@lingui/macro";
-import { awardSchema, defaultAward } from "@reactive-resume/schema";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { t } from '@lingui/macro'
+import { awardSchema, defaultAward } from '@reactive-resume/schema'
 import {
   FormControl,
   FormField,
@@ -8,35 +8,39 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  RichInput,
-} from "@reactive-resume/ui";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+  RichInput
+} from '@reactive-resume/ui'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
-import { AiActions } from "@/client/components/ai-actions";
+import { AiActions } from '@/client/components/ai-actions'
 
-import { SectionDialog } from "../sections/shared/section-dialog";
-import { URLInput } from "../sections/shared/url-input";
+import { SectionDialog } from '../sections/shared/section-dialog'
+import { URLInput } from '../sections/shared/url-input'
 
-const formSchema = awardSchema;
+const formSchema = awardSchema
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<typeof formSchema>
 
 export const AwardsDialog = () => {
   const form = useForm<FormValues>({
     defaultValues: defaultAward,
-    resolver: zodResolver(formSchema),
-  });
+    resolver: zodResolver(formSchema)
+  })
 
   return (
-    <SectionDialog<FormValues> id="awards" form={form} defaultValues={defaultAward}>
+    <SectionDialog<FormValues>
+      id="awards"
+      form={form}
+      defaultValues={defaultAward}
+    >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <FormField
           name="title"
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t({ message: "Title", context: "Name of the Award" })}</FormLabel>
+              <FormLabel>{t({ message: 'Title', context: 'Name of the Award' })}</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -69,8 +73,8 @@ export const AwardsDialog = () => {
                 <Input
                   {...field}
                   placeholder={t({
-                    message: "March 2023",
-                    comment: "The month and year should be uniform across all languages.",
+                    message: 'March 2023',
+                    comment: 'The month and year should be uniform across all languages.'
                   })}
                 />
               </FormControl>
@@ -104,10 +108,13 @@ export const AwardsDialog = () => {
                   {...field}
                   content={field.value}
                   footer={(editor) => (
-                    <AiActions value={editor.getText()} onChange={editor.commands.setContent} />
+                    <AiActions
+                      value={editor.getText()}
+                      onChange={editor.commands.setContent}
+                    />
                   )}
                   onChange={(value) => {
-                    field.onChange(value);
+                    field.onChange(value)
                   }}
                 />
               </FormControl>
@@ -117,5 +124,5 @@ export const AwardsDialog = () => {
         />
       </div>
     </SectionDialog>
-  );
-};
+  )
+}
