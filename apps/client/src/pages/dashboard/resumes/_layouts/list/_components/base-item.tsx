@@ -22,10 +22,10 @@ export const BaseListItem = ({ title, description, statistics, start, end, class
       <div className="flex items-center space-x-4">
         <div className="flex size-5 items-center justify-center">{start}</div>
         <h4 className="w-[220px] truncate font-medium lg:w-[320px]">{title}</h4>
-        <p className="hidden text-xs opacity-75 sm:block">{description}</p>
+        <p className="hidden text-xs opacity-75 sm:block sm:w-[220px]">{description}</p>
 
         {statistics &&
-          <div className="hidden text-xs opacity-75 sm:flex justify-start space-x-4 pl-12">{statistics}</div>}
+          <div className="hidden text-xs opacity-75 sm:flex sm:w-[220px] justify-start space-x-8">{statistics}</div>}
       </div>
 
       {end && <div className="flex size-5 items-center justify-center">{end}</div>}

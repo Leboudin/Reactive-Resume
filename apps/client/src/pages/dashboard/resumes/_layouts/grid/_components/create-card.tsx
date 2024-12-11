@@ -23,7 +23,7 @@ export const CreateResumeCard = () => {
 
       <div
         className={cn(
-          'absolute inset-x-0 bottom-0 z-10 flex flex-col justify-end space-y-0.5 p-4 pt-12',
+          'absolute inset-x-0 bottom-0 z-10 flex flex-col justify-end space-y-0.5 p-4 py-12',
           'bg-gradient-to-t from-background/80 to-transparent'
         )}
       >

@@ -23,7 +23,7 @@ export const ImportResumeCard = () => {
 
       <div
         className={cn(
-          'absolute inset-x-0 bottom-0 z-10 flex flex-col justify-end space-y-0.5 p-4 pt-12',
+          'absolute inset-x-0 bottom-0 z-10 flex flex-col justify-end space-y-0.5 p-4 py-12',
           'bg-gradient-to-t from-background/80 to-transparent'
         )}
       >
@@ -34,7 +34,7 @@ export const ImportResumeCard = () => {
         </h4>
 
         <p className="line-clamp-1 text-xs opacity-75">{t`LinkedIn, JSON Resume, etc.`}</p>
-      </div>
+        </div>
     </BaseCard>
-  )
+)
 }
