@@ -21,6 +21,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 
 import { useDialog } from '@/client/stores/dialog'
+import { Icon } from '@/client/components/icon'
+import { Eye, Download } from '@phosphor-icons/react'
 
 import { BaseCard } from './base-card'
 
@@ -83,6 +85,16 @@ export const ResumeCard = ({ resume }: Props) => {
           >
             <h4 className="line-clamp-2 font-medium">{resume.title}</h4>
             <p className="line-clamp-1 text-xs opacity-75">{t`Last updated ${lastUpdated}`}</p>
+            <div className="flex justify-between space-x-2 text-xs opacity-50 pt-4">
+              <div className="flex items-center">
+                <Eye className="mr-1 w-4 h-4" /> {/* 使用眼睛图标表示浏览次数 */}
+                <span>{t`${resume.statistics?.views ?? 0} views`}</span>
+              </div>
+              <div className="flex items-center">
+                <Download className="mr-1 w-4 h-4" /> {/* 使用下载图标表示下载次数 */}
+                <span>{t`${resume.statistics?.downloads ?? 0} downloads`}</span>
+              </div>
+            </div>
           </div>
         </BaseCard>
       </ContextMenuTrigger>

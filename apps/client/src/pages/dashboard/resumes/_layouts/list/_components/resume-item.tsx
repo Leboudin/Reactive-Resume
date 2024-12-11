@@ -1,7 +1,7 @@
 import { t } from '@lingui/macro'
 import {
   CopySimple,
-  DotsThreeVertical,
+  DotsThreeVertical, Download, Eye,
   FolderOpen,
   Lock,
   LockOpen,
@@ -38,6 +38,8 @@ export const ResumeListItem = ({ resume }: Props) => {
   const { open: lockOpen } = useDialog<ResumeDto>('lock')
 
   const lastUpdated = dayjs().to(resume.updatedAt)
+  const views = resume.statistics?.views ?? 0
+  const downloads = resume.statistics?.downloads ?? 0
 
   const onOpen = () => {
     navigate(`/builder/${resume.id}`)
@@ -58,6 +60,19 @@ export const ResumeListItem = ({ resume }: Props) => {
   const onDelete = () => {
     open('delete', { id: 'resume', item: resume })
   }
+
+  const statistics = (
+    <>
+      <div className="flex items-center ">
+        <Eye className="mr-1 w-4 h-4" /> {/* 使用眼睛图标表示浏览次数 */}
+        <span>{t`${views} views`}</span>
+      </div>
+      <div className="flex items-center ">
+        <Download className="mr-1 w-4 h-4" /> {/* 使用下载图标表示下载次数 */}
+        <span>{t`${downloads} downloads`}</span>
+      </div>
+    </>
+  )
 
   const dropdownMenu = (
     <DropdownMenu>
@@ -161,6 +176,7 @@ export const ResumeListItem = ({ resume }: Props) => {
           className="group"
           title={resume.title}
           description={t`Last updated ${lastUpdated}`}
+          statistics={statistics}
           end={dropdownMenu}
           onClick={onOpen}
         />

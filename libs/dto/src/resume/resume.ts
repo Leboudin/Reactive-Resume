@@ -3,6 +3,7 @@ import { createZodDto } from 'nestjs-zod/dto'
 import { z } from 'nestjs-zod/z'
 
 import { userSchema } from '../user'
+import { statisticsSchema } from '../statistics'
 
 export const resumeSchema = z.object({
   id: idSchema,
@@ -13,8 +14,10 @@ export const resumeSchema = z.object({
   locked: z.boolean().default(false),
   userId: idSchema,
   user: userSchema.optional(),
+  statistics: statisticsSchema.optional(),
   createdAt: z.date().or(z.dateString()),
   updatedAt: z.date().or(z.dateString())
 })
 
-export class ResumeDto extends createZodDto(resumeSchema) {}
+export class ResumeDto extends createZodDto(resumeSchema) {
+}

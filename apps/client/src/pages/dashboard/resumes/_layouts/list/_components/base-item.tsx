@@ -3,13 +3,14 @@ import { cn } from '@reactive-resume/utils'
 type Props = {
   title?: React.ReactNode
   description?: React.ReactNode
+  statistics?: React.ReactNode
   start?: React.ReactNode
   end?: React.ReactNode
   className?: string
   onClick?: () => void
 }
 
-export const BaseListItem = ({ title, description, start, end, className, onClick }: Props) => (
+export const BaseListItem = ({ title, description, statistics, start, end, className, onClick }: Props) => (
   <div
     className={cn(
       'flex cursor-pointer items-center rounded p-4 transition-colors hover:bg-secondary/30',
@@ -22,6 +23,9 @@ export const BaseListItem = ({ title, description, start, end, className, onClic
         <div className="flex size-5 items-center justify-center">{start}</div>
         <h4 className="w-[220px] truncate font-medium lg:w-[320px]">{title}</h4>
         <p className="hidden text-xs opacity-75 sm:block">{description}</p>
+
+        {statistics &&
+          <div className="hidden text-xs opacity-75 sm:flex justify-start space-x-4 pl-12">{statistics}</div>}
       </div>
 
       {end && <div className="flex size-5 items-center justify-center">{end}</div>}

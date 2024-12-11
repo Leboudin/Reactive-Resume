@@ -22,7 +22,8 @@ export class ResumeService {
     private readonly prisma: PrismaService,
     private readonly printerService: PrinterService,
     private readonly storageService: StorageService
-  ) {}
+  ) {
+  }
 
   async create(userId: string, createResumeDto: CreateResumeDto) {
     const { name, email, picture } = await this.prisma.user.findUniqueOrThrow({
@@ -60,7 +61,13 @@ export class ResumeService {
   }
 
   findAll(userId: string) {
-    return this.prisma.resume.findMany({ where: { userId }, orderBy: { updatedAt: 'desc' } })
+    return this.prisma.resume.findMany({
+      where: { userId },
+      orderBy: { updatedAt: 'desc' },
+      include: {
+        statistics: true
+      }
+    })
   }
 
   findOne(id: string, userId?: string) {
