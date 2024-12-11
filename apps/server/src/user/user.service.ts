@@ -10,7 +10,8 @@ export class UserService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly storageService: StorageService
-  ) {}
+  ) {
+  }
 
   async findOneById(id: string) {
     const user = await this.prisma.user.findUniqueOrThrow({

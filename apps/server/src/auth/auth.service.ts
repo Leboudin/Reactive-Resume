@@ -19,15 +19,18 @@ import { Config } from '../config/schema'
 import { MailService } from '../mail/mail.service'
 import { UserService } from '../user/user.service'
 import { Payload } from './utils/payload'
+import { TenantService } from '../tenant/tenant.service'
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly configService: ConfigService<Config>,
     private readonly userService: UserService,
+    private readonly tenantService: TenantService,
     private readonly mailService: MailService,
     private readonly jwtService: JwtService
-  ) {}
+  ) {
+  }
 
   private hash(password: string): Promise<string> {
     return bcryptjs.hash(password, 10)
@@ -102,6 +105,13 @@ export class AuthService {
     const hashedPassword = await this.hash(registerDto.password)
 
     try {
+      // Step 1: Create a new Tenant
+      const tenant = await this.tenantService.create({
+        name: registerDto.username, // Assuming tenant name is the same as username
+        adminId: null // Temporarily set to null, will be updated after user creation
+      })
+
+      // Step 2: Create the user with the tenantId
       const user = await this.userService.create({
         name: registerDto.name,
         email: registerDto.email,
@@ -109,7 +119,15 @@ export class AuthService {
         locale: registerDto.locale,
         provider: 'email',
         emailVerified: false, // Set to true if you don't want to verify user's email
-        secrets: { create: { password: hashedPassword } }
+        secrets: { create: { password: hashedPassword } },
+        tenant: {
+          connect: { id: tenant.id } // Correctly associate the newly created tenant
+        } // Assign the newly created tenant's ID to the user
+      })
+
+      // Step 3: Update the Tenant's adminId to the newly created user's ID
+      await this.tenantService.update(tenant.id, {
+        adminId: user.id
       })
 
       // Do not `await` this function, otherwise the user will have to wait for the email to be sent before the response is returned

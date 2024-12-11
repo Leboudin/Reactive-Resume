@@ -30,21 +30,21 @@ enum Status {
 }
 
 model Tenant {
-  id           String         @id @default(cuid())
-  name         String
-  status       Status         @default(active)
-  adminId      String
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  Subscription Subscription[]
-  User         User[]
+  id            String         @id @default(cuid())
+  name          String
+  status        Status         @default(active)
+  adminId       String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  subscriptions Subscription[]
+  users         User[]
 }
 
 model User {
   id               String   @id @default(cuid())
   name             String
-  tenantId         String // The tenant id
-  tenant           Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId         String? // The tenant id
+  tenant           Tenant?  @relation(fields: [tenantId], references: [id], onDelete: Cascade)
   picture          String?
   username         String   @unique
   email            String   @unique

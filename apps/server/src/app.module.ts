@@ -18,6 +18,7 @@ import { ResumeModule } from './resume/resume.module'
 import { StorageModule } from './storage/storage.module'
 import { TranslationModule } from './translation/translation.module'
 import { UserModule } from './user/user.module'
+import { TenantModule } from './tenant/tenant.module';
 
 @Module({
   imports: [
@@ -48,7 +49,8 @@ import { UserModule } from './user/user.module'
       renderPath: '/*',
       // eslint-disable-next-line unicorn/prefer-module
       rootPath: path.join(__dirname, '..', 'client')
-    })
+    }),
+    TenantModule
   ],
   providers: [
     {

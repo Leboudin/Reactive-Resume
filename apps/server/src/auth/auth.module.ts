@@ -16,13 +16,14 @@ import { JwtStrategy } from './strategy/jwt.strategy'
 import { LocalStrategy } from './strategy/local.strategy'
 import { RefreshStrategy } from './strategy/refresh.strategy'
 import { TwoFactorStrategy } from './strategy/two-factor.strategy'
+import { TenantModule } from '@/server/tenant/tenant.module'
 
 @Module({})
 export class AuthModule {
   static register(): DynamicModule {
     return {
       module: AuthModule,
-      imports: [PassportModule, JwtModule, UserModule, MailModule],
+      imports: [PassportModule, JwtModule, UserModule, TenantModule, MailModule],
       controllers: [AuthController],
       providers: [
         AuthService,
