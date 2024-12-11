@@ -49,6 +49,11 @@ export const configSchema = z.object({
     .default('false')
     .transform((s) => s !== 'false' && s !== '0'),
 
+  // LLM
+  LLM_API_KEY: z.string().optional(),
+  LLM_BASE_URL: z.string().optional(),
+  LLM_MODEL: z.string().optional(),
+
   // Crowdin (Optional)
   CROWDIN_PROJECT_ID: z.coerce.number().optional(),
   CROWDIN_PERSONAL_TOKEN: z.string().optional(),

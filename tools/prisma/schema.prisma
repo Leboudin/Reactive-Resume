@@ -135,3 +135,16 @@ model Subscription {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
+
+model LLMStatistics {
+  id           String   @id @default(cuid())
+  tenantId     String // The tenant id
+  period       String // The statistics period, in the form of 'YYYY-MM'
+  requests     BigInt   @default(0) // The number of requests
+  inputTokens  BigInt   @default(0) // The number of input tokens
+  outputTokens BigInt   @default(0) // The number of output tokens
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([tenantId, period])
+}

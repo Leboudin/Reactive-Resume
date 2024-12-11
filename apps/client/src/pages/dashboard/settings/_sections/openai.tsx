@@ -27,7 +27,8 @@ const formSchema = z.object({
     .default(''),
   baseURL: z
     .string()
-    .regex(/https?:\/\/[^\/]+\/?v1$/, t`That doesn't look like a valid URL`)
+    // TODO: Fix the regex
+    // .regex(/(https?):\/\/[^\/:]+(:\d+)?\/.+\/v1$/, t`That doesn't look like a valid URL`)
     .default(''),
   model: z.string().default(DEFAULT_MODEL),
   maxTokens: z.number().default(DEFAULT_MAX_TOKENS)
