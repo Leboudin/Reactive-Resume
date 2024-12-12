@@ -49,7 +49,7 @@ export class LemonSqueezyPaymentService {
     // 1. Fetch existing subscriptions
     const subscriptions = await this.subscriptionService.fetchActiveByTenantId(req.tenantId)
     for (const sub of subscriptions) {
-      if (sub.planId === req.planId && dayjs().utc().diff(dayjs(sub.createdAt).utc(), 'days') > 5) {
+      if (sub.planId === req.planId && dayjs().utc().diff(dayjs(sub.createdAt).utc(), 'days') < 5) {
         throw new BadRequestException('There is already an active subscription of the same plan for the user')
       }
     }
