@@ -57,7 +57,6 @@ import { LLMModule } from '@/server/llm/llm.module'
       // eslint-disable-next-line unicorn/prefer-module
       rootPath: path.join(__dirname, '..', 'client')
     })
-
   ],
   providers: [
     {

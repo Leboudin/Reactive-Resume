@@ -14,6 +14,7 @@ import { User as UserEntity } from '@prisma/client'
 
 const DEFAULT_LLM_MODEL = 'moonshot-v1-auto'
 const DEFAULT_LLM_BASE_URL = 'https://api.moonshot.cn/v1'
+const DEFAULT_TEMPERATURE = 0.3
 
 @Injectable()
 export class LLMService {
@@ -24,24 +25,15 @@ export class LLMService {
     private readonly llmStatService: LLMStatService,
     private readonly configService: ConfigService
   ) {
-
-  }
-
-  get openaiClient() {
-    if (this.openai) {
-      return this.openai
-    }
     const configuration = {
       apiKey: this.configService.get('LLM_API_KEY'),
       baseURL: this.configService.get('LLM_BASE_URL', DEFAULT_LLM_BASE_URL)
     }
     this.openai = new OpenAI(configuration)
-    return this.openai
   }
 
-
-  async createCompletions(user: UserEntity, req: any) {
-    Logger.log('received completions request: ' + JSON.stringify({ user: user, body: req.body }))
+  public async createCompletions(user: UserEntity, req: any) {
+    Logger.debug('received completions request: ' + JSON.stringify({ user: user, req }))
 
     // 1. 验证用户是否属于租户
     if (!user.tenantId) {
@@ -62,8 +54,7 @@ export class LLMService {
     const maxTokens = features.maxTokens as number
 
     // 3. 获取当前月份的统计数据
-    const currentPeriod = new Date().toISOString().slice(0, 7) // 'YYYY-MM'
-    const stats = await this.llmStatService.get(tenantId, currentPeriod)
+    const stats = await this.llmStatService.getCurrent(tenantId)
 
     // 4. 检查统计数据是否已经超出用量上限
     if (stats && (stats.requests >= maxRequests || stats.inputTokens + stats.outputTokens >= maxTokens)) {
@@ -72,28 +63,31 @@ export class LLMService {
 
     // 5. 调用 OpenAI API
     try {
-      const request: any = {
-        model: this.configService.get('LLM_MODEL', DEFAULT_LLM_MODEL),
-        messages: req.body.messages,
-        max_tokens: req.body.max_tokens || 1024
-        // temperature: req.body.temperature,
-        // top_p: req.body.top_p,
-        // n: req.body.n,
-        // stop: req.body.stop
-      }
-
-      Logger.log(`model: ${this.configService.get('LLM_MODEL', DEFAULT_LLM_MODEL)}, api key: ${this.configService.get('LLM_API_KEY')}, base url: ${this.configService.get('LLM_BASE_URL', DEFAULT_LLM_BASE_URL)}. request: ${JSON.stringify(request)}`)
-      const response = await this.openaiClient.completions.create(request)
+      const response = await this._createCompletions(req)
 
       // 6. 更新统计数据
       const usage = response?.usage
-      await this.llmStatService.update(tenantId, currentPeriod, 1, usage?.prompt_tokens || 0, usage?.completion_tokens || 0)
+      await this.llmStatService.updateCurrent(tenantId, 1, usage?.prompt_tokens || 0, usage?.completion_tokens || 0)
 
-      return response?.choices[0]?.text?.trim() || ''
+      return response
     } catch (error) {
       Logger.error(error)
-      Logger.error(JSON.stringify(error))
       throw new InternalServerErrorException('Internal server error')
+    }
+  }
+
+  public async _createCompletions(request: any) {
+    request.model = this.configService.get('LLM_MODEL', DEFAULT_LLM_MODEL)
+    request.temperature = request.temperature || DEFAULT_TEMPERATURE
+    Logger.log(`model: ${request.model}, base url: ${this.configService.get('LLM_BASE_URL', DEFAULT_LLM_BASE_URL)}`)
+
+    try {
+      const response = await this.openai.chat.completions.create(request)
+      Logger.debug('llm api response: ' + JSON.stringify(response))
+      return response
+    } catch (error) {
+      Logger.error(`error requesting llm api, error detail: ${JSON.stringify(error)}, request: ${JSON.stringify(request)}`)
+      throw error
     }
   }
 }

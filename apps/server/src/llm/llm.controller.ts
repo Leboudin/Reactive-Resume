@@ -1,5 +1,5 @@
 // src/llm/llm.controller.ts
-import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common'
+import { Controller, Post, Body, UseGuards, Request, Get } from '@nestjs/common'
 import { LLMService } from './llm.service'
 import { TwoFactorGuard } from '@/server/auth/guards/two-factor.guard'
 import { User } from '@/server/user/decorators/user.decorator'
@@ -12,7 +12,7 @@ export class LLMController {
 
   @Post('/v1/chat/completions')
   @UseGuards(TwoFactorGuard)
-  async callOpenAICompletion(@User() user: UserEntity, @Request() req: any) {
+  async callOpenAICompletion(@User() user: UserEntity, @Body() req: any) {
     return this.llmService.createCompletions(user, req)
   }
 }

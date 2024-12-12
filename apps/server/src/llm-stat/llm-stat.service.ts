@@ -30,9 +30,22 @@ export class LLMStatService {
     })
   }
 
-  async get(tenantId: string, period: string) {
+  async getByPeriod(tenantId: string, period: string) {
     return this.prisma.lLMStatistics.findUnique({
       where: { tenantId_period: { tenantId, period } }
     })
+  }
+
+  async updateCurrent(tenantId: string,
+                      requests: number,
+                      inputTokens: number,
+                      outputTokens: number) {
+    const period = new Date().toISOString().slice(0, 7) // 'YYYY-MM'
+    return this.update(tenantId, period, requests, inputTokens, outputTokens)
+  }
+
+  async getCurrent(tenantId: string) {
+    const period = new Date().toISOString().slice(0, 7) // 'YYYY-MM'
+    return this.getByPeriod(tenantId, period)
   }
 }

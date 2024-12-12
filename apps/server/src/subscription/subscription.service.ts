@@ -8,6 +8,7 @@ export class SubscriptionService {
   }
 
   async getActiveSubscriptionByTenantId(tenantId: string) {
+    // TODO: search from database
     return {
       id: '123',
       tenantId,
