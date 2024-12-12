@@ -1,7 +1,9 @@
 import { t } from '@lingui/macro'
 import {
   CopySimple,
-  DotsThreeVertical, Download, Eye,
+  DotsThreeVertical,
+  Download,
+  Eye,
   FolderOpen,
   Lock,
   LockOpen,

@@ -28,10 +28,8 @@ export const userSchema = z.object({
   updatedAt: z.date().or(z.dateString())
 })
 
-export class UserDto extends createZodDto(userSchema) {
-}
+export class UserDto extends createZodDto(userSchema) {}
 
 export const userWithSecretsSchema = userSchema.merge(z.object({ secrets: secretsSchema }))
 
-export class UserWithSecrets extends createZodDto(userWithSecretsSchema) {
-}
+export class UserWithSecrets extends createZodDto(userWithSecretsSchema) {}

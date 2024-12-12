@@ -10,5 +10,4 @@ import { LemonSqueezyPaymentController } from './payment.controller'
   exports: [LemonSqueezyPaymentService],
   controllers: [LemonSqueezyPaymentController]
 })
-export class PaymentModule {
-}
+export class PaymentModule {}

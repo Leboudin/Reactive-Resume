@@ -1,4 +1,5 @@
 // src/llm/llm.service.ts
+import * as fs from 'fs'
 import {
   Injectable,
   UnauthorizedException,
@@ -8,9 +9,10 @@ import {
 } from '@nestjs/common'
 import { LLMStatService } from '@/server/llm-stat/llm-stat.service'
 import { SubscriptionService } from '@/server/subscription/subscription.service'
-import OpenAI from 'openai'
+import OpenAI, { toFile } from 'openai'
 import { ConfigService } from '@nestjs/config'
 import { User as UserEntity } from '@prisma/client'
+import { Uploadable } from 'openai/uploads'
 
 const DEFAULT_LLM_MODEL = 'moonshot-v1-auto'
 const DEFAULT_LLM_BASE_URL = 'https://api.moonshot.cn/v1'
@@ -59,7 +61,10 @@ export class LLMService {
     const stats = await this.llmStatService.getCurrent(tenantId)
 
     // 4. 检查统计数据是否已经超出用量上限
-    if (stats && (stats.requests >= maxRequests || stats.inputTokens + stats.outputTokens >= maxTokens)) {
+    if (
+      stats &&
+      (stats.requests >= maxRequests || stats.inputTokens + stats.outputTokens >= maxTokens)
+    ) {
       throw new ForbiddenException('Usage limit exceeded')
     }
 
@@ -69,7 +74,12 @@ export class LLMService {
 
       // 6. 更新统计数据
       const usage = response?.usage
-      await this.llmStatService.updateCurrent(tenantId, 1, usage?.prompt_tokens || 0, usage?.completion_tokens || 0)
+      await this.llmStatService.updateCurrent(
+        tenantId,
+        1,
+        usage?.prompt_tokens || 0,
+        usage?.completion_tokens || 0
+      )
 
       return response
     } catch (error) {
@@ -78,7 +88,11 @@ export class LLMService {
     }
   }
 
-  public async _createCompletions(request: any) {
+  public async test(filename: string): Promise<string> {
+    return this._extractFileContent(filename)
+  }
+
+  private async _createCompletions(request: any) {
     request.model = this.configService.get('LLM_MODEL', DEFAULT_LLM_MODEL)
     request.temperature = request.temperature || DEFAULT_TEMPERATURE
     Logger.debug({ model: request.model, baseUrl: this.baseUrl }, 'llm request context')
@@ -91,5 +105,29 @@ export class LLMService {
       Logger.error({ request, error: JSON.stringify(error) }, `error requesting llm api`)
       throw error
     }
+  }
+
+  private async _extractFileContent(filename: string): Promise<string> {
+    let maxRetries = 2
+    while (maxRetries > 0) {
+      try {
+        // NOTE: can use toFile to create an Uploadable
+        const uploaded = await this.openai.files.create({
+          file: fs.createReadStream(filename),
+          // @ts-ignore
+          purpose: 'file-extract'
+        })
+        const content = await (await this.openai.files.content(uploaded.id)).text()
+        // Do not await file deletion
+        this.openai.files.del(uploaded.id)
+        Logger.log({ uploaded, length: content.length }, 'extracted file content')
+        return content || ''
+      } catch (error) {
+        maxRetries--
+        Logger.error({ error }, 'failed to extract file content, retrying')
+      }
+    }
+
+    throw new Error('failed to extract file content')
   }
 }

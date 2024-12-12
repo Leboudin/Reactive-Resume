@@ -34,7 +34,7 @@ export const ImportResumeCard = () => {
         </h4>
 
         <p className="line-clamp-1 text-xs opacity-75">{t`LinkedIn, JSON Resume, etc.`}</p>
-        </div>
+      </div>
     </BaseCard>
-)
+  )
 }

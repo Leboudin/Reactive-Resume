@@ -3,8 +3,7 @@ import { PrismaService } from 'nestjs-prisma'
 
 @Injectable()
 export class LLMStatService {
-  constructor(private readonly prisma: PrismaService) {
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   async update(
     tenantId: string,
@@ -36,10 +35,12 @@ export class LLMStatService {
     })
   }
 
-  async updateCurrent(tenantId: string,
-                      requests: number,
-                      inputTokens: number,
-                      outputTokens: number) {
+  async updateCurrent(
+    tenantId: string,
+    requests: number,
+    inputTokens: number,
+    outputTokens: number
+  ) {
     const period = new Date().toISOString().slice(0, 7) // 'YYYY-MM'
     return this.update(tenantId, period, requests, inputTokens, outputTokens)
   }

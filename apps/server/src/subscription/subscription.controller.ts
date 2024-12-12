@@ -8,10 +8,7 @@ import { ApiTags } from '@nestjs/swagger'
 @ApiTags('Subscription')
 @Controller('v1/subscription')
 export class SubscriptionController {
-  constructor(
-    private readonly subscriptionService: SubscriptionService
-  ) {
-  }
+  constructor(private readonly subscriptionService: SubscriptionService) {}
 
   @Get('plans')
   async fetchPlans(@Query('language') language?: string) {

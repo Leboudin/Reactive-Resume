@@ -4,8 +4,7 @@ import { PrismaService } from 'nestjs-prisma'
 
 @Injectable()
 export class SubscriptionService {
-  constructor(private readonly prisma: PrismaService) {
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   public async create(data: any) {
     return this.prisma.subscription.create({

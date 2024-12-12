@@ -5,5 +5,4 @@ import { LLMStatService } from './llm-stat.service'
   providers: [LLMStatService],
   exports: [LLMStatService]
 })
-export class LLMStatModule {
-}
+export class LLMStatModule {}

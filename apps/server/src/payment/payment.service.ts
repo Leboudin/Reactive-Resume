@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger
+} from '@nestjs/common'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import {
@@ -32,8 +37,9 @@ export class LemonSqueezyPaymentService {
   private readonly storeId: string
   private readonly testMode: boolean
 
-  constructor(private readonly configService: ConfigService,
-              private readonly subscriptionService: SubscriptionService
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly subscriptionService: SubscriptionService
   ) {
     dayjs.extend(utc)
 
@@ -50,7 +56,9 @@ export class LemonSqueezyPaymentService {
     const subscriptions = await this.subscriptionService.fetchActiveByTenantId(req.tenantId)
     for (const sub of subscriptions) {
       if (sub.planId === req.planId && dayjs().utc().diff(dayjs(sub.createdAt).utc(), 'days') < 5) {
-        throw new BadRequestException('There is already an active subscription of the same plan for the user')
+        throw new BadRequestException(
+          'There is already an active subscription of the same plan for the user'
+        )
       }
     }
 
@@ -94,7 +102,10 @@ export class LemonSqueezyPaymentService {
     return {}
   }
 
-  private async _createCheckout(variantId: number | string, req: CreateCheckoutDto): Promise<Checkout> {
+  private async _createCheckout(
+    variantId: number | string,
+    req: CreateCheckoutDto
+  ): Promise<Checkout> {
     const checkout: NewCheckout = {
       checkoutData: {
         email: req.email,
@@ -111,7 +122,10 @@ export class LemonSqueezyPaymentService {
 
     const { statusCode, error, data } = await createCheckout(this.storeId, variantId, checkout)
     if (error) {
-      Logger.error({ statusCode, error, storeId: this.storeId, variantId, checkout }, `failed to create checkout`)
+      Logger.error(
+        { statusCode, error, storeId: this.storeId, variantId, checkout },
+        `failed to create checkout`
+      )
       throw new Error(error.message)
     }
 
@@ -165,13 +179,15 @@ export class LemonSqueezyPaymentService {
       return newSub
     } catch (error) {
       if (error.code === 'P2002') {
-        Logger.log({ uniqueId }, 'subscription uniqueId already exists, skip creating new subscription')
+        Logger.log(
+          { uniqueId },
+          'subscription uniqueId already exists, skip creating new subscription'
+        )
         return {}
       }
 
       throw new InternalServerErrorException('Failed to create subscription')
     }
-
   }
 
   private validateOrThrow(event: Webhook) {
@@ -187,7 +203,9 @@ export class LemonSqueezyPaymentService {
     }
     const diff = dayjs().utc().diff(dayjs(event.data.attributes.created_at).utc(), 'minutes')
     if (Math.abs(diff) > 10 /* 10 minutes */) {
-      Logger.warn(`invalid webhook, webhook seems expired (created at: ${event.data.attributes.created_at})`)
+      Logger.warn(
+        `invalid webhook, webhook seems expired (created at: ${event.data.attributes.created_at})`
+      )
       throw new BadRequestException('Webhook expired')
     }
   }

@@ -22,8 +22,7 @@ export class ResumeService {
     private readonly prisma: PrismaService,
     private readonly printerService: PrinterService,
     private readonly storageService: StorageService
-  ) {
-  }
+  ) {}
 
   async create(userId: string, createResumeDto: CreateResumeDto) {
     const { name, email, picture } = await this.prisma.user.findUniqueOrThrow({

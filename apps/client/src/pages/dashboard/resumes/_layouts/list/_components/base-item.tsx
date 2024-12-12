@@ -10,7 +10,15 @@ type Props = {
   onClick?: () => void
 }
 
-export const BaseListItem = ({ title, description, statistics, start, end, className, onClick }: Props) => (
+export const BaseListItem = ({
+  title,
+  description,
+  statistics,
+  start,
+  end,
+  className,
+  onClick
+}: Props) => (
   <div
     className={cn(
       'flex cursor-pointer items-center rounded p-4 transition-colors hover:bg-secondary/30',
@@ -24,8 +32,11 @@ export const BaseListItem = ({ title, description, statistics, start, end, class
         <h4 className="w-[220px] truncate font-medium lg:w-[320px]">{title}</h4>
         <p className="hidden text-xs opacity-75 sm:block sm:w-[220px]">{description}</p>
 
-        {statistics &&
-          <div className="hidden text-xs opacity-75 sm:flex sm:w-[220px] justify-start space-x-8">{statistics}</div>}
+        {statistics && (
+          <div className="hidden text-xs opacity-75 sm:flex sm:w-[220px] justify-start space-x-8">
+            {statistics}
+          </div>
+        )}
       </div>
 
       {end && <div className="flex size-5 items-center justify-center">{end}</div>}

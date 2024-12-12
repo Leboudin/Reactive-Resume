@@ -19,5 +19,4 @@ export const resumeSchema = z.object({
   updatedAt: z.date().or(z.dateString())
 })
 
-export class ResumeDto extends createZodDto(resumeSchema) {
-}
+export class ResumeDto extends createZodDto(resumeSchema) {}

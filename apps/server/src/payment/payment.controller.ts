@@ -10,14 +10,14 @@ import { UserDto } from '@reactive-resume/dto'
 @ApiTags('Payment')
 @Controller('v1/payment/lemonsqueezy')
 export class LemonSqueezyPaymentController {
-  constructor(
-    private readonly paymentService: LemonSqueezyPaymentService
-  ) {
-  }
+  constructor(private readonly paymentService: LemonSqueezyPaymentService) {}
 
   @Post('checkout')
   @UseGuards(TwoFactorGuard)
-  public async createCheckout(@User() user: UserDto, @Body() req: CreateCheckoutDto): Promise<CheckoutDto> {
+  public async createCheckout(
+    @User() user: UserDto,
+    @Body() req: CreateCheckoutDto
+  ): Promise<CheckoutDto> {
     // Set user details to avoid invalid data from frontend
     req.userId = user.id
     req.userName = user.name

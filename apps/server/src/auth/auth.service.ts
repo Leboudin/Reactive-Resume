@@ -29,8 +29,7 @@ export class AuthService {
     private readonly tenantService: TenantService,
     private readonly mailService: MailService,
     private readonly jwtService: JwtService
-  ) {
-  }
+  ) {}
 
   private hash(password: string): Promise<string> {
     return bcryptjs.hash(password, 10)

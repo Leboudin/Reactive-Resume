@@ -4,8 +4,7 @@ import { PrismaService } from 'nestjs-prisma'
 
 @Injectable()
 export class TenantService {
-  constructor(private readonly prisma: PrismaService) {
-  }
+  constructor(private readonly prisma: PrismaService) {}
 
   /**
    * 创建一个新的 Tenant

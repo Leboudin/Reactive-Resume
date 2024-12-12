@@ -10,14 +10,11 @@ export const CreateCheckoutSchema = z.object({
   amount: z.number().optional()
 })
 
-export class CreateCheckoutDto extends createZodDto(CreateCheckoutSchema) {
-}
-
+export class CreateCheckoutDto extends createZodDto(CreateCheckoutSchema) {}
 
 export const CheckoutSchema = z.object({
   id: z.string(),
   url: z.string()
 })
 
-export class CheckoutDto extends createZodDto(CheckoutSchema) {
-}
+export class CheckoutDto extends createZodDto(CheckoutSchema) {}
