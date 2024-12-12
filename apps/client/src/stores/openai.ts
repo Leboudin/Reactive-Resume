@@ -3,6 +3,10 @@ import { persist } from 'zustand/middleware'
 import { DEFAULT_MAX_TOKENS, DEFAULT_MODEL } from '../constants/llm'
 
 type OpenAIStore = {
+  // @customize: enable openai by default
+  enabled: boolean
+  setEnabled: (enabled: boolean) => void
+  // @customize end
   baseURL: string | null
   setBaseURL: (baseURL: string | null) => void
   apiKey: string | null
@@ -16,6 +20,12 @@ type OpenAIStore = {
 export const useOpenAiStore = create<OpenAIStore>()(
   persist(
     (set) => ({
+      // @customize: enable openai by default
+      enabled: true,
+      setEnabled: (enabled: boolean) => {
+        set({ enabled })
+      },
+      // @customize end
       baseURL: null,
       setBaseURL: (baseURL: string | null) => {
         set({ baseURL })
