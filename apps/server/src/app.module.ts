@@ -22,6 +22,7 @@ import { TenantModule } from './tenant/tenant.module'
 import { LLMStatModule } from './llm-stat/llm-stat.module'
 import { SubscriptionModule } from './subscription/subscription.module'
 import { LLMModule } from '@/server/llm/llm.module'
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -56,7 +57,8 @@ import { LLMModule } from '@/server/llm/llm.module'
       renderPath: '/*',
       // eslint-disable-next-line unicorn/prefer-module
       rootPath: path.join(__dirname, '..', 'client')
-    })
+    }),
+    PaymentModule
   ],
   providers: [
     {

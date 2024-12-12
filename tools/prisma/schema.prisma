@@ -26,6 +26,7 @@ enum PlanPeriod {
 
 enum Status {
   active
+  suspended
   deleted
 }
 

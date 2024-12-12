@@ -5,12 +5,12 @@ import { TwoFactorGuard } from '@/server/auth/guards/two-factor.guard'
 import { User } from '@/server/user/decorators/user.decorator'
 import { User as UserEntity } from '@prisma/client'
 
-@Controller('llm')
+@Controller('v1/chat')
 export class LLMController {
   constructor(private readonly llmService: LLMService) {
   }
 
-  @Post('/v1/chat/completions')
+  @Post('completions')
   @UseGuards(TwoFactorGuard)
   async callOpenAICompletion(@User() user: UserEntity, @Body() req: any) {
     return this.llmService.createCompletions(user, req)

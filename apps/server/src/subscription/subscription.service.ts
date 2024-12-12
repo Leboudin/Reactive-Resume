@@ -7,7 +7,13 @@ export class SubscriptionService {
   constructor(private readonly prisma: PrismaService) {
   }
 
-  async getActiveSubscriptionByTenantId(tenantId: string) {
+  public async create(data: any) {
+    return this.prisma.subscription.create({
+      data
+    })
+  }
+
+  public async getActiveByTenantId(tenantId: string) {
     // TODO: search from database
     return {
       id: '123',
@@ -32,5 +38,41 @@ export class SubscriptionService {
     //   },
     //   orderBy: { createdAt: 'desc' }
     // })
+  }
+
+  public async fetchActiveByTenantId(tenantId?: string) {
+    if (!tenantId) {
+      return []
+    }
+
+    const now = new Date()
+    return this.prisma.subscription.findMany({
+      where: {
+        tenantId,
+        status: 'active',
+        end: { gte: now }
+      },
+      orderBy: {
+        end: 'desc'
+      }
+    })
+  }
+
+  public async fetchPlans(language?: string) {
+    return this.prisma.plan.findMany({
+      where: {
+        language,
+        status: 'active'
+      },
+      orderBy: {
+        id: 'asc'
+      }
+    })
+  }
+
+  public async getPlanById(id: string) {
+    return this.prisma.plan.findUnique({
+      where: { id }
+    })
   }
 }

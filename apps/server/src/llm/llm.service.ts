@@ -19,21 +19,23 @@ const DEFAULT_TEMPERATURE = 0.3
 @Injectable()
 export class LLMService {
   private openai: OpenAI
+  private baseUrl: string
 
   constructor(
     private readonly subscriptionService: SubscriptionService,
     private readonly llmStatService: LLMStatService,
     private readonly configService: ConfigService
   ) {
+    this.baseUrl = this.configService.get('LLM_BASE_URL', DEFAULT_LLM_BASE_URL)
     const configuration = {
       apiKey: this.configService.get('LLM_API_KEY'),
-      baseURL: this.configService.get('LLM_BASE_URL', DEFAULT_LLM_BASE_URL)
+      baseURL: this.baseUrl
     }
     this.openai = new OpenAI(configuration)
   }
 
   public async createCompletions(user: UserEntity, req: any) {
-    Logger.debug('received completions request: ' + JSON.stringify({ user: user, req }))
+    Logger.debug({ user: user, req }, 'received completions request')
 
     // 1. 验证用户是否属于租户
     if (!user.tenantId) {
@@ -44,7 +46,7 @@ export class LLMService {
     const tenantId = user.tenantId
     let subscription
     try {
-      subscription = await this.subscriptionService.getActiveSubscriptionByTenantId(tenantId)
+      subscription = await this.subscriptionService.getActiveByTenantId(tenantId)
     } catch (error) {
       throw new ForbiddenException('No active subscription found for this tenant')
     }
@@ -79,14 +81,14 @@ export class LLMService {
   public async _createCompletions(request: any) {
     request.model = this.configService.get('LLM_MODEL', DEFAULT_LLM_MODEL)
     request.temperature = request.temperature || DEFAULT_TEMPERATURE
-    Logger.log(`model: ${request.model}, base url: ${this.configService.get('LLM_BASE_URL', DEFAULT_LLM_BASE_URL)}`)
+    Logger.debug({ model: request.model, baseUrl: this.baseUrl }, 'llm request context')
 
     try {
       const response = await this.openai.chat.completions.create(request)
       Logger.debug('llm api response: ' + JSON.stringify(response))
       return response
     } catch (error) {
-      Logger.error(`error requesting llm api, error detail: ${JSON.stringify(error)}, request: ${JSON.stringify(request)}`)
+      Logger.error({ request, error: JSON.stringify(error) }, `error requesting llm api`)
       throw error
     }
   }

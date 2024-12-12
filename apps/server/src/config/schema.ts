@@ -54,6 +54,12 @@ export const configSchema = z.object({
   LLM_BASE_URL: z.string().optional(),
   LLM_MODEL: z.string().optional(),
 
+  // Payment
+  PAYMENT_LEMONSQUEEZY_HOST: z.string().optional(),
+  PAYMENT_LEMONSQUEEZY_KEY: z.string().optional(),
+  PAYMENT_LEMONSQUEEZY_STORE_ID: z.coerce.string().optional(),
+  PAYMENT_LEMONSQUEEZY_TEST_MODE: z.coerce.boolean().optional(),
+
   // Crowdin (Optional)
   CROWDIN_PROJECT_ID: z.coerce.number().optional(),
   CROWDIN_PERSONAL_TOKEN: z.string().optional(),
