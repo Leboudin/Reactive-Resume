@@ -37,7 +37,7 @@ export const openai = () => {
   }
   return new OpenAI({
     apiKey: '***',
-    baseURL: `${protocol}//${host}/api/llm/v1`,
+    baseURL: `${protocol}//${host}/api/v1`,
     dangerouslyAllowBrowser: true
   })
 }
