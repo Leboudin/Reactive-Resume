@@ -17,7 +17,7 @@ export class LemonSqueezyPaymentController {
 
   @Post('checkout')
   @UseGuards(TwoFactorGuard)
-  public async handleCheckout(@User() user: UserDto, @Body() req: CreateCheckoutDto): Promise<CheckoutDto> {
+  public async createCheckout(@User() user: UserDto, @Body() req: CreateCheckoutDto): Promise<CheckoutDto> {
     // Set user details to avoid invalid data from frontend
     req.userId = user.id
     req.userName = user.name
