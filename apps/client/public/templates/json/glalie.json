@@ -292,7 +292,7 @@
       "visible": false
     },
     "page": {
-      "margin": 14,
+      "margin": 48,
       "format": "a4",
       "options": {
         "breakLine": true,

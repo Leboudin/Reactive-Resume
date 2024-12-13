@@ -15,16 +15,19 @@ import { PrismaService } from 'nestjs-prisma'
 import { PrinterService } from '@/server/printer/printer.service'
 
 import { StorageService } from '../storage/storage.service'
+import { LLMService } from '@/server/llm/llm.service'
+import fs from 'fs'
 
 @Injectable()
 export class ResumeService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly printerService: PrinterService,
-    private readonly storageService: StorageService
+    private readonly storageService: StorageService,
+    private readonly llmService: LLMService
   ) {}
 
-  async create(userId: string, createResumeDto: CreateResumeDto) {
+  public async create(userId: string, createResumeDto: CreateResumeDto) {
     const { name, email, picture } = await this.prisma.user.findUniqueOrThrow({
       where: { id: userId },
       select: { name: true, email: true, picture: true }
@@ -45,7 +48,7 @@ export class ResumeService {
     })
   }
 
-  import(userId: string, importResumeDto: ImportResumeDto) {
+  public import(userId: string, importResumeDto: ImportResumeDto) {
     const randomTitle = generateRandomName()
 
     return this.prisma.resume.create({
@@ -59,7 +62,7 @@ export class ResumeService {
     })
   }
 
-  findAll(userId: string) {
+  public findAll(userId: string) {
     return this.prisma.resume.findMany({
       where: { userId },
       orderBy: { updatedAt: 'desc' },
@@ -69,7 +72,7 @@ export class ResumeService {
     })
   }
 
-  findOne(id: string, userId?: string) {
+  public findOne(id: string, userId?: string) {
     if (userId) {
       return this.prisma.resume.findUniqueOrThrow({ where: { userId_id: { userId, id } } })
     }
@@ -77,7 +80,7 @@ export class ResumeService {
     return this.prisma.resume.findUniqueOrThrow({ where: { id } })
   }
 
-  async findOneStatistics(id: string) {
+  public async findOneStatistics(id: string) {
     const result = await this.prisma.statistics.findFirst({
       select: { views: true, downloads: true },
       where: { resumeId: id }
@@ -89,7 +92,7 @@ export class ResumeService {
     }
   }
 
-  async findOneByUsernameSlug(username: string, slug: string, userId?: string) {
+  public async findOneByUsernameSlug(username: string, slug: string, userId?: string) {
     const resume = await this.prisma.resume.findFirstOrThrow({
       where: { user: { username }, slug, visibility: 'public' }
     })
@@ -106,7 +109,7 @@ export class ResumeService {
     return resume
   }
 
-  async update(userId: string, id: string, updateResumeDto: UpdateResumeDto) {
+  public async update(userId: string, id: string, updateResumeDto: UpdateResumeDto) {
     try {
       const { locked } = await this.prisma.resume.findUniqueOrThrow({
         where: { id },
@@ -132,14 +135,14 @@ export class ResumeService {
     }
   }
 
-  lock(userId: string, id: string, set: boolean) {
+  public lock(userId: string, id: string, set: boolean) {
     return this.prisma.resume.update({
       data: { locked: set },
       where: { userId_id: { userId, id } }
     })
   }
 
-  async remove(userId: string, id: string) {
+  public async remove(userId: string, id: string) {
     await Promise.all([
       // Remove files in storage, and their cached keys
       this.storageService.deleteObject(userId, 'resumes', id),
@@ -149,7 +152,7 @@ export class ResumeService {
     return this.prisma.resume.delete({ where: { userId_id: { userId, id } } })
   }
 
-  async printResume(resume: ResumeDto, userId?: string) {
+  public async printResume(resume: ResumeDto, userId?: string) {
     const url = await this.printerService.printResume(resume)
 
     // Update statistics: increment the number of downloads by 1
@@ -164,7 +167,14 @@ export class ResumeService {
     return url
   }
 
-  printPreview(resume: ResumeDto) {
+  public printPreview(resume: ResumeDto) {
     return this.printerService.printPreview(resume)
+  }
+
+  public async extractDocResume(filename: string) {
+    const content = await this.llmService.extractFileContent(filename)
+    const prompt = ``
+    // TODO
+    fs.rmSync(filename)
   }
 }

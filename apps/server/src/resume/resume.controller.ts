@@ -9,7 +9,9 @@ import {
   Param,
   Patch,
   Post,
-  UseGuards
+  UploadedFile,
+  UseGuards,
+  UseInterceptors
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { User as UserEntity } from '@prisma/client'
@@ -21,7 +23,7 @@ import {
   UpdateResumeDto
 } from '@reactive-resume/dto'
 import { resumeDataSchema } from '@reactive-resume/schema'
-import { ErrorMessage } from '@reactive-resume/utils'
+import { ErrorMessage, simpleRandom } from '@reactive-resume/utils'
 import { zodToJsonSchema } from 'zod-to-json-schema'
 
 import { User } from '@/server/user/decorators/user.decorator'
@@ -31,6 +33,10 @@ import { TwoFactorGuard } from '../auth/guards/two-factor.guard'
 import { Resume } from './decorators/resume.decorator'
 import { ResumeGuard } from './guards/resume.guard'
 import { ResumeService } from './resume.service'
+import { FileInterceptor } from '@nestjs/platform-express'
+import { diskStorage } from 'multer'
+import path from 'path'
+import fs from 'fs'
 
 @ApiTags('Resume')
 @Controller('resume')
@@ -56,6 +62,31 @@ export class ResumeController {
       throw new InternalServerErrorException(error)
     }
   }
+
+  // @customize: support extracting document resume content
+  @Post('extract/doc')
+  @UseGuards(TwoFactorGuard)
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        destination: '/tmp/uploaded',
+        filename: (req, file, callback) => {
+          return callback(null, `${simpleRandom()}${path.extname(file.originalname)}`)
+        }
+      })
+    })
+  )
+  async extractDocResume(@UploadedFile() file: Express.Multer.File) {
+    if (!file) {
+      throw new BadRequestException('No file uploaded')
+    }
+
+    const filePath = file.path
+    const content = await this.resumeService.extractDocResume(filePath)
+    // TODO: 处理文件内容
+    return { content }
+  }
+  // @customize: end
 
   @Post('import')
   @UseGuards(TwoFactorGuard)

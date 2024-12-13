@@ -64,14 +64,14 @@ type FormValues = z.infer<typeof formSchema>
 
 type ValidationResult =
   | {
-  isValid: false
-  errors: string
-}
+      isValid: false
+      errors: string
+    }
   | {
-  isValid: true
-  type: ImportType
-  result: ResumeData | ReactiveResumeV3 | LinkedIn | JsonResume
-}
+      isValid: true
+      type: ImportType
+      result: ResumeData | ReactiveResumeV3 | LinkedIn | JsonResume
+    }
 
 export const ImportDialog = () => {
   const { toast } = useToast()
@@ -252,13 +252,9 @@ export const ImportDialog = () => {
                       </SelectTrigger>
                       <SelectContent>
                         {/* eslint-disable-next-line lingui/no-unlocalized-strings */}
-                        <SelectItem value="pdf-resume">
-                          PDF Resume (.pdf)
-                        </SelectItem>
+                        <SelectItem value="pdf-resume">PDF Resume (.pdf)</SelectItem>
                         {/* eslint-disable-next-line lingui/no-unlocalized-strings */}
-                        <SelectItem value="word-resume-docx">
-                          Word Resume (.docx)
-                        </SelectItem>
+                        <SelectItem value="word-resume-docx">Word Resume (.docx)</SelectItem>
                         {/* eslint-disable-next-line lingui/no-unlocalized-strings */}
                         <SelectItem value="reactive-resume-json">
                           Reactive Resume (.json)
@@ -319,8 +315,7 @@ export const ImportDialog = () => {
                   orientation="vertical"
                   className="h-[180px]"
                 >
-                  <div
-                    className="whitespace-pre-wrap rounded bg-secondary-accent p-4 font-mono text-xs leading-relaxed">
+                  <div className="whitespace-pre-wrap rounded bg-secondary-accent p-4 font-mono text-xs leading-relaxed">
                     {JSON.stringify(JSON.parse(validationResult.errors), null, 4)}
                   </div>
                 </ScrollArea>

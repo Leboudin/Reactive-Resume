@@ -87,26 +87,7 @@ export class LLMService {
     }
   }
 
-  public async test(filename: string): Promise<string> {
-    return this._extractFileContent(filename)
-  }
-
-  private async _createCompletions(request: any) {
-    request.model = this.configService.get('LLM_MODEL', DEFAULT_LLM_MODEL)
-    request.temperature = request.temperature || DEFAULT_TEMPERATURE
-    Logger.debug({ model: request.model, baseUrl: this.baseUrl }, 'llm request context')
-
-    try {
-      const response = await this.openai.chat.completions.create(request)
-      Logger.debug('llm api response: ' + JSON.stringify(response))
-      return response
-    } catch (error) {
-      Logger.error({ request, error: JSON.stringify(error) }, `error requesting llm api`)
-      throw error
-    }
-  }
-
-  private async _extractFileContent(filename: string): Promise<string> {
+  public async extractFileContent(filename: string): Promise<string> {
     let maxRetries = 2
     while (maxRetries > 0) {
       try {
@@ -128,5 +109,20 @@ export class LLMService {
     }
 
     throw new Error('failed to extract file content')
+  }
+
+  private async _createCompletions(request: any) {
+    request.model = this.configService.get('LLM_MODEL', DEFAULT_LLM_MODEL)
+    request.temperature = request.temperature || DEFAULT_TEMPERATURE
+    Logger.debug({ model: request.model, baseUrl: this.baseUrl }, 'llm request context')
+
+    try {
+      const response = await this.openai.chat.completions.create(request)
+      Logger.debug('llm api response: ' + JSON.stringify(response))
+      return response
+    } catch (error) {
+      Logger.error({ request, error: JSON.stringify(error) }, `error requesting llm api`)
+      throw error
+    }
   }
 }

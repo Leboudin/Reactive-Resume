@@ -54,7 +54,7 @@ export const PageSection = () => {
           <div className="flex items-center gap-x-4 py-1">
             <Slider
               min={0}
-              max={48}
+              max={100}
               step={2}
               value={[page.margin]}
               onValueChange={(value) => {
