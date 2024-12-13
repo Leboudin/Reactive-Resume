@@ -45,6 +45,10 @@ import { useImportResume } from '@/client/services/resume/import'
 import { useDialog } from '@/client/stores/dialog'
 
 enum ImportType {
+  // @customize: support pdf & docx
+  'pdf-resume' = 'pdf-resume',
+  'word-resume-docx' = 'word-resume-docx',
+  // @customize: end
   'reactive-resume-json' = 'reactive-resume-json',
   'reactive-resume-v3-json' = 'reactive-resume-v3-json',
   'json-resume-json' = 'json-resume-json',
@@ -60,14 +64,14 @@ type FormValues = z.infer<typeof formSchema>
 
 type ValidationResult =
   | {
-      isValid: false
-      errors: string
-    }
+  isValid: false
+  errors: string
+}
   | {
-      isValid: true
-      type: ImportType
-      result: ResumeData | ReactiveResumeV3 | LinkedIn | JsonResume
-    }
+  isValid: true
+  type: ImportType
+  result: ResumeData | ReactiveResumeV3 | LinkedIn | JsonResume
+}
 
 export const ImportDialog = () => {
   const { toast } = useToast()
@@ -78,7 +82,7 @@ export const ImportDialog = () => {
 
   const form = useForm<FormValues>({
     defaultValues: {
-      type: ImportType['reactive-resume-json']
+      type: ImportType['pdf-resume']
     },
     resolver: zodResolver(formSchema)
   })
@@ -94,6 +98,10 @@ export const ImportDialog = () => {
   }, [filetype])
 
   const accept = useMemo(() => {
+    // @customize: support pdf & docx
+    if (filetype.includes('pdf')) return '.pdf'
+    if (filetype.includes('word')) return '.docx'
+    // @customize: end
     if (filetype.includes('json')) return '.json'
     if (filetype.includes('zip')) return '.zip'
     return ''
@@ -102,6 +110,16 @@ export const ImportDialog = () => {
   const onValidate = async () => {
     try {
       const { file, type } = formSchema.parse(form.getValues())
+
+      // @customize: support pdf & docx
+      if (type === ImportType['pdf-resume'] || type === ImportType['word-resume-docx']) {
+        const parser = new ReactiveResumeParser()
+        const data = await parser.readFile(file)
+        const result = parser.validate(data)
+
+        setValidationResult({ isValid: true, type, result })
+      }
+      // @customize: end
 
       if (type === ImportType['reactive-resume-json']) {
         const parser = new ReactiveResumeParser()
@@ -234,13 +252,21 @@ export const ImportDialog = () => {
                       </SelectTrigger>
                       <SelectContent>
                         {/* eslint-disable-next-line lingui/no-unlocalized-strings */}
+                        <SelectItem value="pdf-resume">
+                          PDF Resume (.pdf)
+                        </SelectItem>
+                        {/* eslint-disable-next-line lingui/no-unlocalized-strings */}
+                        <SelectItem value="word-resume-docx">
+                          Word Resume (.docx)
+                        </SelectItem>
+                        {/* eslint-disable-next-line lingui/no-unlocalized-strings */}
                         <SelectItem value="reactive-resume-json">
                           Reactive Resume (.json)
                         </SelectItem>
                         {/* eslint-disable-next-line lingui/no-unlocalized-strings */}
-                        <SelectItem value="reactive-resume-v3-json">
-                          Reactive Resume v3 (.json)
-                        </SelectItem>
+                        {/*<SelectItem value="reactive-resume-v3-json">*/}
+                        {/*  Reactive Resume v3 (.json)*/}
+                        {/*</SelectItem>*/}
                         {/* eslint-disable-next-line lingui/no-unlocalized-strings */}
                         <SelectItem value="json-resume-json">JSON Resume (.json)</SelectItem>
                         {/* eslint-disable-next-line lingui/no-unlocalized-strings */}
@@ -293,7 +319,8 @@ export const ImportDialog = () => {
                   orientation="vertical"
                   className="h-[180px]"
                 >
-                  <div className="whitespace-pre-wrap rounded bg-secondary-accent p-4 font-mono text-xs leading-relaxed">
+                  <div
+                    className="whitespace-pre-wrap rounded bg-secondary-accent p-4 font-mono text-xs leading-relaxed">
                     {JSON.stringify(JSON.parse(validationResult.errors), null, 4)}
                   </div>
                 </ScrollArea>

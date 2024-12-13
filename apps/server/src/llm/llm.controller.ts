@@ -1,5 +1,6 @@
 // src/llm/llm.controller.ts
-import { extname } from 'path'
+import * as fs from 'fs'
+import * as path from 'path'
 import {
   Controller,
   Post,
@@ -17,10 +18,13 @@ import { User } from '@/server/user/decorators/user.decorator'
 import { User as UserEntity } from '@prisma/client'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { diskStorage } from 'multer'
+import { simpleRandom } from '@reactive-resume/utils'
+
 
 @Controller('v1/llm')
 export class LLMController {
-  constructor(private readonly llmService: LLMService) {}
+  constructor(private readonly llmService: LLMService) {
+  }
 
   @Post('upload')
   @UseGuards(TwoFactorGuard)
@@ -29,11 +33,7 @@ export class LLMController {
       storage: diskStorage({
         destination: '/tmp/uploaded',
         filename: (req, file, callback) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('')
-          return callback(null, `${randomName}${extname(file.originalname)}`)
+          return callback(null, `${simpleRandom()}${path.extname(file.originalname)}`)
         }
       })
     })
@@ -45,6 +45,7 @@ export class LLMController {
 
     const filePath = file.path
     const content = await this.llmService.test(filePath)
+    fs.rmSync(filePath)
     // TODO: 处理文件内容
     return { content }
   }
@@ -52,7 +53,8 @@ export class LLMController {
 
 @Controller('v1/chat')
 export class LLMProxyController {
-  constructor(private readonly llmService: LLMService) {}
+  constructor(private readonly llmService: LLMService) {
+  }
 
   @Post('completions')
   @UseGuards(TwoFactorGuard)

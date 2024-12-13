@@ -2,7 +2,6 @@
 import * as fs from 'fs'
 import {
   Injectable,
-  UnauthorizedException,
   ForbiddenException,
   Logger,
   InternalServerErrorException
