@@ -5,11 +5,14 @@ import { t } from '@lingui/macro'
 import axios from 'axios'
 import { PlanDto } from '../../../../../../../libs/dto/src/subscription'
 import { fixed } from '@reactive-resume/utils'
+import { useAuthStore } from '@/client/stores/auth'
 
 export const PricingSection = () => {
   const { i18n } = useLingui()
   const [plans, setPlans] = useState<PlanDto[]>([])
   const [currentPeriod, setCurrentPeriod] = useState<'monthly' | 'quarterly' | 'yearly'>('monthly')
+  const user = useAuthStore(state => state.user)
+  const isLoggedIn = !!user
 
   useEffect(() => {
     const fetchPlans = async () => {
@@ -25,6 +28,30 @@ export const PricingSection = () => {
   }, [])
 
   const filteredPlans = plans.filter((plan) => plan.period === currentPeriod)
+
+  const handleSubscribe = async (plan: PlanDto) => {
+    if (!isLoggedIn) {
+      // TODO: open login modal
+      console.log('user not logged in')
+      return
+    }
+
+    try {
+      const response = await axios.post('/api/v1/payment/lemonsqueezy/checkout', {
+        userId: user.id,
+        userName: user.name,
+        email: user.email,
+        tenantId: user.tenantId || '',
+        planId: plan.id,
+        period: plan.period
+      })
+
+      window.location.href = response.data.url
+    } catch (error) {
+      console.error('Failed to create checkout:', error)
+    }
+  }
+
 
   return (
     <section className="py-12 bg-gray-50">
@@ -87,6 +114,10 @@ export const PricingSection = () => {
               <a
                 href="#"
                 className="mt-6 block w-full bg-indigo-600 border border-transparent rounded-md py-3 px-5 text-center font-medium text-white hover:bg-indigo-700"
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleSubscribe(plan)
+                }}
               >
                 {t`Subscribe`}
               </a>
