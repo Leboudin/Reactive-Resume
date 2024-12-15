@@ -11,6 +11,7 @@ import { StatisticsSection } from './sections/statistics'
 import { SupportSection } from './sections/support'
 import { TemplatesSection } from './sections/templates'
 import { TestimonialsSection } from './sections/testimonials'
+import { PricingSection } from './sections/pricing'
 
 export const HomePage = () => {
   const { i18n } = useLingui()
@@ -36,6 +37,7 @@ export const HomePage = () => {
       <FeaturesSection />
       <TemplatesSection />
       <TestimonialsSection />
+      <PricingSection />
       <SupportSection />
       <FAQSection />
       <ContributorsSection />

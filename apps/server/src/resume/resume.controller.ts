@@ -41,8 +41,7 @@ import fs from 'fs'
 @ApiTags('Resume')
 @Controller('resume')
 export class ResumeController {
-  constructor(private readonly resumeService: ResumeService) {
-  }
+  constructor(private readonly resumeService: ResumeService) {}
 
   @Get('schema')
   getSchema() {

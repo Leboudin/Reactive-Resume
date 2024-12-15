@@ -16,9 +16,8 @@ describe('TestService', () => {
     expect(service).toBeDefined()
   })
 
-  it ('get resume data schema', () => {
-    const  schema = service.getResumeDataSchema()
+  it('get resume data schema', () => {
+    const schema = service.getResumeDataSchema()
     console.log(JSON.stringify(schema))
   })
-
 })

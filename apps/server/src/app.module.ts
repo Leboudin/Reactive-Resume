@@ -23,7 +23,7 @@ import { LLMStatModule } from './llm-stat/llm-stat.module'
 import { SubscriptionModule } from './subscription/subscription.module'
 import { LLMModule } from '@/server/llm/llm.module'
 import { PaymentModule } from './payment/payment.module'
-import { TestModule } from './test/test.module';
+import { TestModule } from './test/test.module'
 
 @Module({
   imports: [

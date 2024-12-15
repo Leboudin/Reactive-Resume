@@ -21,7 +21,7 @@ enum Visibility {
 enum PlanPeriod {
   yearly
   monthly
-  quaterly
+  quarterly
 }
 
 enum Status {

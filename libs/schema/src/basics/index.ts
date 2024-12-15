@@ -12,17 +12,19 @@ export const basicsSchema = z.object({
   location: z.string().describe('Applicant location'),
   url: urlSchema.describe('Applicant website'),
   customFields: z.array(customFieldSchema),
-  picture: z.object({
-    url: z.string(),
-    size: z.number().default(64),
-    aspectRatio: z.number().default(1),
-    borderRadius: z.number().default(0),
-    effects: z.object({
-      hidden: z.boolean().default(false),
-      border: z.boolean().default(false),
-      grayscale: z.boolean().default(false)
+  picture: z
+    .object({
+      url: z.string(),
+      size: z.number().default(64),
+      aspectRatio: z.number().default(1),
+      borderRadius: z.number().default(0),
+      effects: z.object({
+        hidden: z.boolean().default(false),
+        border: z.boolean().default(false),
+        grayscale: z.boolean().default(false)
+      })
     })
-  }).describe('Applicant personal photo')
+    .describe('Applicant personal photo')
 })
 
 // Type

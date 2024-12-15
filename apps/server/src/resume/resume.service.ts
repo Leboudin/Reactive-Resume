@@ -26,8 +26,7 @@ export class ResumeService {
     private readonly printerService: PrinterService,
     private readonly storageService: StorageService,
     private readonly llmService: LLMService
-  ) {
-  }
+  ) {}
 
   public async create(userId: string, createResumeDto: CreateResumeDto) {
     const { name, email, picture } = await this.prisma.user.findUniqueOrThrow({
@@ -177,12 +176,15 @@ export class ResumeService {
     try {
       const content = await this.llmService.extractFileContent(filename)
       const request = {
-        messages: [{
-          role: 'user', content: EXTRACT_RESUME_DATA_PROMPT + content
-        }],
+        messages: [
+          {
+            role: 'user',
+            content: EXTRACT_RESUME_DATA_PROMPT + content
+          }
+        ],
         temperature: 0.3,
         max_tokens: 2048,
-        response_format: { 'type': 'json_object' },
+        response_format: { type: 'json_object' },
         stream: false
       }
       const response = await this.llmService.createCompletions(request)

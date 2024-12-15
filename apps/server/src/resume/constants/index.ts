@@ -15,7 +15,7 @@ ${JSON.stringify(zodToJsonSchema(resumeDataSchema))}
 
 # 3. Output Requirements
 
-Please reference the structured data definition and output the extracted structured information in JSON format.
+Please reference the structured data definition and output the extracted structured information in compact JSON format.
 
 # 4. Input Content
 
