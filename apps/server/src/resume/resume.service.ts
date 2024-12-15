@@ -17,6 +17,7 @@ import { PrinterService } from '@/server/printer/printer.service'
 import { StorageService } from '../storage/storage.service'
 import { LLMService } from '@/server/llm/llm.service'
 import fs from 'fs'
+import { EXTRACT_RESUME_DATA_PROMPT } from '@/server/resume/constants'
 
 @Injectable()
 export class ResumeService {
@@ -25,7 +26,8 @@ export class ResumeService {
     private readonly printerService: PrinterService,
     private readonly storageService: StorageService,
     private readonly llmService: LLMService
-  ) {}
+  ) {
+  }
 
   public async create(userId: string, createResumeDto: CreateResumeDto) {
     const { name, email, picture } = await this.prisma.user.findUniqueOrThrow({
@@ -172,9 +174,26 @@ export class ResumeService {
   }
 
   public async extractDocResume(filename: string) {
-    const content = await this.llmService.extractFileContent(filename)
-    const prompt = ``
-    // TODO
-    fs.rmSync(filename)
+    try {
+      const content = await this.llmService.extractFileContent(filename)
+      const request = {
+        messages: [{
+          role: 'user', content: EXTRACT_RESUME_DATA_PROMPT + content
+        }],
+        temperature: 0.3,
+        max_tokens: 2048,
+        response_format: { 'type': 'json_object' },
+        stream: false
+      }
+      const response = await this.llmService.createCompletions(request)
+      const tmp = response?.choices[0]?.message?.content || '{}'
+      const result = JSON.parse(tmp) as ResumeData
+      Logger.log({ filename, content, result }, 'extracted resume data from doc file')
+      return result
+    } catch (error) {
+      Logger.error({ error }, 'failed to extract resume data from doc file')
+    } finally {
+      fs.rmSync(filename)
+    }
   }
 }

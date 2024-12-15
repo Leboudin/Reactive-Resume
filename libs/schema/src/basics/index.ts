@@ -5,12 +5,12 @@ import { customFieldSchema } from './custom'
 
 // Schema
 export const basicsSchema = z.object({
-  name: z.string(),
-  headline: z.string(),
-  email: z.literal('').or(z.string().email()),
-  phone: z.string(),
-  location: z.string(),
-  url: urlSchema,
+  name: z.string().describe('Applicant name'),
+  headline: z.string().describe('A short self introduction of the applicant'),
+  email: z.literal('').or(z.string().email()).describe('Applicant email'),
+  phone: z.string().describe('Applicant phone'),
+  location: z.string().describe('Applicant location'),
+  url: urlSchema.describe('Applicant website'),
   customFields: z.array(customFieldSchema),
   picture: z.object({
     url: z.string(),
@@ -22,7 +22,7 @@ export const basicsSchema = z.object({
       border: z.boolean().default(false),
       grayscale: z.boolean().default(false)
     })
-  })
+  }).describe('Applicant personal photo')
 })
 
 // Type

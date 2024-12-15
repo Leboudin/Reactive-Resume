@@ -35,7 +35,7 @@ export class LLMService {
     this.openai = new OpenAI(configuration)
   }
 
-  public async createCompletions(user: UserEntity, req: any) {
+  public async proxyCreateCompletions(user: UserEntity, req: any) {
     Logger.debug({ user: user, req }, 'received completions request')
 
     // 1. 验证用户是否属于租户
@@ -69,7 +69,7 @@ export class LLMService {
 
     // 5. 调用 OpenAI API
     try {
-      const response = await this._createCompletions(req)
+      const response = await this.createCompletions(req)
 
       // 6. 更新统计数据
       const usage = response?.usage
@@ -111,10 +111,10 @@ export class LLMService {
     throw new Error('failed to extract file content')
   }
 
-  private async _createCompletions(request: any) {
+  public async createCompletions(request: any) {
     request.model = this.configService.get('LLM_MODEL', DEFAULT_LLM_MODEL)
     request.temperature = request.temperature || DEFAULT_TEMPERATURE
-    Logger.debug({ model: request.model, baseUrl: this.baseUrl }, 'llm request context')
+    Logger.debug({ request }, 'llm request context')
 
     try {
       const response = await this.openai.chat.completions.create(request)

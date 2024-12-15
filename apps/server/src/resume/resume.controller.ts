@@ -41,7 +41,8 @@ import fs from 'fs'
 @ApiTags('Resume')
 @Controller('resume')
 export class ResumeController {
-  constructor(private readonly resumeService: ResumeService) {}
+  constructor(private readonly resumeService: ResumeService) {
+  }
 
   @Get('schema')
   getSchema() {
@@ -65,7 +66,7 @@ export class ResumeController {
 
   // @customize: support extracting document resume content
   @Post('extract/doc')
-  @UseGuards(TwoFactorGuard)
+  // @UseGuards(TwoFactorGuard)
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -82,10 +83,9 @@ export class ResumeController {
     }
 
     const filePath = file.path
-    const content = await this.resumeService.extractDocResume(filePath)
-    // TODO: 处理文件内容
-    return { content }
+    return this.resumeService.extractDocResume(filePath)
   }
+
   // @customize: end
 
   @Post('import')

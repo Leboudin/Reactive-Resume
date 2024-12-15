@@ -32,7 +32,7 @@ export class LLMProxyController {
   @Post('completions')
   @UseGuards(TwoFactorGuard)
   // TODO: Use guard to check usage
-  async callOpenAICompletion(@User() user: UserEntity, @Body() req: any) {
-    return this.llmService.createCompletions(user, req)
+  async proxyCreateCompletions(@User() user: UserEntity, @Body() req: any) {
+    return this.llmService.proxyCreateCompletions(user, req)
   }
 }

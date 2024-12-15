@@ -2,8 +2,8 @@ import { z } from 'zod'
 
 // Schema
 export const urlSchema = z.object({
-  label: z.string(),
-  href: z.literal('').or(z.string().url())
+  label: z.string().describe('The label name of the website'),
+  href: z.literal('').or(z.string().url()).describe('Website URL')
 })
 
 // Type

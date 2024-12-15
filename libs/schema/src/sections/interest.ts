@@ -4,8 +4,8 @@ import { defaultItem, itemSchema } from '../shared'
 
 // Schema
 export const interestSchema = itemSchema.extend({
-  name: z.string().min(1),
-  keywords: z.array(z.string()).default([])
+  name: z.string().min(1).describe('Name'),
+  keywords: z.array(z.string()).default([]).describe('Keywords')
 })
 
 // Type

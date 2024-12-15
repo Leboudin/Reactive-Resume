@@ -4,10 +4,10 @@ import { defaultItem, itemSchema } from '../shared'
 
 // Schema
 export const skillSchema = itemSchema.extend({
-  name: z.string(),
-  description: z.string(),
-  level: z.number().min(0).max(5).default(1),
-  keywords: z.array(z.string()).default([])
+  name: z.string().describe('Name of the skill'),
+  description: z.string().describe('Description of the skill'),
+  level: z.number().min(0).max(5).default(1).describe('Level of the skill'),
+  keywords: z.array(z.string()).default([]).describe('Keywords')
 })
 
 // Type

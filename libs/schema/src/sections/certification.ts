@@ -4,11 +4,11 @@ import { defaultItem, defaultUrl, itemSchema, urlSchema } from '../shared'
 
 // Schema
 export const certificationSchema = itemSchema.extend({
-  name: z.string().min(1),
-  issuer: z.string(),
-  date: z.string(),
-  summary: z.string(),
-  url: urlSchema
+  name: z.string().min(1).describe('Certification name'),
+  issuer: z.string().describe('Issuer name'),
+  date: z.string().describe('Date of completion'),
+  summary: z.string().describe('Summary'),
+  url: urlSchema.describe('Certification URL')
 })
 
 // Type

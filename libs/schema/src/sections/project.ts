@@ -4,12 +4,12 @@ import { defaultItem, defaultUrl, itemSchema, urlSchema } from '../shared'
 
 // Schema
 export const projectSchema = itemSchema.extend({
-  name: z.string().min(1),
-  description: z.string(),
-  date: z.string(),
-  summary: z.string(),
-  keywords: z.array(z.string()).default([]),
-  url: urlSchema
+  name: z.string().min(1).describe('Project name'),
+  description: z.string().describe('Project description'),
+  date: z.string().describe('Date'),
+  summary: z.string().describe('Summary'),
+  keywords: z.array(z.string()).default([]).describe('Keywords'),
+  url: urlSchema.describe('Project URL')
 })
 
 // Type

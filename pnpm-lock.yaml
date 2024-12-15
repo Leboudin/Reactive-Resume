@@ -360,7 +360,7 @@ dependencies:
     specifier: ^3.23.8
     version: 3.24.1
   zod-to-json-schema:
-    specifier: ^3.23.2
+    specifier: ^3.23.5
     version: 3.23.5(zod@3.24.1)
   zundo:
     specifier: ^2.1.0

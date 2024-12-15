@@ -4,9 +4,9 @@ import { defaultItem, itemSchema } from '../shared'
 
 // Schema
 export const languageSchema = itemSchema.extend({
-  name: z.string().min(1),
-  description: z.string(),
-  level: z.number().min(0).max(5).default(1)
+  name: z.string().min(1).describe('Language name'),
+  description: z.string().describe('Description'),
+  level: z.number().min(0).max(5).default(1).describe('Level')
 })
 
 // Type

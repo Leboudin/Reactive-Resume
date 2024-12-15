@@ -34,55 +34,55 @@ export const sectionsSchema = z.object({
   summary: sectionSchema.extend({
     id: z.literal('summary'),
     content: z.string().default('')
-  }),
+  }).describe('Resume summary'),
   awards: sectionSchema.extend({
     id: z.literal('awards'),
     items: z.array(awardSchema)
-  }),
+  }).describe('Awards and achievements of the applicant'),
   certifications: sectionSchema.extend({
     id: z.literal('certifications'),
     items: z.array(certificationSchema)
-  }),
+  }).describe('Certifications of the applicant'),
   education: sectionSchema.extend({
     id: z.literal('education'),
     items: z.array(educationSchema)
-  }),
+  }).describe('Education history of the applicant'),
   experience: sectionSchema.extend({
     id: z.literal('experience'),
     items: z.array(experienceSchema)
-  }),
+  }).describe('Work experience of the applicant'),
   volunteer: sectionSchema.extend({
     id: z.literal('volunteer'),
     items: z.array(volunteerSchema)
-  }),
+  }).describe('Volunteering experience of the applicant'),
   interests: sectionSchema.extend({
     id: z.literal('interests'),
     items: z.array(interestSchema)
-  }),
+  }).describe('Interests of the applicant'),
   languages: sectionSchema.extend({
     id: z.literal('languages'),
     items: z.array(languageSchema)
-  }),
+  }).describe('Languages spoken by the applicant'),
   profiles: sectionSchema.extend({
     id: z.literal('profiles'),
     items: z.array(profileSchema)
-  }),
+  }).describe('Social profiles of the applicant'),
   projects: sectionSchema.extend({
     id: z.literal('projects'),
     items: z.array(projectSchema)
-  }),
+  }).describe('Projects of the applicant'),
   publications: sectionSchema.extend({
     id: z.literal('publications'),
     items: z.array(publicationSchema)
-  }),
+  }).describe('Publications of the applicant'),
   references: sectionSchema.extend({
     id: z.literal('references'),
     items: z.array(referenceSchema)
-  }),
+  }).describe('References of the applicant'),
   skills: sectionSchema.extend({
     id: z.literal('skills'),
     items: z.array(skillSchema)
-  }),
+  }).describe('Skills of the applicant'),
   custom: z.record(z.string(), customSchema)
 })
 

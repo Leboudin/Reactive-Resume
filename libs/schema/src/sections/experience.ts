@@ -4,12 +4,12 @@ import { defaultItem, defaultUrl, itemSchema, urlSchema } from '../shared'
 
 // Schema
 export const experienceSchema = itemSchema.extend({
-  company: z.string().min(1),
-  position: z.string(),
-  location: z.string(),
-  date: z.string(),
-  summary: z.string(),
-  url: urlSchema
+  company: z.string().min(1).describe('Company name'),
+  position: z.string().describe('Position'),
+  location: z.string().describe('Location'),
+  date: z.string().describe('Date'),
+  summary: z.string().describe('Summary'),
+  url: urlSchema.describe('Website related to the experience')
 })
 
 // Type

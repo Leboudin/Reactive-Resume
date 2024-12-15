@@ -4,11 +4,11 @@ import { defaultItem, defaultUrl, itemSchema, urlSchema } from '../shared'
 
 // Schema
 export const awardSchema = itemSchema.extend({
-  title: z.string().min(1),
-  awarder: z.string(),
-  date: z.string(),
-  summary: z.string(),
-  url: urlSchema
+  title: z.string().min(1).describe('Award title'),
+  awarder: z.string().describe('Awarder name'),
+  date: z.string().describe('Award date'),
+  summary: z.string().describe('Award summary'),
+  url: urlSchema.describe('Award URL')
 })
 
 // Type

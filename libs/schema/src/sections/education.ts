@@ -4,13 +4,13 @@ import { defaultItem, defaultUrl, itemSchema, urlSchema } from '../shared'
 
 // Schema
 export const educationSchema = itemSchema.extend({
-  institution: z.string().min(1),
-  studyType: z.string(),
-  area: z.string(),
-  score: z.string(),
-  date: z.string(),
-  summary: z.string(),
-  url: urlSchema
+  institution: z.string().min(1).describe('Institution name'),
+  studyType: z.string().describe('Study type'),
+  area: z.string().describe('Area'),
+  score: z.string().describe('Score'),
+  date: z.string().describe('Date'),
+  summary: z.string().describe('Summary'),
+  url: urlSchema.describe('URL')
 })
 
 // Type
